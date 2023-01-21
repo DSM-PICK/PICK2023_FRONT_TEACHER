@@ -1,7 +1,14 @@
 import styled from "@emotion/styled";
 import { Body1, Button } from "@semicolondsm/ui";
+import { useRouter } from "next/router";
 
 const Start = () => {
+  const router = useRouter();
+
+  const onClickStart = () => {
+    router.push("/tab");
+  };
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -20,7 +27,7 @@ const Start = () => {
         </MainContainer>
       </MainWrapper>
       <ButtonContainer>
-        <StartButton fullWidth fill="purple">
+        <StartButton onClick={onClickStart} fullWidth fill="purple">
           서비스 시작하기
         </StartButton>
       </ButtonContainer>
