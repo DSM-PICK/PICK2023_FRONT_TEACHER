@@ -191,19 +191,21 @@ const Student = styled.div`
   margin: 20px;
 `;
 
-const Name = styled.div`
+const Name = styled.p`
   font-weight: 400;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black};
+  line-height: 24px;
 `;
 
-const Time = styled.div`
+const Time = styled.p`
   font-weight: 500;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black};
+  line-height: 24px;
 `;
 
-const Reason = styled.div`
+const Reason = styled.p`
   font-weight: 400;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.gray900};
@@ -211,6 +213,7 @@ const Reason = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-bottom: 16px;
+  line-height: 24px;
 `;
 
 export default OutingAccept;
