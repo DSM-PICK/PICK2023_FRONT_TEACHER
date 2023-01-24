@@ -1,4 +1,3 @@
-import Tab from "@/components/tab";
 import { ToggleButton, Button } from "@semicolondsm/ui";
 import styled from "@emotion/styled";
 import { useState } from "react";
