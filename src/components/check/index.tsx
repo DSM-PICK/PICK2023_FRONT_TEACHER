@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
-import { Body1, Button } from "@semicolondsm/ui";
-import { useRouter } from "next/router";
+import { Button } from "@semicolondsm/ui";
 
 const Check = () => {
-  const router = useRouter();
 
   return (
     <Wrapper>
@@ -18,6 +16,7 @@ const Check = () => {
         <TextBtn fullWidth>2-4</TextBtn>
       </MainContainer>
     </Wrapper>
+    
   );
 };
 
@@ -25,7 +24,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 16px 0 16px;
-  margin-top: 84px;
+  margin-top: 38px;
 `;
 
 const TitleContainer = styled.div`
@@ -37,15 +36,17 @@ const TitleContainer = styled.div`
   }
 `;
 
-const TitleText = styled.div`
-  font-weight: 500;
-  font-size: 20px;
-`;
 const LayerText = styled.div`
   margin-left: 5px;
   font-weight: 500;
   font-size: 20px;
 `;
+
+const TitleText = styled.div`
+  font-weight: 500;
+  font-size: 20px;
+`;
+
 
 const MainContainer = styled.div``;
 
