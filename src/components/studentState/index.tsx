@@ -1,4 +1,3 @@
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 
@@ -42,10 +41,10 @@ const studentState = ({ number, name, state, isMove }: StateProps) => {
   });
   return (
     <Container>
-      <div>
+      <p>
         {number} {name}
-      </div>
-      <div>{isMove ? isMove : "-"}</div>
+      </p>
+      <p>{isMove ? isMove : "-"}</p>
       <StateBox ref={Ref}>{state}</StateBox>
     </Container>
   );
