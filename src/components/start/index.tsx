@@ -27,7 +27,7 @@ const Start = () => {
         </MainContainer>
       </MainWrapper>
       <ButtonContainer>
-        <StartButton onClick={onClickStart} fullWidth fill="purple">
+        <StartButton onClick={onClickStart} fill="purple">
           서비스 시작하기
         </StartButton>
       </ButtonContainer>
@@ -38,6 +38,8 @@ const Start = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0 16px 0 16px;
   margin-top: 84px;
 `;
@@ -105,6 +107,9 @@ const ButtonContainer = styled.div`
 `;
 
 const StartButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  width: 328px;
   height: 52px;
   border-radius: 12px;
   > div {
