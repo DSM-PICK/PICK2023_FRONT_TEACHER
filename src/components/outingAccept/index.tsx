@@ -41,17 +41,17 @@ const OutingAccept = () => {
     },
   ];
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
-  let isClick = outingSelectList.length > 0;
+  const isClick = outingSelectList.length > 0;
 
-  const click = (student: any) => {
-    const isIncludes = outingSelectList.find((id: number) => id === student.id);
+  const click = (studentId: number) => {
+    const isIncludes = outingSelectList.find((id: number) => id === studentId);
 
     if (isIncludes) {
       setOutingSelectList(
-        outingSelectList.filter((id: number) => id !== student.id)
+        outingSelectList.filter((id: number) => id !== studentId)
       );
     } else {
-      setOutingSelectList([...outingSelectList, student.id]);
+      setOutingSelectList([...outingSelectList, studentId]);
     }
   };
 
@@ -82,7 +82,7 @@ const OutingAccept = () => {
       <List>
         {outingRequestList.map((student) => (
           <StudentBox
-            onClick={() => click(student)}
+            onClick={() => click(student.id)}
             isClick={outingSelectList.includes(student.id)}
           >
             <Student>
