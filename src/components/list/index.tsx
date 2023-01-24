@@ -17,6 +17,11 @@ const OutList = () => {
         <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
         <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
         <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
+        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
+        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
+        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
+        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
+        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
       </StudentContainer>
     </Wrapper>
   );
@@ -39,13 +44,16 @@ const TitleText = styled.h1`
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
+  color: ${({ theme }) => theme.colors.gray900};
 `;
 
 const StudentContainer = styled.div`
+  display: flex;
   height: fit-content;
   padding: 16px 0;
-  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  height: calc(100vh - 106px);
+  overflow-y: scroll;
 `;

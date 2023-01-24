@@ -42,6 +42,7 @@ const Wrapper = styled.div`
   line-height: 24px;
   border-radius: 12px;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   font-family: "Noto Sans KR";
