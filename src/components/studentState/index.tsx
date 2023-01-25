@@ -2,14 +2,17 @@ import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 
 interface StateProps {
-  number: string;
-  name: string;
-  state: string;
-  isMove?: string;
+  data: {
+    number: string;
+    name: string;
+    state: string;
+    isMove?: string;
+  };
 }
 
-const studentState = ({ number, name, state, isMove }: StateProps) => {
+const studentState = (props: StateProps) => {
   const Ref = useRef<HTMLDivElement>(null);
+  const { number, name, state, isMove } = props.data;
 
   useEffect(() => {
     const { current } = Ref;

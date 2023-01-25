@@ -63,14 +63,7 @@ const AttendanceDetalis = () => {
       <ToggleButton items={toggle} containStyle={{ margin: "8px 0" }} />
       <StList>
         {student.map((data) => {
-          return (
-            <StudentState
-              number={data.number}
-              name={data.name}
-              state={data.state}
-              isMove={data.isMove}
-            />
-          );
+          return <StudentState data={data} />;
         })}
       </StList>
     </Wrapper>
