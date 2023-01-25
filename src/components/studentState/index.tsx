@@ -48,7 +48,7 @@ const studentState = (props: StateProps) => {
           current.style.color = "#ffffff";
         },
       };
-      return rhymes[state.toLowerCase()];
+      return rhymes[state];
     }
   });
   return (
