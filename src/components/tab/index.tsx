@@ -15,7 +15,7 @@ import OutList from "../list";
 import Check from "../check";
 
 interface TabProps {
-  [key: number]: ReactElement 
+  [key: number]: ReactElement;
 }
 
 const Tab = () => {
@@ -26,7 +26,7 @@ const Tab = () => {
   ];
   const tab: TabProps = {
     // 1하년들 퍼블리싱 후 수정 0은 출석 확인 페이지, 1은 외출 목록 페이지, 2는 외출 수락 페이지
-    0: <Check/>,
+    0: <Check />,
     1: <OutList />,
     2: <div>외출 수락</div>,
   };
@@ -58,6 +58,9 @@ const Tab = () => {
 };
 
 const Wrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   padding: 7px 31.5px;
   display: flex;
   justify-content: space-between;
