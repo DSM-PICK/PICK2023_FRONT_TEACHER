@@ -38,6 +38,8 @@ const Start = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0 16px 0 16px;
   margin-top: 84px;
 `;
@@ -67,6 +69,7 @@ const LayerText = styled.h1`
 `;
 
 const MainWrapper = styled.div`
+  width: 100%;
   margin-top: 56px;
   display: flex;
   flex-direction: column;
@@ -85,7 +88,7 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 328px;
+  width: 100%;
   height: 144px;
   padding: 20px;
   border: none;
@@ -99,6 +102,7 @@ const MainContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 88px;

@@ -12,9 +12,11 @@ import Image from "next/image";
 import { Body3 } from "@semicolondsm/ui";
 import Start from "../start";
 import OutingAccept from "../outingAccept";
+import OutList from "../list";
+import Check from "../check";
 
 interface TabProps {
-  tab: { [key: number]: ReactElement };
+  [key: number]: ReactElement;
 }
 
 const Tab = () => {
@@ -23,10 +25,10 @@ const Tab = () => {
     { title: "외출 목록", onImg: onList, offImg: offList },
     { title: "외출 수락", onImg: onCheck, offImg: offCheck },
   ];
-  const tab: TabProps[] = {
+  const tab: TabProps = {
     // 1하년들 퍼블리싱 후 수정 0은 출석 확인 페이지, 1은 외출 목록 페이지, 2는 외출 수락 페이지
-    0: <div>출석 확인</div>,
-    1: <div>외출 목록</div>,
+    0: <Check />,
+    1: <OutList />,
     2: <OutingAccept />,
   };
 
@@ -57,6 +59,9 @@ const Tab = () => {
 };
 
 const Wrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   padding: 7px 31.5px;
   display: flex;
   justify-content: space-between;
