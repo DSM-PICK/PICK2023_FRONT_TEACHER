@@ -41,7 +41,7 @@ const Tab = () => {
       {tab[activetab]}
       <Wrapper>
         {tabInfo.map((info, idx) => (
-          <TabItem onClick={() => onClickTab(idx)}>
+          <TabItem key={info.title} onClick={() => onClickTab(idx)}>
             <Image
               width={14}
               height={14}
