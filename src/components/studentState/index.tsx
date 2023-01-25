@@ -19,13 +19,8 @@ const studentState = (props: StateProps) => {
     if (current !== null) {
       interface ObjType {
         [index: string]: () => void;
-        이동: () => void;
-        외출: () => void;
-        현체: () => void;
-        취업: () => void;
-        무단: () => void;
       }
-      const rhymes: ObjType = {
+      const stateStyle: ObjType = {
         이동: () => {
           current.style.backgroundColor = "#9650fa";
           current.style.color = "#ffffff";
@@ -48,7 +43,7 @@ const studentState = (props: StateProps) => {
           current.style.color = "#ffffff";
         },
       };
-      return rhymes[state];
+      return stateStyle[state];
     }
   });
   return (
