@@ -17,29 +17,38 @@ const studentState = (props: StateProps) => {
   useEffect(() => {
     const { current } = Ref;
     if (current !== null) {
-      switch (state) {
-        case "이동":
-        case "외출": {
+      interface ObjType {
+        [index: string]: () => void;
+        이동: () => void;
+        외출: () => void;
+        현체: () => void;
+        취업: () => void;
+        무단: () => void;
+      }
+      const rhymes: ObjType = {
+        이동: () => {
           current.style.backgroundColor = "#9650fa";
           current.style.color = "#ffffff";
           current.style.border = "0";
-          break;
-        }
-        case "현체":
-        case "취업": {
+        },
+        외출: () => {
+          current.style.backgroundColor = "#9650fa";
+          current.style.color = "#ffffff";
+          current.style.border = "0";
+        },
+        현체: () => {
           current.style.backgroundColor = "#F0e6ff";
-          break;
-        }
-        case "무단": {
+        },
+        취업: () => {
+          current.style.backgroundColor = "#F0e6ff";
+        },
+        무단: () => {
           current.style.backgroundColor = "#f04d51";
           current.style.border = "0";
           current.style.color = "#ffffff";
-          break;
-        }
-
-        default:
-          break;
-      }
+        },
+      };
+      return rhymes[state.toLowerCase()];
     }
   });
   return (
