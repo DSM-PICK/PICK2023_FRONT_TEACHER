@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import { Select } from "@semicolondsm/ui";
 import { useState } from "react";
+import { gradeNumArr, classNumArr } from "./constants";
 
 const OutingAccept = () => {
   const [gradeNum, setGradeNum] = useState<string>("학년");
   const [classNum, setClassNum] = useState<string>("반");
-  const gradeNumArr = ["1학년", "2학년", "3학년"];
-  const classNumArr = ["1반", "2반", "3반", "4반"];
+  const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
+  const isClick = outingSelectList.length > 0;
 
   const outingRequestList = [
     {
@@ -40,8 +41,6 @@ const OutingAccept = () => {
       id: 5,
     },
   ];
-  const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
-  const isClick = outingSelectList.length > 0;
 
   const click = (studentId: number) => {
     const isIncludes = outingSelectList.find((id: number) => id === studentId);
@@ -82,6 +81,7 @@ const OutingAccept = () => {
       <List>
         {outingRequestList.map((student) => (
           <StudentBox
+            key={student.name}
             onClick={() => click(student.id)}
             isClick={outingSelectList.includes(student.id)}
           >
@@ -174,7 +174,7 @@ const List = styled.div`
 
 const StudentBox = styled.div<{ isClick: boolean }>`
   width: 91vw;
-  min-height: 56px;
+  max-height: ${({ isClick }) => (isClick ? "130px" : "56px")};
   border-radius: 12px;
   flex-direction: column;
   display: flex;
@@ -182,6 +182,8 @@ const StudentBox = styled.div<{ isClick: boolean }>`
   justify-content: center;
   background-color: ${({ theme, isClick }) =>
     isClick ? theme.colors.purple50 : theme.colors.gray50};
+  transition: all 0.3s;
+  overflow: hidden;
 `;
 
 const Student = styled.div`
@@ -214,6 +216,8 @@ const Reason = styled.p`
   justify-content: flex-start;
   margin-bottom: 16px;
   line-height: 24px;
+  transition: all 3s;
+  overflow-y: scroll;
 `;
 
 export default OutingAccept;
