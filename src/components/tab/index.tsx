@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { Body3 } from "@semicolondsm/ui";
 import Start from "../start";
+import OutingAccept from "../outingAccept";
 import OutList from "../list";
 import Check from "../check";
 
@@ -28,7 +29,7 @@ const Tab = () => {
     // 1하년들 퍼블리싱 후 수정 0은 출석 확인 페이지, 1은 외출 목록 페이지, 2는 외출 수락 페이지
     0: <Check />,
     1: <OutList />,
-    2: <div>외출 수락</div>,
+    2: <OutingAccept />,
   };
 
   const [activetab, setActiveTab] = useState<number>(0);
@@ -42,7 +43,7 @@ const Tab = () => {
       {tab[activetab]}
       <Wrapper>
         {tabInfo.map((info, idx) => (
-          <TabItem onClick={() => onClickTab(idx)}>
+          <TabItem key={info.title} onClick={() => onClickTab(idx)}>
             <Image
               width={14}
               height={14}
