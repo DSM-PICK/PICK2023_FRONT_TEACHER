@@ -30,8 +30,7 @@ const OutingAccept = () => {
     { width: "61px", value: classNum, arr: classNumArr },
   ];
 
-  const onChange = (info: any) => {
-    console.log(info);
+  const onChange = (info: InfoPropsType) => {
     const { title, name } = info;
     setStudentClass({
       ...studentClass,
