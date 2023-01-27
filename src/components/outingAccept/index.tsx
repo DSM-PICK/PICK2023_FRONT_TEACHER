@@ -101,9 +101,9 @@ const OutingAccept = () => {
               <Name>{student.name}</Name>
               <Time>{student.time}</Time>
             </Student>
-            {outingSelectList.includes(student.id) && (
-              <Reason>{student.reason}</Reason>
-            )}
+            <Reason isClick={outingSelectList.includes(student.id)}>
+              {student.reason}
+            </Reason>
           </StudentBox>
         ))}
       </List>
@@ -201,7 +201,7 @@ const List = styled.div`
 `;
 
 const StudentBox = styled.div<{ isClick: boolean }>`
-  width: 91vw;
+  width: 100%;
   max-height: ${({ isClick }) => (isClick ? "130px" : "56px")};
   border-radius: 12px;
   flex-direction: column;
@@ -218,7 +218,8 @@ const Student = styled.div`
   display: flex;
   width: calc(91vw - 32px);
   justify-content: space-between;
-  margin: 20px;
+  padding: 16px 0;
+  flex-shrink: 0;
 `;
 
 const Name = styled.p`
@@ -235,17 +236,17 @@ const Time = styled.p`
   line-height: 24px;
 `;
 
-const Reason = styled.p`
+const Reason = styled.p<{ isClick: boolean }>`
   font-weight: 400;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.gray900};
   width: calc(91vw - 32px);
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 16px;
   line-height: 24px;
-  transition: all 3s;
   overflow-y: scroll;
+  padding-bottom: ${({ isClick }) => (isClick ? "16px" : 0)};
+  transition: padding-bottom 0.3s;
 `;
 
 export default OutingAccept;
