@@ -1,49 +1,46 @@
 import styled from "@emotion/styled";
-import { Select } from "@semicolondsm/ui";
 import { useState } from "react";
-import { gradeNumArr, classNumArr } from "./constants";
+import { gradeNumArr, classNumArr, outingRequestList } from "./constants";
+import { dropDown } from "@/assets/outingAccept";
+import Image from "next/image";
+
+interface StudentClass {
+  gradeNum: string;
+  classNum: string;
+}
+
+interface InfoPropsType {
+  name: string;
+  title: string;
+}
 
 const OutingAccept = () => {
-  const [gradeNum, setGradeNum] = useState<string>("학년");
-  const [classNum, setClassNum] = useState<string>("반");
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
+  const [isSelectBoxClick, setIsSelectBoxClick] = useState<number>(8);
+  const [studentClass, setStudentClass] = useState<StudentClass>({
+    gradeNum: "학년",
+    classNum: "반",
+  });
+  const { gradeNum, classNum } = studentClass;
+
   const isClick = outingSelectList.length > 0;
 
-  const outingRequestList = [
-    {
-      name: "2101 강석현",
-      time: "16:30 ~ 18:30",
-      reason: "저 꼬리뼈 다쳐서 정형외과 다녀와야할 것 같아요 보내주세요 찡찡",
-      id: 1,
-    },
-    {
-      name: "2102 김경호",
-      time: "16:30 ~ 19:30",
-      reason: "저 안경이 부러졌어요",
-      id: 2,
-    },
-    {
-      name: "2106 김의찬",
-      time: "16:30 ~ 20:30",
-      reason: "이유가 없습니다.",
-      id: 3,
-    },
-    {
-      name: "2110 문정민",
-      time: "16:30 ~ 19:30",
-      reason: "이유가 없습니다.",
-      id: 4,
-    },
-    {
-      name: "2120 추혜연",
-      time: "16:30 ~ 20:00",
-      reason: "이유가 없습니다.",
-      id: 5,
-    },
+  const selectBoxArr = [
+    { width: "74px", value: gradeNum, arr: gradeNumArr },
+    { width: "61px", value: classNum, arr: classNumArr },
   ];
 
-  const click = (studentId: number) => {
-    const isIncludes = outingSelectList.find((id: number) => id === studentId);
+  const onChange = (info: InfoPropsType) => {
+    const { title, name } = info;
+    setStudentClass({
+      ...studentClass,
+      [name]: title,
+    });
+    setIsSelectBoxClick(8);
+  };
+
+  const studentClick = (studentId: number) => {
+    const isIncludes = outingSelectList.includes(studentId);
 
     if (isIncludes) {
       setOutingSelectList(
@@ -54,24 +51,39 @@ const OutingAccept = () => {
     }
   };
 
+  const selectBoxClick = (idx: number) => {
+    if (isSelectBoxClick === idx) {
+      setIsSelectBoxClick(8);
+    } else {
+      setIsSelectBoxClick(idx);
+    }
+  };
+
   return (
     <Wrapper>
       <Title>외출 신청 수락</Title>
       <Header>
         <Btns>
-          {/* <SelectBox
-            items={gradeNumArr}
-            placeholder={gradeNum}
-            onChange={setGradeNum}
-          />
-          <SelectBox
-            items={classNumArr}
-            placeholder={classNum}
-            onChange={setClassNum}
-          /> */}
-          <S1 />
-          <S2 />
-          {/* 기존 셀렉트박스의 사이즈 조절이 안 돼서 임시로 만들어놓은 S1, S2 */}
+          {selectBoxArr.map((data, idx) => (
+            <SelectBoxContainer key={idx}>
+              <SelectButton
+                width={data.width}
+                onClick={() => selectBoxClick(idx)}
+              >
+                {data.value}
+                <Image width={8} height={4} src={dropDown} alt="" />
+              </SelectButton>
+              {isSelectBoxClick === idx && (
+                <SelectList>
+                  {data.arr.map((info, idx) => (
+                    <span key={idx} onClick={() => onChange(info)}>
+                      {info.title}
+                    </span>
+                  ))}
+                </SelectList>
+              )}
+            </SelectBoxContainer>
+          ))}
         </Btns>
         <Btns>
           <AcceptButton isClick={isClick}>거절</AcceptButton>
@@ -82,16 +94,16 @@ const OutingAccept = () => {
         {outingRequestList.map((student) => (
           <StudentBox
             key={student.name}
-            onClick={() => click(student.id)}
+            onClick={() => studentClick(student.id)}
             isClick={outingSelectList.includes(student.id)}
           >
             <Student>
               <Name>{student.name}</Name>
               <Time>{student.time}</Time>
             </Student>
-            {outingSelectList.includes(student.id) && (
-              <Reason>{student.reason}</Reason>
-            )}
+            <Reason isClick={outingSelectList.includes(student.id)}>
+              {student.reason}
+            </Reason>
           </StudentBox>
         ))}
       </List>
@@ -122,11 +134,6 @@ const Btns = styled.div`
   gap: 8px;
 `;
 
-const SelectBox = styled(Select)`
-  height: 32px;
-  border-radius: 16px;
-`;
-
 const AcceptButton = styled.button<{ isClick: boolean }>`
   width: 58px;
   height: 32px;
@@ -151,18 +158,39 @@ const RejectButton = styled.button<{ isClick: boolean }>`
     isClick ? theme.colors.purple400 : theme.colors.purple50};
 `;
 
-const S1 = styled.div`
-  width: 74px;
-  height: 32px;
-  background-color: lightgray;
-  border-radius: 16px;
+const SelectBoxContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
 `;
 
-const S2 = styled.div`
-  width: 61px;
+const SelectButton = styled.button<{ width: string }>`
+  width: ${(props) => props.width};
   height: 32px;
-  background-color: lightgray;
+  background-color: ${({ theme }) => theme.colors.gray100};
   border-radius: 16px;
+  border: none;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SelectList = styled.div`
+  width: 120px;
+  background: white;
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  gap: 20px;
+  padding: 16px;
+  position: fixed;
+  top: 116px;
 `;
 
 const List = styled.div`
@@ -173,7 +201,7 @@ const List = styled.div`
 `;
 
 const StudentBox = styled.div<{ isClick: boolean }>`
-  width: 91vw;
+  width: 100%;
   max-height: ${({ isClick }) => (isClick ? "130px" : "56px")};
   border-radius: 12px;
   flex-direction: column;
@@ -190,7 +218,8 @@ const Student = styled.div`
   display: flex;
   width: calc(91vw - 32px);
   justify-content: space-between;
-  margin: 20px;
+  padding: 16px 0;
+  flex-shrink: 0;
 `;
 
 const Name = styled.p`
@@ -207,17 +236,17 @@ const Time = styled.p`
   line-height: 24px;
 `;
 
-const Reason = styled.p`
+const Reason = styled.p<{ isClick: boolean }>`
   font-weight: 400;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.gray900};
   width: calc(91vw - 32px);
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 16px;
   line-height: 24px;
-  transition: all 3s;
   overflow-y: scroll;
+  padding-bottom: ${({ isClick }) => (isClick ? "16px" : 0)};
+  transition: padding-bottom 0.3s;
 `;
 
 export default OutingAccept;
