@@ -9,6 +9,11 @@ interface StudentClass {
   classNum: string;
 }
 
+interface InfoPropsType {
+  name: string;
+  title: string;
+}
+
 const OutingAccept = () => {
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
   const [isSelectBoxClick, setIsSelectBoxClick] = useState<number>(8);
