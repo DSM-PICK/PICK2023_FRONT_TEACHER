@@ -54,24 +54,39 @@ const OutingAccept = () => {
     }
   };
 
+  const selectBoxClick = (idx: number) => {
+    if (isSelectBoxClick === idx) {
+      setIsSelectBoxClick(8);
+    } else {
+      setIsSelectBoxClick(idx);
+    }
+  };
+
   return (
     <Wrapper>
       <Title>외출 신청 수락</Title>
       <Header>
         <Btns>
-          {/* <SelectBox
-            items={gradeNumArr}
-            placeholder={gradeNum}
-            onChange={setGradeNum}
-          />
-          <SelectBox
-            items={classNumArr}
-            placeholder={classNum}
-            onChange={setClassNum}
-          /> */}
-          <S1 />
-          <S2 />
-          {/* 기존 셀렉트박스의 사이즈 조절이 안 돼서 임시로 만들어놓은 S1, S2 */}
+          {selectBoxArr.map((data, idx) => (
+            <SelectBoxContainer key={idx}>
+              <SelectButton
+                width={data.width}
+                onClick={() => selectBoxClick(idx)}
+              >
+                {data.value}
+                <Image width={8} height={4} src={dropDown} alt="" />
+              </SelectButton>
+              {isSelectBoxClick === idx && (
+                <SelectList>
+                  {data.arr.map((info, idx) => (
+                    <span key={idx} onClick={() => onChange(info)}>
+                      {info.title}
+                    </span>
+                  ))}
+                </SelectList>
+              )}
+            </SelectBoxContainer>
+          ))}
         </Btns>
         <Btns>
           <AcceptButton isClick={isClick}>거절</AcceptButton>
@@ -122,11 +137,6 @@ const Btns = styled.div`
   gap: 8px;
 `;
 
-const SelectBox = styled(Select)`
-  height: 32px;
-  border-radius: 16px;
-`;
-
 const AcceptButton = styled.button<{ isClick: boolean }>`
   width: 58px;
   height: 32px;
@@ -151,18 +161,39 @@ const RejectButton = styled.button<{ isClick: boolean }>`
     isClick ? theme.colors.purple400 : theme.colors.purple50};
 `;
 
-const S1 = styled.div`
-  width: 74px;
-  height: 32px;
-  background-color: lightgray;
-  border-radius: 16px;
+const SelectBoxContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
 `;
 
-const S2 = styled.div`
-  width: 61px;
+const SelectButton = styled.button<{ width: string }>`
+  width: ${(props) => props.width};
   height: 32px;
-  background-color: lightgray;
+  background-color: ${({ theme }) => theme.colors.gray100};
   border-radius: 16px;
+  border: none;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SelectList = styled.div`
+  width: 120px;
+  background: white;
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  gap: 20px;
+  padding: 16px;
+  position: fixed;
+  top: 116px;
 `;
 
 const List = styled.div`
