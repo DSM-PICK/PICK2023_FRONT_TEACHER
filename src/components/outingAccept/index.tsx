@@ -1,49 +1,42 @@
 import styled from "@emotion/styled";
-import { Select } from "@semicolondsm/ui";
 import { useState } from "react";
-import { gradeNumArr, classNumArr } from "./constants";
+import { gradeNumArr, classNumArr, outingRequestList } from "./constants";
+import { dropDown } from "@/assets/outingAccept";
+import Image from "next/image";
+
+interface StudentClass {
+  gradeNum: string;
+  classNum: string;
+}
 
 const OutingAccept = () => {
-  const [gradeNum, setGradeNum] = useState<string>("학년");
-  const [classNum, setClassNum] = useState<string>("반");
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
+  const [isSelectBoxClick, setIsSelectBoxClick] = useState<number>(8);
+  const [studentClass, setStudentClass] = useState<StudentClass>({
+    gradeNum: "학년",
+    classNum: "반",
+  });
+  const { gradeNum, classNum } = studentClass;
+
   const isClick = outingSelectList.length > 0;
 
-  const outingRequestList = [
-    {
-      name: "2101 강석현",
-      time: "16:30 ~ 18:30",
-      reason: "저 꼬리뼈 다쳐서 정형외과 다녀와야할 것 같아요 보내주세요 찡찡",
-      id: 1,
-    },
-    {
-      name: "2102 김경호",
-      time: "16:30 ~ 19:30",
-      reason: "저 안경이 부러졌어요",
-      id: 2,
-    },
-    {
-      name: "2106 김의찬",
-      time: "16:30 ~ 20:30",
-      reason: "이유가 없습니다.",
-      id: 3,
-    },
-    {
-      name: "2110 문정민",
-      time: "16:30 ~ 19:30",
-      reason: "이유가 없습니다.",
-      id: 4,
-    },
-    {
-      name: "2120 추혜연",
-      time: "16:30 ~ 20:00",
-      reason: "이유가 없습니다.",
-      id: 5,
-    },
+  const selectBoxArr = [
+    { width: "74px", value: gradeNum, arr: gradeNumArr },
+    { width: "61px", value: classNum, arr: classNumArr },
   ];
 
-  const click = (studentId: number) => {
-    const isIncludes = outingSelectList.find((id: number) => id === studentId);
+  const onChange = (info: any) => {
+    console.log(info);
+    const { title, name } = info;
+    setStudentClass({
+      ...studentClass,
+      [name]: title,
+    });
+    setIsSelectBoxClick(8);
+  };
+
+  const studentClick = (studentId: number) => {
+    const isIncludes = outingSelectList.includes(studentId);
 
     if (isIncludes) {
       setOutingSelectList(
@@ -97,7 +90,7 @@ const OutingAccept = () => {
         {outingRequestList.map((student) => (
           <StudentBox
             key={student.name}
-            onClick={() => click(student.id)}
+            onClick={() => studentClick(student.id)}
             isClick={outingSelectList.includes(student.id)}
           >
             <Student>
