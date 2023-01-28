@@ -18,4 +18,4 @@ jobs:
       run: yarn install --immutable --immutable-cache --check-cache
     
     - name: Build
-      run: yarn dev
+      run: yarn build
