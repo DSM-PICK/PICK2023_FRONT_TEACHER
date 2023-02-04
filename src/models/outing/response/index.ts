@@ -1,4 +1,4 @@
-export interface IOutingRequestList {
+export interface OutingRequestListType {
   student_id: string;
   student_number: number;
   student_name: string;
@@ -7,7 +7,7 @@ export interface IOutingRequestList {
   reason: string;
 }
 
-export interface IOutingStudentList {
+export interface OutingStudentListType {
   student_id: string;
   student_number: number;
   student_name: string;

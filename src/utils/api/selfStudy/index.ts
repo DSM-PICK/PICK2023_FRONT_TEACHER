@@ -1,23 +1,26 @@
 import instance from "@/utils/axios";
 import {
-  IChargeClass,
-  ITodaySelfStudyTeacher,
-  IAttendanceStatusList,
+  ChargeClassType,
+  TodaySelfStudyTeacherType,
+  AttendanceStatusListType,
 } from "@/models/selfStudy/response";
-import { IStudentStatus } from "@/models/selfStudy/request";
+import { StudentStatusType } from "@/models/selfStudy/request";
 
-export const getTodaySelfStudyTeacher =
-  async (): Promise<ITodaySelfStudyTeacher> => {
-    try {
-      return await instance.get(`/self-study/today`);
-    } catch (error) {
-      throw error;
-    }
-  };
-
-export const getChargeClass = async (): Promise<IChargeClass> => {
+export const getTodaySelfStudyTeacher = async () => {
   try {
-    return await instance.get(`/teachers/owner`);
+    const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherType>(
+      `/self-study/today`
+    );
+    return todaySelfStudyTeacher;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getChargeClass = async () => {
+  try {
+    const chargeClass = await instance.get<ChargeClassType>(`/teachers/owner`);
+    return chargeClass;
   } catch (error) {
     throw error;
   }
@@ -26,17 +29,20 @@ export const getChargeClass = async (): Promise<IChargeClass> => {
 export const getAttendanceStatusList = async (
   classRoom: string,
   type: string
-): Promise<IAttendanceStatusList> => {
+) => {
   try {
-    return await instance.get(`/teachers/students/${classRoom}?type=${type}`);
+    const attendanceStatusList = await instance.get<AttendanceStatusListType>(
+      `/teachers/students/${classRoom}?type=${type}`
+    );
+    return attendanceStatusList;
   } catch (error) {
     throw error;
   }
 };
 
-export const AttandanceStatusChange = async (
+export const attandanceStatusChange = async (
   classroomId: string,
-  body: IStudentStatus
+  body: StudentStatusType
 ) => {
   try {
     await instance.patch(`/teachers/status/${classroomId}`, body);

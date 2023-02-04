@@ -1,7 +1,7 @@
 import instance from "@/utils/axios";
 import {
-  IOutingRequestList,
-  IOutingStudentList,
+  OutingRequestListType,
+  OutingStudentListType,
 } from "../../../models/outing/response";
 
 export const schoolComeback = async (studnentId: number) => {
@@ -12,20 +12,23 @@ export const schoolComeback = async (studnentId: number) => {
   }
 };
 
-export const getOutingRequestList = async (
-  grade: string,
-  classNum: string
-): Promise<IOutingRequestList> => {
+export const getOutingRequestList = async (grade: string, classNum: string) => {
   try {
-    return await instance.get(`/teachers/?grade=${grade}&classNum=${classNum}`);
+    const outingRequestList = await instance.get<OutingRequestListType>(
+      `/teachers/?grade=${grade}&classNum=${classNum}`
+    );
+    return outingRequestList;
   } catch (error) {
     throw error;
   }
 };
 
-export const getOutingStudentList = async (): Promise<IOutingStudentList> => {
+export const getOutingStudentList = async () => {
   try {
-    return await instance.get(`/applications`);
+    const outingStudentList = await instance.get<OutingStudentListType>(
+      `/applications`
+    );
+    return outingStudentList;
   } catch (error) {
     throw error;
   }
