@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { setToken, getToken, removeToken } from "../function/tokenManager";
 
 const BASE_URL = process.env.PICK_BASE_URL;
 
@@ -9,7 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async function (config) {
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = await getToken().accessToken;
 
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -31,23 +32,19 @@ instance.interceptors.response.use(
       config,
       response: { status },
     } = error;
-    if (status === 401) {
-      if (error.response.data.message === "TokenExpiredError") {
-        const originalRequest = config;
-        const refreshToken = await localStorage.getItem("refresh_token");
-        const { data } = await axios.post(`${BASE_URL}`, {
-          refreshToken,
-        });
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-          data;
-        await localStorage.multiSet([
-          ["accessToken", newAccessToken],
-          ["refreshToken", newRefreshToken],
-        ]);
-        axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return axios(originalRequest);
-      }
+    if (status === 401 && error.response.data.message === "TokenExpiredError") {
+      const originalRequest = config;
+      const refreshToken = await getToken().refreshToken;
+
+      const { data } = await axios.post(`${BASE_URL}`, {
+        refreshToken,
+      });
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        data;
+      setToken(newAccessToken, newRefreshToken);
+      axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      return axios(originalRequest);
     }
     return Promise.reject(error);
   }

@@ -1,8 +1,10 @@
-import type { AppProps } from "next/app";
+import type { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { SDSThemeProvider } from "@semicolondsm/react-emotion-theme";
 import { Global } from "@emotion/react";
 import { globalStyles } from "../styles/globalStyles";
+import cookies from "next-cookies";
+import { setToken } from "@/utils/function/tokenManager";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -30,3 +32,21 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+App.getInitialProps = async (appContext: AppContext) => {
+  const { ctx, Component } = appContext;
+  let appProps = {};
+
+  if (Component.getInitialProps) {
+    appProps = (await Component.getInitialProps(ctx)) || {};
+  }
+
+  const allCookies = cookies(ctx);
+  const accessTokenByCookie = allCookies["accessToken"];
+  if (accessTokenByCookie !== undefined) {
+    const refreshTokenByCookie = allCookies["refreshToken"] || "";
+    setToken(accessTokenByCookie, refreshTokenByCookie);
+  }
+
+  return { ...appProps };
+};
