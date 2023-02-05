@@ -4,49 +4,34 @@ import {
   TodaySelfStudyTeacherType,
   AttendanceStatusListType,
 } from "@/models/selfStudy/response";
-import { StudentStatusType } from "@/models/selfStudy/request";
+import {
+  GetAttendanceStatusRequestType,
+  AttandanceStatusChangeRequestType,
+} from "@/models/selfStudy/request";
 
 export const getTodaySelfStudyTeacher = async () => {
-  try {
-    const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherType>(
-      `/self-study/today`
-    );
-    return todaySelfStudyTeacher;
-  } catch (error) {
-    throw error;
-  }
+  const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherType>(
+    `/self-study/today`
+  );
+  return todaySelfStudyTeacher;
 };
 
 export const getChargeClass = async () => {
-  try {
-    const chargeClass = await instance.get<ChargeClassType>(`/teachers/owner`);
-    return chargeClass;
-  } catch (error) {
-    throw error;
-  }
+  const chargeClass = await instance.get<ChargeClassType>(`/teachers/owner`);
+  return chargeClass;
 };
 
 export const getAttendanceStatusList = async (
-  classRoom: string,
-  type: string
+  request: GetAttendanceStatusRequestType
 ) => {
-  try {
-    const attendanceStatusList = await instance.get<AttendanceStatusListType>(
-      `/teachers/students/${classRoom}?type=${type}`
-    );
-    return attendanceStatusList;
-  } catch (error) {
-    throw error;
-  }
+  const attendanceStatusList = await instance.get<AttendanceStatusListType>(
+    `/teachers/students/${request.classRoom}?type=${request.type}`
+  );
+  return attendanceStatusList;
 };
 
 export const attandanceStatusChange = async (
-  classroomId: string,
-  body: StudentStatusType
+  request: AttandanceStatusChangeRequestType
 ) => {
-  try {
-    await instance.patch(`/teachers/status/${classroomId}`, body);
-  } catch (error) {
-    throw error;
-  }
+  await instance.patch(`/teachers/status/${request.classRoom}`, request.body);
 };
