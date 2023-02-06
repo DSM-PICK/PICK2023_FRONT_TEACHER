@@ -1,4 +1,4 @@
-export interface GetOutingRequestListRequestType {
+export interface GetOutingApplyListRequestType {
   grade: string;
   classNum: string;
 }

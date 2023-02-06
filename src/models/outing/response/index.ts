@@ -1,4 +1,4 @@
-export interface OutingRequestListType {
+export interface OutingApplyListType {
   student_id: string;
   student_number: number;
   student_name: string;

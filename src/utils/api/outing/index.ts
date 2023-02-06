@@ -1,18 +1,18 @@
 import instance from "@/utils/axios";
 import {
-  OutingRequestListType,
+  OutingApplyListType,
   OutingStudentListType,
 } from "../../../models/outing/response";
-import { GetOutingRequestListRequestType } from "@/models/outing/request";
+import { GetOutingApplyListRequestType } from "@/models/outing/request";
 
 export const schoolComeback = async (studnentId: number) => {
   await instance.patch(`/teachers/${studnentId}`);
 };
 
-export const getOutingRequestList = async (
-  request: GetOutingRequestListRequestType
+export const getOutingApplyList = async (
+  request: GetOutingApplyListRequestType 
 ) => {
-  const outingRequestList = await instance.get<OutingRequestListType>(
+  const outingRequestList = await instance.get<OutingApplyListType>(
     `/teachers/?grade=${request.grade}&classNum=${request.classNum}`
   );
   return outingRequestList;
