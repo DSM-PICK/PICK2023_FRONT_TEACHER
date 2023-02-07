@@ -1,14 +1,14 @@
-export interface StudentStatusType {
+export interface StudentStatusDto {
   student_id: string;
   type: string;
 }
 
-export interface GetAttendanceStatusRequestType {
+export interface GetAttendanceStatusRequestDto {
   classRoom: string;
   type: string;
 }
 
-export interface AttandanceStatusChangeRequestType {
+export interface AttandanceStatusChangeRequestDto {
   classRoom: string;
-  body: StudentStatusType;
+  body: StudentStatusDto;
 }

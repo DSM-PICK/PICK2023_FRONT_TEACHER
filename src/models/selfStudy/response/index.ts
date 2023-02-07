@@ -1,14 +1,14 @@
-export interface TodaySelfStudyTeacherType {
+export interface TodaySelfStudyTeacherDto {
   type: string;
   teacher: string[];
 }
 
-export interface ChargeClassType {
+export interface ChargeClassDto {
   id: string;
   name: string;
 }
 
-export interface AttendanceStatusListType {
+export interface AttendanceStatusListDto {
   student_id: string;
   student_number: string;
   student_name: string;
