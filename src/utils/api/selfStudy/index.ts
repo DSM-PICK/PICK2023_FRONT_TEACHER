@@ -17,7 +17,9 @@ export const getTodaySelfStudyTeacher = async () => {
 };
 
 export const getChargeClass = async () => {
-  const chargeClass = await instance.get<ChargeClassDto>(`/teachers/owner`);
+  const chargeClass = await instance.get<ChargeClassDto>(
+    `/teachers/responsible`
+  );
   return chargeClass;
 };
 
@@ -33,5 +35,5 @@ export const getAttendanceStatusList = async (
 export const attandanceStatusChange = async (
   request: AttandanceStatusChangeRequestDto
 ) => {
-  await instance.patch(`/teachers/status/${request.classRoom}`, request.body);
+  await instance.post(`/teachers/status`, request.body);
 };

@@ -4,8 +4,7 @@ export interface TodaySelfStudyTeacherDto {
 }
 
 export interface ChargeClassDto {
-  id: string;
-  name: string;
+  responsible_classroom_list: [{ id: string; name: string }];
 }
 
 export interface AttendanceStatusListDto {
