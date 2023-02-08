@@ -1,4 +1,4 @@
-import { ToggleButton, Button } from "@semicolondsm/ui";
+import { ToggleButton } from "@semicolondsm/ui";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import StudentState from "@/components/studentState/index";

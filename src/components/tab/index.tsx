@@ -10,10 +10,9 @@ import {
 } from "@/assets/tab";
 import Image from "next/image";
 import { Body3 } from "@semicolondsm/ui";
-import Start from "../start";
 import OutingAccept from "../outingAccept";
 import OutList from "../list";
-import Check from "../check";
+import CheckPage from "@/pages/check";
 
 interface TabProps {
   [key: number]: ReactElement;
@@ -27,7 +26,7 @@ const Tab = () => {
   ];
   const tab: TabProps = {
     // 1하년들 퍼블리싱 후 수정 0은 출석 확인 페이지, 1은 외출 목록 페이지, 2는 외출 수락 페이지
-    0: <Check />,
+    0: <CheckPage />,
     1: <OutList />,
     2: <OutingAccept />,
   };
