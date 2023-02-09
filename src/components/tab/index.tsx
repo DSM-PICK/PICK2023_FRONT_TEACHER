@@ -62,6 +62,7 @@ const Wrapper = styled.div`
   bottom: 0;
   width: 100%;
   padding: 7px 31.5px;
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   justify-content: space-between;
 `;
