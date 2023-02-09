@@ -1,10 +1,16 @@
 export interface TodaySelfStudyTeacherDto {
-  type: string;
-  teacher: string[];
+  second_floor: string;
+  third_floor: string;
+  fourth_floor: string;
 }
 
 export interface ChargeClassDto {
-  responsible_classroom_list: [{ id: string; name: string }];
+  id: string;
+  name: string;
+}
+
+export interface GetClassList {
+  class_list: ChargeClassDto[];
 }
 
 export interface AttendanceStatusListDto {
