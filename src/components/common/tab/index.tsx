@@ -10,9 +10,11 @@ import {
 } from "@/assets/tab";
 import Image from "next/image";
 import { Body3 } from "@semicolondsm/ui";
-import OutingAccept from "../outingAccept";
-import OutList from "../list";
+import type { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import OutingAccept from "../../outingAccept";
 import CheckPage from "@/pages/check";
+import OutList from "../../list";
 
 interface TabProps {
   [key: number]: ReactElement;
@@ -25,13 +27,16 @@ const Tab = () => {
     { title: "외출 수락", onImg: onCheck, offImg: offCheck },
   ];
   const tab: TabProps = {
-    // 1하년들 퍼블리싱 후 수정 0은 출석 확인 페이지, 1은 외출 목록 페이지, 2는 외출 수락 페이지
     0: <CheckPage />,
     1: <OutList />,
     2: <OutingAccept />,
   };
 
   const [activetab, setActiveTab] = useState<number>(0);
+
+  const backgroundState = useSelector(
+    (state: RootState) => state.counter.initalState.backgroundColor
+  );
 
   const onClickTab = (idx: number) => {
     setActiveTab(idx);
@@ -40,7 +45,8 @@ const Tab = () => {
   return (
     <>
       {tab[activetab]}
-      <Wrapper>
+
+      <TabWrapper backgroundState={backgroundState}>
         {tabInfo.map((info, idx) => (
           <TabItem key={info.title} onClick={() => onClickTab(idx)}>
             <Image
@@ -52,17 +58,19 @@ const Tab = () => {
             <TabTitle isState={activetab === idx}>{info.title}</TabTitle>
           </TabItem>
         ))}
-      </Wrapper>
+      </TabWrapper>
     </>
   );
 };
 
-const Wrapper = styled.div`
+const TabWrapper = styled.div<{ backgroundState: boolean }>`
+  z-index: 2;
   position: fixed;
   bottom: 0;
   width: 100%;
   padding: 7px 31.5px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme, backgroundState }) =>
+    backgroundState ? "rgba(33, 33, 33, 0)" : theme.colors.white};
   display: flex;
   justify-content: space-between;
 `;
