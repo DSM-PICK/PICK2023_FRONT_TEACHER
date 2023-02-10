@@ -12,6 +12,8 @@ import {
   QueryClientProvider,
 } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 export default function App({
   Component,
@@ -46,13 +48,15 @@ export default function App({
           rel="stylesheet"
         />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
-        <SDSThemeProvider mode="light-only">
-          <Global styles={globalStyles} />ß
-          <Component {...pageProps} />
-        </SDSThemeProvider>
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools />
+          <SDSThemeProvider mode="light-only">
+            <Global styles={globalStyles} />ß
+            <Component {...pageProps} />
+          </SDSThemeProvider>
+        </QueryClientProvider>
+      </Provider>
     </>
   );
 }
