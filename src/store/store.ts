@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import backgroundSlice from "./backgroundSlice";
+import backgroundSlice from "./confirmSlice";
 
 export const store = configureStore({
   reducer: {

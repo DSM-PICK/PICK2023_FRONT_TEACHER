@@ -1,5 +1,10 @@
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
+import ConfirmBox from "@/components/common/confirm";
+import { setBackgroundColor, setConfirmState } from "@/store/confirmSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface Props {
   gcn: number;
@@ -9,11 +14,15 @@ interface Props {
 
 const StudentBlock = (props: Props) => {
   const { gcn, returnTime, studentName } = props;
+  const dispatch = useDispatch();
 
-  const onClick = () => {
-    const res = confirm(
-      gcn + " " + studentName + " 학생의 외출이 끝나게 됩니다."
-    );
+  const confirmState = useSelector(
+    (state: RootState) => state.counter.initalState.setConfirmState
+  );
+
+  const onClickReturn = () => {
+    dispatch(setConfirmState({ setConfirmState: true }));
+    dispatch(setBackgroundColor({ backgroundColor: true }));
   };
 
   return (
@@ -22,9 +31,16 @@ const StudentBlock = (props: Props) => {
         <p>{gcn + " " + studentName}</p>
         <p>{returnTime} 도착 예정</p>
       </TextContainer>
-      <StyledButton size="sm" fill={"purple"} onClick={onClick}>
+      <StyledButton size="sm" fill={"purple"} onClick={onClickReturn}>
         복귀
       </StyledButton>
+      {confirmState && (
+        <ConfirmBox
+          text1={gcn + " " + studentName + "의"}
+          text2="외출이 끝나게 됩니다."
+          type="list"
+        />
+      )}
     </Wrapper>
   );
 };
