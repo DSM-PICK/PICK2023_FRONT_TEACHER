@@ -35,11 +35,7 @@ const StudentBlock = (props: Props) => {
         복귀
       </StyledButton>
       {confirmState && (
-        <ConfirmBox
-          text1={gcn + " " + studentName + "의"}
-          text2="외출이 끝나게 됩니다."
-          type="list"
-        />
+        <ConfirmBox text={gcn + " " + studentName + "의"} type="list" />
       )}
     </Wrapper>
   );

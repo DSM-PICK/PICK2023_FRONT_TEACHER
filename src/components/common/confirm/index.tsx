@@ -4,18 +4,20 @@ import { useDispatch } from "react-redux";
 
 interface Props {
   type: "list" | "accept";
-  text1: string;
-  text2: string;
+  text: string;
 }
 
-const ConfirmBox = ({ text1, text2, type }: Props) => {
+const ConfirmBox = ({ text, type }: Props) => {
   const dispatch = useDispatch();
 
+  let finishText;
   let btnText;
   if (type === "list") {
     btnText = "확인하기";
+    finishText = "외출이 끝나게 됩니다.";
   } else {
     btnText = "수락하기";
+    finishText = "외출을 허가합니다.";
   }
 
   const onClickNextTime = () => {
@@ -28,8 +30,8 @@ const ConfirmBox = ({ text1, text2, type }: Props) => {
       <Background />
       <Wrapper>
         <TextContainer>
-          <p>{text1}</p>
-          <p>{text2}</p>
+          <p>{text}</p>
+          <p>{finishText}</p>
         </TextContainer>
         <ButtonContainer>
           <GrayButton onClick={onClickNextTime}>
@@ -98,6 +100,10 @@ const GrayButton = styled.button`
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.gray50};
 
+  :active {
+    opacity: 0.6;
+  }
+
   > p {
     font-size: 16px;
     font-weight: 400;
@@ -116,6 +122,10 @@ const PurpleButton = styled.button`
   border: none;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.purple400};
+
+  :active {
+    opacity: 0.6;
+  }
 
   > p {
     font-size: 16px;

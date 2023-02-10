@@ -3,6 +3,10 @@ import { useState } from "react";
 import { gradeNumArr, classNumArr, outingRequestList } from "./constants";
 import { dropDown } from "@/assets/outingAccept";
 import Image from "next/image";
+import { setConfirmState } from "@/store/confirmSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import ConfirmBox from "../common/confirm";
 
 interface StudentClass {
   gradeNum: string;
@@ -59,6 +63,14 @@ const OutingAccept = () => {
     }
   };
 
+  const confirmState = useSelector(
+    (state: RootState) => state.counter.initalState.setConfirmState
+  );
+  const dispatch = useDispatch();
+  const onClickAccept = () => {
+    dispatch(setConfirmState({ setConfirmState: true }));
+  };
+
   return (
     <Wrapper>
       <Title>외출 신청 수락</Title>
@@ -86,8 +98,10 @@ const OutingAccept = () => {
           ))}
         </Btns>
         <Btns>
-          <AcceptButton isClick={isClick}>거절</AcceptButton>
-          <RejectButton isClick={isClick}>수락</RejectButton>
+          <RejectButton disabled={!isClick}>거절</RejectButton>
+          <AcceptButton disabled={!isClick} onClick={onClickAccept}>
+            수락
+          </AcceptButton>
         </Btns>
       </Header>
       <List>
@@ -107,6 +121,7 @@ const OutingAccept = () => {
           </StudentBox>
         ))}
       </List>
+      {confirmState && <ConfirmBox text={"" + " " + +"의"} type="accept" />}
     </Wrapper>
   );
 };
@@ -134,7 +149,7 @@ const Btns = styled.div`
   gap: 8px;
 `;
 
-const AcceptButton = styled.button<{ isClick: boolean }>`
+const RejectButton = styled.button`
   width: 58px;
   height: 32px;
   border-radius: 12px;
@@ -142,11 +157,14 @@ const AcceptButton = styled.button<{ isClick: boolean }>`
   font-weight: 500;
   font-size: 14px;
   border: none;
-  background-color: ${({ theme, isClick }) =>
-    isClick ? theme.colors.red400 : theme.colors.red50};
+  background-color: ${({ theme }) => theme.colors.red400};
+
+  :disabled {
+    background-color: ${({ theme }) => theme.colors.red50};
+  }
 `;
 
-const RejectButton = styled.button<{ isClick: boolean }>`
+const AcceptButton = styled.button`
   width: 58px;
   height: 32px;
   border-radius: 12px;
@@ -154,8 +172,11 @@ const RejectButton = styled.button<{ isClick: boolean }>`
   font-weight: 500;
   font-size: 14px;
   border: none;
-  background-color: ${({ theme, isClick }) =>
-    isClick ? theme.colors.purple400 : theme.colors.purple50};
+  background-color: ${({ theme }) => theme.colors.purple400};
+
+  :disabled {
+    background-color: ${({ theme }) => theme.colors.purple50};
+  }
 `;
 
 const SelectBoxContainer = styled.div`
