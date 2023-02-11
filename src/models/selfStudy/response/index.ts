@@ -10,7 +10,7 @@ export interface ChargeClassDto {
 }
 
 export interface GetClassList {
-  class_list: ChargeClassDto[];
+  classroom_list: ChargeClassDto[];
 }
 
 export interface AttendanceStatusListDto {

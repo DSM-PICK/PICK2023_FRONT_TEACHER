@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
+import { ChargeClassDto } from "@/models/selfStudy/response";
 
-const Check = () => {
+interface Props {
+  classroom_List: ChargeClassDto[];
+}
 
+const Check = ({ classroom_List }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
@@ -10,13 +14,11 @@ const Check = () => {
         <LayerText> - 3층</LayerText>
       </TitleContainer>
       <MainContainer>
-        <TextBtn fullWidth>2-1</TextBtn>
-        <TextBtn fullWidth>2-2</TextBtn>
-        <TextBtn fullWidth>2-3</TextBtn>
-        <TextBtn fullWidth>2-4</TextBtn>
+        {classroom_List.map((item) => (
+          <TextBtn key={item.id}>{item.name}</TextBtn>
+        ))}
       </MainContainer>
     </Wrapper>
-    
   );
 };
 
@@ -47,13 +49,17 @@ const TitleText = styled.div`
   font-size: 20px;
 `;
 
-
 const MainContainer = styled.div``;
 
 const TextBtn = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: 52px;
   margin-bottom: 12px;
   border-radius: 12px;
+
   > div {
     font-size: 16px;
     font-weight: 500;
