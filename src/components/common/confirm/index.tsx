@@ -49,7 +49,7 @@ const ConfirmBox = ({ text, type }: Props) => {
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(33, 33, 33, 0.05);
+  background-color: rgba(33, 33, 33, 0.1);
   position: fixed;
   top: 0;
   left: 0;

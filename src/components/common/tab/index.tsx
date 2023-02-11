@@ -48,7 +48,11 @@ const Tab = () => {
 
       <TabWrapper backgroundState={backgroundState}>
         {tabInfo.map((info, idx) => (
-          <TabItem key={info.title} onClick={() => onClickTab(idx)}>
+          <TabItem
+            disabled={backgroundState}
+            key={info.title}
+            onClick={() => onClickTab(idx)}
+          >
             <Image
               width={14}
               height={14}
@@ -75,11 +79,19 @@ const TabWrapper = styled.div<{ backgroundState: boolean }>`
   justify-content: space-between;
 `;
 
-const TabItem = styled.div`
+const TabItem = styled.button`
+  outline: none;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  :disabled {
+    opacity: 0.5;
+    background-color: rgba(33, 33, 33, 0.001);
+  }
 `;
 
 const TabTitle = styled(Body3)<{ isState: boolean }>`

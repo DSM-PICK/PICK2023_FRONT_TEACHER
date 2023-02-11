@@ -3,7 +3,7 @@ import { useState } from "react";
 import { gradeNumArr, classNumArr, outingRequestList } from "./constants";
 import { dropDown } from "@/assets/outingAccept";
 import Image from "next/image";
-import { setConfirmState } from "@/store/confirmSlice";
+import { setConfirmState, setBackgroundColor } from "@/store/confirmSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import ConfirmBox from "../common/confirm";
@@ -68,6 +68,7 @@ const OutingAccept = () => {
   );
   const dispatch = useDispatch();
   const onClickAccept = () => {
+    dispatch(setBackgroundColor({ backgroundColor: true }));
     dispatch(setConfirmState({ setConfirmState: true }));
   };
 
