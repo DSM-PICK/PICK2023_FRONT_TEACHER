@@ -14,7 +14,7 @@ import type { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import OutingAccept from "../../outingAccept";
 import CheckPage from "@/pages/check";
-import OutList from "../../list";
+import OutingListPage from "@/pages/outingList";
 
 interface TabProps {
   [key: number]: ReactElement;
@@ -28,7 +28,7 @@ const Tab = () => {
   ];
   const tab: TabProps = {
     0: <CheckPage />,
-    1: <OutList />,
+    1: <OutingListPage />,
     2: <OutingAccept />,
   };
 

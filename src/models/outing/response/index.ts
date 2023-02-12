@@ -13,3 +13,7 @@ export interface OutingStudentListType {
   student_name: string;
   end_time: string;
 }
+
+export interface OutingStudentList {
+  outing: OutingApplyListType[];
+}

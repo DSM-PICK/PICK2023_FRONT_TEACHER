@@ -5,15 +5,10 @@ import ConfirmBox from "@/components/common/confirm";
 import { setBackgroundColor, setConfirmState } from "@/store/confirmSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { OutingStudentListType } from "@/models/outing/response";
 
-interface Props {
-  gcn: number;
-  studentName: string;
-  returnTime: string;
-}
-
-const StudentBlock = (props: Props) => {
-  const { gcn, returnTime, studentName } = props;
+const StudentBlock = (props: OutingStudentListType) => {
+  const { end_time, student_id, student_name, student_number } = props;
   const dispatch = useDispatch();
 
   const confirmState = useSelector(
@@ -28,14 +23,17 @@ const StudentBlock = (props: Props) => {
   return (
     <Wrapper>
       <TextContainer>
-        <p>{gcn + " " + studentName}</p>
-        <p>{returnTime} 도착 예정</p>
+        <p>{student_number + " " + student_name}</p>
+        <p>{end_time} 도착 예정</p>
       </TextContainer>
       <StyledButton size="sm" fill={"purple"} onClick={onClickReturn}>
         복귀
       </StyledButton>
       {confirmState && (
-        <ConfirmBox text={gcn + " " + studentName + "의"} type="list" />
+        <ConfirmBox
+          text={student_number + " " + student_name + "의"}
+          type="list"
+        />
       )}
     </Wrapper>
   );
@@ -61,7 +59,9 @@ const Wrapper = styled.div`
 `;
 
 const TextContainer = styled.div`
+  width: 206px;
   display: flex;
+  justify-content: space-between;
   gap: 16px;
 `;
 

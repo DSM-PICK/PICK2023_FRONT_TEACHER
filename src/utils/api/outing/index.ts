@@ -1,7 +1,7 @@
 import instance from "@/utils/axios";
 import {
   OutingApplyListType,
-  OutingStudentListType,
+  OutingStudentList,
 } from "../../../models/outing/response";
 import { GetOutingApplyListRequestType } from "@/models/outing/request";
 
@@ -15,7 +15,7 @@ export const getOutingApplyList = async (
 };
 
 export const getOutingStudentList = async () => {
-  const outingStudentList = await instance.get<OutingStudentListType>(
+  const outingStudentList = await instance.get<OutingStudentList>(
     `/applications`
   );
   return outingStudentList;
