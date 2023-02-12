@@ -23,7 +23,7 @@ const OutingAccept = () => {
   });
   const { gradeNum, classNum } = studentClass;
 
-  const isClick = outingSelectList.length > 0;
+  const isClick: boolean = outingSelectList.length > 0;
 
   const selectBoxArr = [
     { width: "74px", value: gradeNum, arr: gradeNumArr },
@@ -86,8 +86,8 @@ const OutingAccept = () => {
           ))}
         </Btns>
         <Btns>
-          <AcceptButton isClick={isClick}>거절</AcceptButton>
-          <RejectButton isClick={isClick}>수락</RejectButton>
+          <RejectButton disabled={!isClick}>거절</RejectButton>
+          <AcceptButton disabled={!isClick}>수락</AcceptButton>
         </Btns>
       </Header>
       <List>
@@ -134,7 +134,7 @@ const Btns = styled.div`
   gap: 8px;
 `;
 
-const AcceptButton = styled.button<{ isClick: boolean }>`
+const RejectButton = styled.button`
   width: 58px;
   height: 32px;
   border-radius: 12px;
@@ -142,11 +142,14 @@ const AcceptButton = styled.button<{ isClick: boolean }>`
   font-weight: 500;
   font-size: 14px;
   border: none;
-  background-color: ${({ theme, isClick }) =>
-    isClick ? theme.colors.red400 : theme.colors.red50};
+  background-color: ${({ theme }) => theme.colors.red400};
+
+  &[disabled] {
+    background-color: ${({ theme }) => theme.colors.red50};
+  }
 `;
 
-const RejectButton = styled.button<{ isClick: boolean }>`
+const AcceptButton = styled.button`
   width: 58px;
   height: 32px;
   border-radius: 12px;
@@ -154,8 +157,11 @@ const RejectButton = styled.button<{ isClick: boolean }>`
   font-weight: 500;
   font-size: 14px;
   border: none;
-  background-color: ${({ theme, isClick }) =>
-    isClick ? theme.colors.purple400 : theme.colors.purple50};
+  background-color: ${({ theme }) => theme.colors.purple400};
+
+  &[disabled] {
+    background-color: ${({ theme }) => theme.colors.purple50};
+  }
 `;
 
 const SelectBoxContainer = styled.div`
