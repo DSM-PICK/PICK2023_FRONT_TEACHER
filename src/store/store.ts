@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import backgroundSlice from "./confirmSlice";
+import AppSlice from "./createSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: backgroundSlice,
+    counter: AppSlice,
   },
 });
 

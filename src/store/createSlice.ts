@@ -3,16 +3,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface StateType {
   setConfirmState: boolean;
   backgroundColor: boolean;
+  setGradetate: number;
+  setClassState: number;
 }
 
-const name = "background";
+const name = "app";
 
 const initalState: StateType = {
   setConfirmState: false,
   backgroundColor: false,
+  setGradetate: 1,
+  setClassState: 1,
 };
 
-export const ChangedBackgroundSlice = createSlice({
+export const AppSlice = createSlice({
   name,
   initialState: { initalState },
   reducers: {
@@ -28,11 +32,27 @@ export const ChangedBackgroundSlice = createSlice({
     ) => {
       state.initalState.setConfirmState = action.payload.setConfirmState;
     },
+    setGradeNumber: (
+      state,
+      action: PayloadAction<{ setGradeState: number }>
+    ) => {
+      state.initalState.setGradetate = action.payload.setGradeState;
+    },
+    setClassNumber: (
+      state,
+      action: PayloadAction<{ setClassState: number }>
+    ) => {
+      state.initalState.setClassState = action.payload.setClassState;
+    },
   },
   extraReducers: {},
 });
 
-export const { setBackgroundColor, setConfirmState } =
-  ChangedBackgroundSlice.actions;
+export const {
+  setBackgroundColor,
+  setConfirmState,
+  setClassNumber,
+  setGradeNumber,
+} = AppSlice.actions;
 
-export default ChangedBackgroundSlice.reducer;
+export default AppSlice.reducer;

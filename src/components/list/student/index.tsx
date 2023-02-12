@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import ConfirmBox from "@/components/common/confirm";
-import { setBackgroundColor, setConfirmState } from "@/store/confirmSlice";
+import { setBackgroundColor, setConfirmState } from "@/store/createSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { OutingStudentListType } from "@/models/outing/response";

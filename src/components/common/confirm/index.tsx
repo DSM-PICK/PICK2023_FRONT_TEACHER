@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { setBackgroundColor, setConfirmState } from "@/store/confirmSlice";
+import { setBackgroundColor, setConfirmState } from "@/store/createSlice";
 import { useDispatch } from "react-redux";
 
 interface Props {
