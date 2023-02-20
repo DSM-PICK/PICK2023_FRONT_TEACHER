@@ -48,6 +48,7 @@ const Tab = () => {
               key={title}
               Icon={<Icon color={idx === activetab} />}
               isState={activetab === idx}
+              background={backgroundState}
               onClick={() => onClickTab(idx)}
               title={title}
             />
