@@ -7,6 +7,10 @@ export interface OutingApplyListType {
   reason: string;
 }
 
+export interface OutingApplyList {
+  outing: OutingApplyListType[];
+}
+
 export interface OutingStudentListType {
   student_id: string;
   student_number: number;
