@@ -31,6 +31,7 @@ const StudentBlock = (props: OutingStudentListType) => {
       </StyledButton>
       {confirmState && (
         <ConfirmBox
+          student_id={student_id}
           text={student_number + " " + student_name + "의"}
           type="list"
         />

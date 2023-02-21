@@ -15,7 +15,9 @@ const Check = ({ classroom_List }: Props) => {
       </TitleContainer>
       <MainContainer>
         {classroom_List.map((item) => (
-          <TextBtn key={item.id}>{item.name}</TextBtn>
+          <TextBtn key={item.id}>
+            {item.description ? item.name + `(${item.description})` : item.name}
+          </TextBtn>
         ))}
       </MainContainer>
     </Wrapper>

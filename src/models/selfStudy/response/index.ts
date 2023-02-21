@@ -7,6 +7,7 @@ export interface TodaySelfStudyTeacherDto {
 export interface ChargeClassDto {
   id: string;
   name: string;
+  description: string;
 }
 
 export interface GetClassList {

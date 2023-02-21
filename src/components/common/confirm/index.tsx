@@ -1,13 +1,16 @@
 import styled from "@emotion/styled";
 import { setBackgroundColor, setConfirmState } from "@/store/createSlice";
 import { useDispatch } from "react-redux";
+import { useMutation } from "react-query";
+import { patchOutingStudentState } from "@/utils/api/outing";
 
 interface Props {
   type: "list" | "accept";
   text: string;
+  student_id: string;
 }
 
-const ConfirmBox = ({ text, type }: Props) => {
+const ConfirmBox = ({ text, type, student_id }: Props) => {
   const dispatch = useDispatch();
 
   let finishText;
@@ -25,6 +28,15 @@ const ConfirmBox = ({ text, type }: Props) => {
     dispatch(setConfirmState({ setConfirmState: false }));
   };
 
+  const { mutate, isError, isSuccess } = useMutation(patchOutingStudentState);
+
+  const onClickAction = (type: string) => {
+    if (type === "list") {
+      mutate(student_id);
+    } else {
+    }
+  };
+
   return (
     <>
       <Background />
@@ -37,7 +49,7 @@ const ConfirmBox = ({ text, type }: Props) => {
           <GrayButton onClick={onClickNextTime}>
             <p>다음에 하기</p>
           </GrayButton>
-          <PurpleButton>
+          <PurpleButton onClick={() => onClickAction(type)}>
             <p>{btnText}</p>
           </PurpleButton>
         </ButtonContainer>
