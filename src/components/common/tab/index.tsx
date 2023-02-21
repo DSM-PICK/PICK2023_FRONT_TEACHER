@@ -33,7 +33,6 @@ const Tab = () => {
 
   const onClickTab = (idx: number) => {
     setActiveTab(idx);
-    console.log("1");
   };
 
   return (
