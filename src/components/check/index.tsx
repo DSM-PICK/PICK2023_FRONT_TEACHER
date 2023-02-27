@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
@@ -15,9 +16,16 @@ const Check = ({ classroom_List }: Props) => {
       </TitleContainer>
       <MainContainer>
         {classroom_List.map((item) => (
-          <TextBtn key={item.id}>
-            {item.description ? item.name + `(${item.description})` : item.name}
-          </TextBtn>
+          <Link
+            href={`/attendance/${item.id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <TextBtn key={item.name}>
+              {item.description
+                ? item.name + `(${item.description})`
+                : item.name}
+            </TextBtn>
+          </Link>
         ))}
       </MainContainer>
     </Wrapper>

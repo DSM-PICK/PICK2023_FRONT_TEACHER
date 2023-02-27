@@ -21,3 +21,7 @@ export interface AttendanceStatusListDto {
   type: string;
   classroom_name: string | null;
 }
+
+export interface AttendanceStatudList {
+  student: AttendanceStatusListDto[];
+}

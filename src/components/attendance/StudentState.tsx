@@ -1,18 +1,11 @@
+import { AttendanceStatusListDto } from "@/models/selfStudy/response";
 import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 
-interface StateProps {
-  data: {
-    number: string;
-    name: string;
-    state: string;
-    isMove?: string;
-  };
-}
-
-const studentState = (props: StateProps) => {
+const StudentState = (props: AttendanceStatusListDto) => {
   const Ref = useRef<HTMLDivElement>(null);
-  const { number, name, state, isMove } = props.data;
+  const { classroom_name, student_id, student_name, student_number, type } =
+    props;
 
   useEffect(() => {
     const { current } = Ref;
@@ -43,16 +36,16 @@ const studentState = (props: StateProps) => {
           current.style.color = "#ffffff";
         },
       };
-      return stateStyle[state];
+      return stateStyle[type];
     }
   });
   return (
     <Container>
       <p>
-        {number} {name}
+        {student_number} {student_name}
       </p>
-      <p>{isMove ? isMove : "-"}</p>
-      <StateBox ref={Ref}>{state}</StateBox>
+      <p>{classroom_name ? classroom_name : "-"}</p>
+      <StateBox ref={Ref}>{type}</StateBox>
     </Container>
   );
 };
@@ -75,4 +68,4 @@ const StateBox = styled.div`
   color: #5c5961;
 `;
 
-export default studentState;
+export default StudentState;
