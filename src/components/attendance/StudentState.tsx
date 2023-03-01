@@ -1,8 +1,13 @@
 import { AttendanceStatusListDto } from "@/models/selfStudy/response";
 import styled from "@emotion/styled";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+interface ObjType {
+  [index: string]: () => void;
+}
 
 const StudentState = (props: AttendanceStatusListDto) => {
+  const [name, setName] = useState<string>("");
   const Ref = useRef<HTMLDivElement>(null);
   const { classroom_name, student_id, student_name, student_number, type } =
     props;
@@ -10,42 +15,48 @@ const StudentState = (props: AttendanceStatusListDto) => {
   useEffect(() => {
     const { current } = Ref;
     if (current !== null) {
-      interface ObjType {
-        [index: string]: () => void;
-      }
       const stateStyle: ObjType = {
-        이동: () => {
+        MOVEMENT: () => {
           current.style.backgroundColor = "#9650fa";
           current.style.color = "#ffffff";
           current.style.border = "0";
+          setName("이동");
         },
-        외출: () => {
+        PICNIC: () => {
           current.style.backgroundColor = "#9650fa";
           current.style.color = "#ffffff";
           current.style.border = "0";
+          setName("외출");
         },
-        현체: () => {
+        FIELDTRIP: () => {
           current.style.backgroundColor = "#F0e6ff";
+          setName("현체");
         },
-        취업: () => {
+        EMPLOYMENT: () => {
           current.style.backgroundColor = "#F0e6ff";
+          setName("취업");
         },
-        무단: () => {
+        DISALLOWED: () => {
           current.style.backgroundColor = "#f04d51";
           current.style.border = "0";
           current.style.color = "#ffffff";
+          setName("무단");
+        },
+        ATTENDANCE: () => {
+          setName("출석");
         },
       };
       return stateStyle[type];
     }
-  });
+  }, []);
+
   return (
     <Container>
       <p>
         {student_number} {student_name}
       </p>
       <p>{classroom_name ? classroom_name : "-"}</p>
-      <StateBox ref={Ref}>{type}</StateBox>
+      <StateBox ref={Ref}>{name}</StateBox>
     </Container>
   );
 };

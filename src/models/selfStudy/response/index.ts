@@ -23,5 +23,5 @@ export interface AttendanceStatusListDto {
 }
 
 export interface AttendanceStatudList {
-  student: AttendanceStatusListDto[];
+  students: AttendanceStatusListDto[];
 }

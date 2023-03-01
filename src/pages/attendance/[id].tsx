@@ -8,7 +8,7 @@ import AttendanceDetail from "@/components/attendance";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
-  const [toggleValue, setToggleValue] = useState<string>("");
+  const [toggleValue, setToggleValue] = useState<string>("all");
 
   const toggle = [
     {
@@ -35,16 +35,17 @@ const AttendanceDetalis = () => {
 
   const router = useRouter();
   const { id } = router.query;
-  const { data: attendance } = useQuery("attendance", () =>
-    getAttendanceStatusList({ classRoom: id as string, type: toggleValue })
+  const { data: attendance } = useQuery(["attendance", toggleValue], () =>
+    getAttendanceStatusList({
+      classRoom: id as string,
+      type: toggleValue,
+    })
   );
-
-  console.log(attendance);
 
   return (
     <Wrapper>
       <ToggleButton items={toggle} containStyle={{ margin: "8px 0" }} />
-      <AttendanceDetail student={attendance?.data.student || []} />
+      <AttendanceDetail student={attendance?.data.students || []} />
     </Wrapper>
   );
 };
