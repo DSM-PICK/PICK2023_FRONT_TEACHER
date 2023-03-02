@@ -5,9 +5,7 @@ interface GetDateTypeDto {
   type: string;
 }
 
-export const getDateType = async (request: string) => {
-  const dateType = await instance.get<GetDateTypeDto>(
-    `/admin/?date=${request}`
-  );
+export const getDateType = async (date: string) => {
+  const dateType = await instance.get<GetDateTypeDto>(`/admin/?date=${date}`);
   return dateType;
 };
