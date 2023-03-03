@@ -1,16 +1,27 @@
 import styled from "@emotion/styled";
 import { setBackgroundColor, setConfirmState } from "@/store/createSlice";
 import { useDispatch } from "react-redux";
-import { useMutation } from "react-query";
-import { patchOutingStudentState } from "@/utils/api/outing";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  patchOutingStudentState,
+  patchOutingRejectAccept,
+} from "@/utils/api/outing";
 
 interface Props {
   type: "list" | "accept";
   text: string;
   student_id: string;
+  student_id_array: string[];
+  end_period: number;
 }
 
-const ConfirmBox = ({ text, type, student_id }: Props) => {
+const ConfirmBox = ({
+  text,
+  type,
+  student_id,
+  end_period,
+  student_id_array,
+}: Props) => {
   const dispatch = useDispatch();
 
   let finishText;
@@ -28,12 +39,34 @@ const ConfirmBox = ({ text, type, student_id }: Props) => {
     dispatch(setConfirmState({ setConfirmState: false }));
   };
 
-  const { mutate, isError, isSuccess } = useMutation(patchOutingStudentState);
+  const queryClient = useQueryClient();
+  const { mutate: patchOutingStudent } = useMutation(
+    () => patchOutingStudentState(student_id, end_period),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("outing");
+      },
+    }
+  );
+
+  const { mutate: patchOutingApplyList } = useMutation(
+    () => patchOutingRejectAccept("PICNIC", student_id_array),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("applyList");
+      },
+    }
+  );
 
   const onClickAction = (type: string) => {
     if (type === "list") {
-      mutate(student_id);
+      patchOutingStudent();
+      dispatch(setConfirmState({ setConfirmState: false }));
+      dispatch(setBackgroundColor({ backgroundColor: false }));
     } else {
+      patchOutingApplyList();
+      dispatch(setConfirmState({ setConfirmState: false }));
+      dispatch(setBackgroundColor({ backgroundColor: false }));
     }
   };
 

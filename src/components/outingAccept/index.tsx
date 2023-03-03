@@ -8,6 +8,8 @@ import ConfirmBox from "../common/confirm";
 import DropDown from "./DropDown";
 import { setClassNumber, setGradeNumber } from "@/store/createSlice";
 import { OutingApplyListType } from "@/models/outing/response/index";
+import { useMutation, useQueryClient } from "react-query";
+import { patchOutingRejectAccept } from "@/utils/api/outing";
 
 interface Props {
   outing: OutingApplyListType[];
@@ -17,18 +19,23 @@ const OutingAccept = ({ outing }: Props) => {
   const [classes, setClasses] = useState(classNumArr[0].value);
   const [grade, setGrade] = useState(gradeNumArr[0].value);
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
+  const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
 
-  const isClick = outingSelectList.length > 0;
+  let isClick = outingSelectList.length > 0;
 
-  const studentClick = (studentId: number) => {
-    const isIncludes = outingSelectList.includes(studentId);
+  const studentClick = (studentIdx: number, student_id: string) => {
+    const isIncludes = outingSelectList.includes(studentIdx);
 
     if (isIncludes) {
       setOutingSelectList(
-        outingSelectList.filter((id: number) => id !== studentId)
+        outingSelectList.filter((id: number) => id !== studentIdx)
+      );
+      setOutingStudentId(
+        outingStudentId.filter((id: string) => id !== student_id)
       );
     } else {
-      setOutingSelectList([...outingSelectList, studentId]);
+      setOutingSelectList([...outingSelectList, studentIdx]);
+      setOutingStudentId([...outingStudentId, student_id]);
     }
   };
 
@@ -54,6 +61,21 @@ const OutingAccept = ({ outing }: Props) => {
   const onClickAccept = () => {
     dispatch(setBackgroundColor({ backgroundColor: true }));
     dispatch(setConfirmState({ setConfirmState: true }));
+    setOutingSelectList([]);
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate: patchOutingApplyList } = useMutation(
+    () => patchOutingRejectAccept("PICNIC_REJECT", outingStudentId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("applyList");
+      },
+    }
+  );
+  const onClickReject = () => {
+    patchOutingApplyList();
+    setOutingSelectList([]);
   };
 
   return (
@@ -75,7 +97,9 @@ const OutingAccept = ({ outing }: Props) => {
           />
         </SelectBoxWrapper>
         <Btns>
-          <RejectButton disabled={!isClick}>거절</RejectButton>
+          <RejectButton disabled={!isClick} onClick={onClickReject}>
+            거절
+          </RejectButton>
           <AcceptButton disabled={!isClick} onClick={onClickAccept}>
             수락
           </AcceptButton>
@@ -83,30 +107,33 @@ const OutingAccept = ({ outing }: Props) => {
       </Header>
       <List>
         {outing.map((item, idx) => {
-          const {
-            end_time,
-            reason,
-            start_time,
-            student_id,
-            student_name,
-            student_number,
-          } = item;
+          const { reason, student_id, student_name, student_number } = item;
+          let start = item.start_time.slice(0, 5);
+          let end = item.end_time.slice(0, 5);
           return (
             <StudentBox
               key={student_id}
-              onClick={() => studentClick(idx)}
+              onClick={() => studentClick(idx, item.student_id)}
               isClick={outingSelectList.includes(idx)}
             >
               <Student>
-                <Name>{student_name}</Name>
-                <Time>{`${start_time} ~ ${end_time}`}</Time>
+                <Name>{student_number + " " + student_name}</Name>
+                <Time>{`${start} ~ ${end}`}</Time>
               </Student>
               <Reason isClick={outingSelectList.includes(idx)}>{reason}</Reason>
+              {confirmState && (
+                <ConfirmBox
+                  student_id_array={outingStudentId}
+                  end_period={0}
+                  student_id={student_id}
+                  text={"" + " " + +"의"}
+                  type="accept"
+                />
+              )}
             </StudentBox>
           );
         })}
       </List>
-      {confirmState && <ConfirmBox text={"" + " " + +"의"} type="accept" />}
     </Wrapper>
   );
 };
