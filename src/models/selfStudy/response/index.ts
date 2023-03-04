@@ -1,3 +1,9 @@
+export interface TodaySelfStudyTeacher {
+  date: string;
+  name: string;
+  floor: number[];
+}
+
 export interface TodaySelfStudyTeacherDto {
   second_floor: string;
   third_floor: string;

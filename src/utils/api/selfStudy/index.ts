@@ -3,11 +3,18 @@ import {
   GetClassList,
   TodaySelfStudyTeacherDto,
   AttendanceStatudList,
+  TodaySelfStudyTeacher,
 } from "@/models/selfStudy/response";
 import {
   GetAttendanceStatusRequestDto,
   AttandanceStatusChangeRequestDto,
 } from "@/models/selfStudy/request";
+
+export const getTodaySelfStudyTeacherWhether = async () => {
+  const todaySelfStudyTeacherWhether =
+    await instance.get<TodaySelfStudyTeacher>(`/admin/state`);
+  return todaySelfStudyTeacherWhether;
+};
 
 export const getTodaySelfStudyTeacher = async () => {
   const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherDto>(

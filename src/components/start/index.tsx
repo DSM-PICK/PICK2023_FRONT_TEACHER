@@ -3,11 +3,21 @@ import { Body1, Button } from "@semicolondsm/ui";
 import { useRouter } from "next/router";
 import { TodaySelfStudyTeacherDto } from "@/models/selfStudy/response";
 
+interface Props {
+  name: string;
+  floor: number[];
+  second_floor: string;
+  third_floor: string;
+  fourth_floor: string;
+}
+
 const Start = ({
+  floor,
+  name,
   fourth_floor,
   second_floor,
   third_floor,
-}: TodaySelfStudyTeacherDto) => {
+}: Props) => {
   const router = useRouter();
 
   const onClickStart = () => {
@@ -17,9 +27,9 @@ const Start = ({
   return (
     <Wrapper>
       <TitleContainer>
-        <TitleText>OOO선생님은</TitleText>
+        <TitleText>{name}선생님은</TitleText>
         <div>
-          <LayerText>0층</LayerText>
+          <LayerText>{floor}층</LayerText>
           <TitleText>자습감독입니다.</TitleText>
         </div>
       </TitleContainer>
