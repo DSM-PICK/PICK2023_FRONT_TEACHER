@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { classNumArr, gradeNumArr } from "./constants";
-import { setConfirmState, setBackgroundColor } from "@/store/createSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch } from "react-redux";
 import ConfirmBox from "../common/confirm";
 import DropDown from "./DropDown";
 import { setClassNumber, setGradeNumber } from "@/store/createSlice";
@@ -16,6 +14,7 @@ interface Props {
 }
 
 const OutingAccept = ({ outing }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [classes, setClasses] = useState(classNumArr[0].value);
   const [grade, setGrade] = useState(gradeNumArr[0].value);
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
@@ -39,10 +38,6 @@ const OutingAccept = ({ outing }: Props) => {
     }
   };
 
-  const confirmState = useSelector(
-    (state: RootState) => state.counter.initalState.setConfirmState
-  );
-
   const onChangeGrade = (sort: string) => {
     const sortValue = sort;
     const dispatchValue = Number(sortValue);
@@ -59,9 +54,7 @@ const OutingAccept = ({ outing }: Props) => {
 
   const dispatch = useDispatch();
   const onClickAccept = () => {
-    dispatch(setBackgroundColor({ backgroundColor: true }));
-    dispatch(setConfirmState({ setConfirmState: true }));
-    setOutingSelectList([]);
+    setIsOpen(true);
   };
 
   const queryClient = useQueryClient();
@@ -121,8 +114,9 @@ const OutingAccept = ({ outing }: Props) => {
                 <Time>{`${start} ~ ${end}`}</Time>
               </Student>
               <Reason isClick={outingSelectList.includes(idx)}>{reason}</Reason>
-              {confirmState && (
+              {isOpen && (
                 <ConfirmBox
+                  setOpenModal={setIsOpen}
                   student_id_array={outingStudentId}
                   end_period={0}
                   student_id={student_id}
@@ -200,41 +194,6 @@ const AcceptButton = styled.button`
   :disabled {
     background-color: ${({ theme }) => theme.colors.purple50};
   }
-`;
-
-const SelectBoxContainer = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-`;
-
-const SelectButton = styled.button<{ width: string }>`
-  width: ${(props) => props.width};
-  height: 32px;
-  background-color: ${({ theme }) => theme.colors.gray100};
-  border-radius: 16px;
-  border: none;
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SelectList = styled.div`
-  width: 120px;
-  background: white;
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  gap: 20px;
-  padding: 16px;
-  position: fixed;
-  top: 116px;
 `;
 
 const List = styled.div`

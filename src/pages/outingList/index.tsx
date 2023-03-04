@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { getOutingStudentList } from "@/utils/api/outing";
 
 const OutingListPage = () => {
-  const { data: outing } = useQuery("outing", () => getOutingStudentList());
+  const { data: outing } = useQuery(["outing"], () => getOutingStudentList());
 
   return <OutList outing={outing?.data.outing || []} />;
 };

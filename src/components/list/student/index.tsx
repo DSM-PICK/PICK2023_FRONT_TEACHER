@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import ConfirmBox from "@/components/common/confirm";
-import { setBackgroundColor, setConfirmState } from "@/store/createSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { OutingStudentListType } from "@/models/outing/response";
 
 const StudentBlock = (props: OutingStudentListType) => {
   const { end_time, student_id, student_name, student_number } = props;
-  const dispatch = useDispatch();
-
-  const confirmState = useSelector(
-    (state: RootState) => state.counter.initalState.setConfirmState
-  );
+  const [period, setPeriod] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onClickReturn = () => {
-    dispatch(setConfirmState({ setConfirmState: true }));
-    dispatch(setBackgroundColor({ backgroundColor: true }));
+    setIsOpen(true);
   };
+
+  let now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+
+  // 외출 시간 받은 후 몇교시에 복귀했는지 계산하는 로직
+  useEffect(() => {
+    if (hours >= 17 && minutes >= 20) {
+      setPeriod(9);
+    } else if (hours >= 19 && minutes >= 40) {
+      setPeriod(10);
+    } else {
+      setPeriod(8);
+    }
+  }, [isOpen]);
 
   return (
     <Wrapper>
@@ -29,10 +37,13 @@ const StudentBlock = (props: OutingStudentListType) => {
       <StyledButton size="sm" fill={"purple"} onClick={onClickReturn}>
         복귀
       </StyledButton>
-      {confirmState && (
+      {isOpen && (
         <ConfirmBox
+          setOpenModal={setIsOpen}
+          student_id_array={[]} // 외출 복귀 수락/거절 때 사용... 추후 리펙토링 예정
           student_id={student_id}
-          text={student_number + " " + student_name + "의"}
+          end_period={period}
+          text={student_number + " " + student_name + " " + "학생의"}
           type="list"
         />
       )}
