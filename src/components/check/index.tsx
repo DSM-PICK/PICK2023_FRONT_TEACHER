@@ -4,15 +4,16 @@ import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
 
 interface Props {
+  floor: string | [];
   classroom_List: ChargeClassDto[];
 }
 
-const Check = ({ classroom_List }: Props) => {
+const Check = ({ classroom_List, floor }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
         <TitleText>출석 확인 </TitleText>
-        <LayerText> - 3층</LayerText>
+        <LayerText> - {floor}층</LayerText>
       </TitleContainer>
       <MainContainer>
         {classroom_List.map((item) => (
@@ -35,8 +36,7 @@ const Check = ({ classroom_List }: Props) => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 16px 0 16px;
-  margin-top: 38px;
+  padding: 14px 16px 0 16px;
 `;
 
 const TitleContainer = styled.div`

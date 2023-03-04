@@ -11,6 +11,7 @@ export interface ChargeClassDto {
 }
 
 export interface GetClassList {
+  floor: string;
   classroom_list: ChargeClassDto[];
 }
 
