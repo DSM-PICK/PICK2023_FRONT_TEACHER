@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import { setBackgroundColor, setConfirmState } from "@/store/createSlice";
-import { useDispatch } from "react-redux";
 import { useMutation, useQueryClient } from "react-query";
 import {
   patchOutingStudentState,
@@ -12,6 +10,7 @@ interface Props {
   text: string;
   student_id: string;
   student_id_array: string[];
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   end_period: number;
 }
 
@@ -21,9 +20,8 @@ const ConfirmBox = ({
   student_id,
   end_period,
   student_id_array,
+  setOpenModal,
 }: Props) => {
-  const dispatch = useDispatch();
-
   let finishText;
   let btnText;
   if (type === "list") {
@@ -35,8 +33,7 @@ const ConfirmBox = ({
   }
 
   const onClickNextTime = () => {
-    dispatch(setBackgroundColor({ backgroundColor: false }));
-    dispatch(setConfirmState({ setConfirmState: false }));
+    setOpenModal(false);
   };
 
   const queryClient = useQueryClient();
@@ -61,18 +58,15 @@ const ConfirmBox = ({
   const onClickAction = (type: string) => {
     if (type === "list") {
       patchOutingStudent();
-      dispatch(setConfirmState({ setConfirmState: false }));
-      dispatch(setBackgroundColor({ backgroundColor: false }));
+      setOpenModal(false);
     } else {
       patchOutingApplyList();
-      dispatch(setConfirmState({ setConfirmState: false }));
-      dispatch(setBackgroundColor({ backgroundColor: false }));
+      setOpenModal(false);
     }
   };
 
   return (
-    <>
-      <Background />
+    <ModalWrapper>
       <Wrapper>
         <TextContainer>
           <p>{text}</p>
@@ -87,20 +81,21 @@ const ConfirmBox = ({
           </PurpleButton>
         </ButtonContainer>
       </Wrapper>
-    </>
+    </ModalWrapper>
   );
 };
 
-const Background = styled.div`
-  width: 100vw;
+const ModalWrapper = styled.div`
+  width: 100%;
   height: 100vh;
-  background-color: rgba(33, 33, 33, 0.1);
   position: fixed;
   top: 0;
   left: 0;
+  background-color: rgba(33, 33, 33, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 101 !important;
 `;
 
 const Wrapper = styled.div`

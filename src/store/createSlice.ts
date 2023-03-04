@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface StateType {
-  setConfirmState: boolean;
-  backgroundColor: boolean;
   setGradetate: number;
   setClassState: number;
 }
@@ -10,8 +8,6 @@ interface StateType {
 const name = "app";
 
 const initalState: StateType = {
-  setConfirmState: false,
-  backgroundColor: false,
   setGradetate: 1,
   setClassState: 1,
 };
@@ -20,18 +16,6 @@ export const AppSlice = createSlice({
   name,
   initialState: { initalState },
   reducers: {
-    setBackgroundColor: (
-      state,
-      action: PayloadAction<{ backgroundColor: boolean }>
-    ) => {
-      state.initalState.backgroundColor = action.payload.backgroundColor;
-    },
-    setConfirmState: (
-      state,
-      action: PayloadAction<{ setConfirmState: boolean }>
-    ) => {
-      state.initalState.setConfirmState = action.payload.setConfirmState;
-    },
     setGradeNumber: (
       state,
       action: PayloadAction<{ setGradeState: number }>
@@ -48,11 +32,6 @@ export const AppSlice = createSlice({
   extraReducers: {},
 });
 
-export const {
-  setBackgroundColor,
-  setConfirmState,
-  setClassNumber,
-  setGradeNumber,
-} = AppSlice.actions;
+export const { setClassNumber, setGradeNumber } = AppSlice.actions;
 
 export default AppSlice.reducer;
