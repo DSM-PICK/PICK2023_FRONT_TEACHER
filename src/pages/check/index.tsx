@@ -7,7 +7,12 @@ const CheckPage = () => {
     getChargeClass()
   );
 
-  return <Check classroom_List={classroom_List?.data.classroom_list || []} />;
+  return (
+    <Check
+      floor={classroom_List?.data.floor || []}
+      classroom_List={classroom_List?.data.classroom_list || []}
+    />
+  );
 };
 
 export default CheckPage;

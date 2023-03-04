@@ -5,12 +5,7 @@ import { Global } from "@emotion/react";
 import { globalStyles } from "../styles/globalStyles";
 import cookies from "next-cookies";
 import { setToken } from "@/utils/function/tokenManager";
-import {
-  DehydratedState,
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
+import { DehydratedState, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
@@ -52,7 +47,7 @@ export default function App({
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools />
           <SDSThemeProvider mode="light-only">
-            <Global styles={globalStyles} />ß
+            <Global styles={globalStyles} />
             <Component {...pageProps} />
           </SDSThemeProvider>
         </QueryClientProvider>

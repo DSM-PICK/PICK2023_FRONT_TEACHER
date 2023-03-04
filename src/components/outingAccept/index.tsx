@@ -126,7 +126,13 @@ const OutingAccept = ({ outing }: Props) => {
                   student_id_array={outingStudentId}
                   end_period={0}
                   student_id={student_id}
-                  text={"" + " " + +"의"}
+                  text={
+                    `${student_number}` +
+                    " " +
+                    `${student_name}` +
+                    " " +
+                    "학생의"
+                  }
                   type="accept"
                 />
               )}
@@ -141,7 +147,7 @@ const OutingAccept = ({ outing }: Props) => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 38px 16px 0 16px;
+  padding: 14px 16px 0 16px;
 `;
 
 const Title = styled.h1`
