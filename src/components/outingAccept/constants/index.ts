@@ -1,45 +1,27 @@
-export const gradeNumArr = [
-  { title: "1학년", name: "gradeNum" },
-  { title: "2학년", name: "gradeNum" },
-  { title: "3학년", name: "gradeNum" },
+export interface ISortOption {
+  option: string;
+  value: string;
+}
+
+export interface IDropdownProps {
+  width: number;
+  options: Array<ISortOption>;
+  value: string;
+  onChangeValue: (value: string) => void;
+}
+
+export const gradeNumArr: ISortOption[] = [
+  { option: "1학년", value: "1" },
+  { option: "2학년", value: "2" },
+  { option: "3학년", value: "3" },
 ];
 
-export const classNumArr = [
-  { title: "1반", name: "classNum" },
-  { title: "2반", name: "classNum" },
-  { title: "3반", name: "classNum" },
-  { title: "4반", name: "classNum" },
-];
-
-export const outingRequestList = [
+export const classNumArr: ISortOption[] = [
+  { option: "1반", value: "1" },
+  { option: "2반", value: "2" },
   {
-    name: "2101 강석현",
-    time: "16:30 ~ 18:30",
-    reason: "저 꼬리뼈 다쳐서 정형외과 다녀와야할 것 같아요 보내주세요 찡찡",
-    id: 1,
+    option: "3반",
+    value: "3",
   },
-  {
-    name: "2102 김경호",
-    time: "16:30 ~ 19:30",
-    reason: "저 안경이 부러졌어요",
-    id: 2,
-  },
-  {
-    name: "2106 김의찬",
-    time: "16:30 ~ 20:30",
-    reason: "이유가 없습니다.",
-    id: 3,
-  },
-  {
-    name: "2110 문정민",
-    time: "16:30 ~ 19:30",
-    reason: "이유가 없습니다.",
-    id: 4,
-  },
-  {
-    name: "2120 추혜연",
-    time: "16:30 ~ 20:00",
-    reason: "이유가 없습니다.",
-    id: 5,
-  },
+  { option: "4반", value: "4" },
 ];

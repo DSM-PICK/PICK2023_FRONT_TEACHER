@@ -1,4 +1,4 @@
-import Tab from "@/components/tab";
+import Tab from "@/components/common/tab";
 
 const TabPage = () => {
   return <Tab />;

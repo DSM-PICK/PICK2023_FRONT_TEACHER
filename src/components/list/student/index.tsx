@@ -1,30 +1,52 @@
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
+import ConfirmBox from "@/components/common/confirm";
+import { OutingStudentListType } from "@/models/outing/response";
 
-interface Props {
-  gcn: number;
-  studentName: string;
-  returnTime: string;
-}
+const StudentBlock = (props: OutingStudentListType) => {
+  const { end_time, student_id, student_name, student_number } = props;
+  const [period, setPeriod] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-const StudentBlock = (props: Props) => {
-  const { gcn, returnTime, studentName } = props;
-
-  const onClick = () => {
-    const res = confirm(
-      gcn + " " + studentName + " 학생의 외출이 끝나게 됩니다."
-    );
+  const onClickReturn = () => {
+    setIsOpen(true);
   };
+
+  let now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+
+  // 외출 시간 받은 후 몇교시에 복귀했는지 계산하는 로직
+  useEffect(() => {
+    if (hours >= 17 && minutes >= 20) {
+      setPeriod(9);
+    } else if (hours >= 19 && minutes >= 40) {
+      setPeriod(10);
+    } else {
+      setPeriod(8);
+    }
+  }, [isOpen]);
 
   return (
     <Wrapper>
       <TextContainer>
-        <p>{gcn + " " + studentName}</p>
-        <p>{returnTime} 도착 예정</p>
+        <p>{student_number + " " + student_name}</p>
+        <p>{end_time} 도착 예정</p>
       </TextContainer>
-      <StyledButton size="sm" fill={"purple"} onClick={onClick}>
+      <StyledButton size="sm" fill={"purple"} onClick={onClickReturn}>
         복귀
       </StyledButton>
+      {isOpen && (
+        <ConfirmBox
+          setOpenModal={setIsOpen}
+          student_id_array={[]} // 외출 복귀 수락/거절 때 사용... 추후 리펙토링 예정
+          student_id={student_id}
+          end_period={period}
+          text={student_number + " " + student_name + " " + "학생의"}
+          type="list"
+        />
+      )}
     </Wrapper>
   );
 };
@@ -49,7 +71,9 @@ const Wrapper = styled.div`
 `;
 
 const TextContainer = styled.div`
+  width: 206px;
   display: flex;
+  justify-content: space-between;
   gap: 16px;
 `;
 

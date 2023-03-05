@@ -5,8 +5,26 @@ import { Global } from "@emotion/react";
 import { globalStyles } from "../styles/globalStyles";
 import cookies from "next-cookies";
 import { setToken } from "@/utils/function/tokenManager";
+import { DehydratedState, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps<{ dehydratedState: DehydratedState }>) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 0,
+        staleTime: 1000,
+        refetchInterval: 0,
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
+
   return (
     <>
       <Head>
@@ -25,10 +43,15 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
       </Head>
-      <SDSThemeProvider mode="light-only">
-        <Global styles={globalStyles} />
-        <Component {...pageProps} />
-      </SDSThemeProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools />
+          <SDSThemeProvider mode="light-only">
+            <Global styles={globalStyles} />
+            <Component {...pageProps} />
+          </SDSThemeProvider>
+        </QueryClientProvider>
+      </Provider>
     </>
   );
 }

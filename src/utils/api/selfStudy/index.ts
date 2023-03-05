@@ -1,13 +1,20 @@
 import instance from "@/utils/axios";
 import {
-  ChargeClassDto,
+  GetClassList,
   TodaySelfStudyTeacherDto,
-  AttendanceStatusListDto,
+  AttendanceStatudList,
+  TodaySelfStudyTeacher,
 } from "@/models/selfStudy/response";
 import {
   GetAttendanceStatusRequestDto,
   AttandanceStatusChangeRequestDto,
 } from "@/models/selfStudy/request";
+
+export const getTodaySelfStudyTeacherWhether = async () => {
+  const todaySelfStudyTeacherWhether =
+    await instance.get<TodaySelfStudyTeacher>(`/admin/state`);
+  return todaySelfStudyTeacherWhether;
+};
 
 export const getTodaySelfStudyTeacher = async () => {
   const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherDto>(
@@ -17,14 +24,14 @@ export const getTodaySelfStudyTeacher = async () => {
 };
 
 export const getChargeClass = async () => {
-  const chargeClass = await instance.get<ChargeClassDto>(`/teachers/owner`);
+  const chargeClass = await instance.get<GetClassList>(`/teachers/responsible`);
   return chargeClass;
 };
 
 export const getAttendanceStatusList = async (
   request: GetAttendanceStatusRequestDto
 ) => {
-  const attendanceStatusList = await instance.get<AttendanceStatusListDto>(
+  const attendanceStatusList = await instance.get<AttendanceStatudList>(
     `/teachers/students/${request.classRoom}?type=${request.type}`
   );
   return attendanceStatusList;
@@ -33,5 +40,5 @@ export const getAttendanceStatusList = async (
 export const attandanceStatusChange = async (
   request: AttandanceStatusChangeRequestDto
 ) => {
-  await instance.patch(`/teachers/status/${request.classRoom}`, request.body);
+  await instance.post(`/teachers/status`, request);
 };

@@ -1,40 +1,44 @@
 import instance from "@/utils/axios";
 import {
-  OutingApplyListType,
-  OutingStudentListType,
+  OutingApplyList,
+  OutingStudentList,
 } from "../../../models/outing/response";
 import { GetOutingApplyListRequestType } from "@/models/outing/request";
 
-export const schoolComeback = async (studnentId: number) => {
-  await instance.patch(`/teachers/${studnentId}`);
-};
-
 export const getOutingApplyList = async (
-  request: GetOutingApplyListRequestType 
+  request: GetOutingApplyListRequestType
 ) => {
-  const outingRequestList = await instance.get<OutingApplyListType>(
-    `/teachers/?grade=${request.grade}&classNum=${request.classNum}`
+  const outingRequestList = await instance.get<OutingApplyList>(
+    `/teachers/?grade=${request.grade}&classNum=${request.classNum}&floor=&type=${request.type}`
   );
-  return outingRequestList;
+  return outingRequestList.data;
 };
 
 export const getOutingStudentList = async () => {
-  const outingStudentList = await instance.get<OutingStudentListType>(
+  const outingStudentList = await instance.get<OutingStudentList>(
     `/applications`
   );
   return outingStudentList;
 };
 
-export const outingReject = async (outingRequestStudentList: string[]) => {
-  await instance.delete(`/applications`, {
-    data: {
-      user_id_list: outingRequestStudentList,
-    },
+export const patchOutingStudentState = async (
+  student_id: string,
+  end_period: number
+) => {
+  const outingStudentState = await instance.patch("/teachers", {
+    student_id,
+    end_period,
   });
+  return outingStudentState;
 };
 
-export const outingAccept = async (outingRequestStudentList: string[]) => {
-  await instance.patch(`/applications`, {
-    user_id_list: outingRequestStudentList,
+export const patchOutingRejectAccept = async (
+  type: string,
+  user_id_list: string[]
+) => {
+  const outingRejectAccept = await instance.patch("/teachers/status", {
+    type,
+    user_id_list,
   });
+  return outingRejectAccept;
 };

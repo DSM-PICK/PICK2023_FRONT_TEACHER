@@ -1,111 +1,141 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { gradeNumArr, classNumArr, outingRequestList } from "./constants";
-import { dropDown } from "@/assets/outingAccept";
-import Image from "next/image";
+import { classNumArr, gradeNumArr } from "./constants";
+import { useDispatch } from "react-redux";
+import ConfirmBox from "../common/confirm";
+import DropDown from "./DropDown";
+import { setClassNumber, setGradeNumber } from "@/store/createSlice";
+import { OutingApplyListType } from "@/models/outing/response/index";
+import { useMutation, useQueryClient } from "react-query";
+import { patchOutingRejectAccept } from "@/utils/api/outing";
+import { useApiError } from "@/hooks/useApiError";
 
-interface StudentClass {
-  gradeNum: string;
-  classNum: string;
+interface Props {
+  outing: OutingApplyListType[];
 }
 
-interface InfoPropsType {
-  name: string;
-  title: string;
-}
-
-const OutingAccept = () => {
+const OutingAccept = ({ outing }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [classes, setClasses] = useState(classNumArr[0].value);
+  const [grade, setGrade] = useState(gradeNumArr[0].value);
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
-  const [isSelectBoxClick, setIsSelectBoxClick] = useState<number>(8);
-  const [studentClass, setStudentClass] = useState<StudentClass>({
-    gradeNum: "학년",
-    classNum: "반",
-  });
-  const { gradeNum, classNum } = studentClass;
+  const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
 
-  const isClick = outingSelectList.length > 0;
+  let isClick = outingSelectList.length > 0;
 
-  const selectBoxArr = [
-    { width: "74px", value: gradeNum, arr: gradeNumArr },
-    { width: "61px", value: classNum, arr: classNumArr },
-  ];
-
-  const onChange = (info: InfoPropsType) => {
-    const { title, name } = info;
-    setStudentClass({
-      ...studentClass,
-      [name]: title,
-    });
-    setIsSelectBoxClick(8);
-  };
-
-  const studentClick = (studentId: number) => {
-    const isIncludes = outingSelectList.includes(studentId);
+  const studentClick = (studentIdx: number, student_id: string) => {
+    const isIncludes = outingSelectList.includes(studentIdx);
 
     if (isIncludes) {
       setOutingSelectList(
-        outingSelectList.filter((id: number) => id !== studentId)
+        outingSelectList.filter((id: number) => id !== studentIdx)
+      );
+      setOutingStudentId(
+        outingStudentId.filter((id: string) => id !== student_id)
       );
     } else {
-      setOutingSelectList([...outingSelectList, studentId]);
+      setOutingSelectList([...outingSelectList, studentIdx]);
+      setOutingStudentId([...outingStudentId, student_id]);
     }
   };
 
-  const selectBoxClick = (idx: number) => {
-    if (isSelectBoxClick === idx) {
-      setIsSelectBoxClick(8);
-    } else {
-      setIsSelectBoxClick(idx);
+  const onChangeGrade = (sort: string) => {
+    const sortValue = sort;
+    const dispatchValue = Number(sortValue);
+    setGrade(sortValue);
+    dispatch(setGradeNumber({ setGradeState: dispatchValue }));
+  };
+
+  const onChangeClass = (sort: string) => {
+    const sortValue = sort;
+    const dispatchValue = Number(sortValue);
+    dispatch(setClassNumber({ setClassState: dispatchValue }));
+    setClasses(sortValue);
+  };
+
+  const dispatch = useDispatch();
+  const onClickAccept = () => {
+    setIsOpen(true);
+  };
+
+  const queryClient = useQueryClient();
+  const { handleError } = useApiError();
+  const { mutate: patchOutingApplyList } = useMutation(
+    () => patchOutingRejectAccept("PICNIC_REJECT", outingStudentId),
+    {
+      onError: handleError,
+      onSuccess: () => {
+        queryClient.invalidateQueries("applyList");
+      },
     }
+  );
+  const onClickReject = () => {
+    patchOutingApplyList();
+    setOutingSelectList([]);
   };
 
   return (
     <Wrapper>
       <Title>외출 신청 수락</Title>
       <Header>
+        <SelectBoxWrapper>
+          <DropDown
+            width={74}
+            value={grade}
+            onChangeValue={onChangeGrade}
+            options={gradeNumArr}
+          />
+          <DropDown
+            width={61}
+            value={classes}
+            onChangeValue={onChangeClass}
+            options={classNumArr}
+          />
+        </SelectBoxWrapper>
         <Btns>
-          {selectBoxArr.map((data, idx) => (
-            <SelectBoxContainer key={idx}>
-              <SelectButton
-                width={data.width}
-                onClick={() => selectBoxClick(idx)}
-              >
-                {data.value}
-                <Image width={8} height={4} src={dropDown} alt="" />
-              </SelectButton>
-              {isSelectBoxClick === idx && (
-                <SelectList>
-                  {data.arr.map((info, idx) => (
-                    <span key={idx} onClick={() => onChange(info)}>
-                      {info.title}
-                    </span>
-                  ))}
-                </SelectList>
-              )}
-            </SelectBoxContainer>
-          ))}
-        </Btns>
-        <Btns>
-          <AcceptButton isClick={isClick}>거절</AcceptButton>
-          <RejectButton isClick={isClick}>수락</RejectButton>
+          <RejectButton disabled={!isClick} onClick={onClickReject}>
+            거절
+          </RejectButton>
+          <AcceptButton disabled={!isClick} onClick={onClickAccept}>
+            수락
+          </AcceptButton>
         </Btns>
       </Header>
       <List>
-        {outingRequestList.map((student) => (
-          <StudentBox
-            key={student.name}
-            onClick={() => studentClick(student.id)}
-            isClick={outingSelectList.includes(student.id)}
-          >
-            <Student>
-              <Name>{student.name}</Name>
-              <Time>{student.time}</Time>
-            </Student>
-            <Reason isClick={outingSelectList.includes(student.id)}>
-              {student.reason}
-            </Reason>
-          </StudentBox>
-        ))}
+        {outing.map((item, idx) => {
+          const { reason, student_id, student_name, student_number } = item;
+          let start = item.start_time.slice(0, 5);
+          let end = item.end_time.slice(0, 5);
+          return (
+            <StudentBox
+              key={student_id}
+              onClick={() => studentClick(idx, item.student_id)}
+              isClick={outingSelectList.includes(idx)}
+            >
+              <Student>
+                <Name>{student_number + " " + student_name}</Name>
+                <Time>{`${start} ~ ${end}`}</Time>
+              </Student>
+              <Reason isClick={outingSelectList.includes(idx)}>{reason}</Reason>
+              {isOpen && (
+                <ConfirmBox
+                  setOpenModal={setIsOpen}
+                  student_id_array={outingStudentId}
+                  end_period={0}
+                  student_id={student_id}
+                  text={
+                    `${student_number}` +
+                    " " +
+                    `${student_name}` +
+                    " " +
+                    "학생의"
+                  }
+                  type="accept"
+                />
+              )}
+            </StudentBox>
+          );
+        })}
       </List>
     </Wrapper>
   );
@@ -114,7 +144,7 @@ const OutingAccept = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 38px 16px 0 16px;
+  padding: 14px 16px 0 16px;
 `;
 
 const Title = styled.h1`
@@ -129,12 +159,17 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 
+const SelectBoxWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
 const Btns = styled.div`
   display: flex;
   gap: 8px;
 `;
 
-const AcceptButton = styled.button<{ isClick: boolean }>`
+const RejectButton = styled.button`
   width: 58px;
   height: 32px;
   border-radius: 12px;
@@ -142,11 +177,14 @@ const AcceptButton = styled.button<{ isClick: boolean }>`
   font-weight: 500;
   font-size: 14px;
   border: none;
-  background-color: ${({ theme, isClick }) =>
-    isClick ? theme.colors.red400 : theme.colors.red50};
+  background-color: ${({ theme }) => theme.colors.red400};
+
+  :disabled {
+    background-color: ${({ theme }) => theme.colors.red50};
+  }
 `;
 
-const RejectButton = styled.button<{ isClick: boolean }>`
+const AcceptButton = styled.button`
   width: 58px;
   height: 32px;
   border-radius: 12px;
@@ -154,43 +192,11 @@ const RejectButton = styled.button<{ isClick: boolean }>`
   font-weight: 500;
   font-size: 14px;
   border: none;
-  background-color: ${({ theme, isClick }) =>
-    isClick ? theme.colors.purple400 : theme.colors.purple50};
-`;
+  background-color: ${({ theme }) => theme.colors.purple400};
 
-const SelectBoxContainer = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-`;
-
-const SelectButton = styled.button<{ width: string }>`
-  width: ${(props) => props.width};
-  height: 32px;
-  background-color: ${({ theme }) => theme.colors.gray100};
-  border-radius: 16px;
-  border: none;
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SelectList = styled.div`
-  width: 120px;
-  background: white;
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
-  box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  gap: 20px;
-  padding: 16px;
-  position: fixed;
-  top: 116px;
+  :disabled {
+    background-color: ${({ theme }) => theme.colors.purple50};
+  }
 `;
 
 const List = styled.div`

@@ -1,27 +1,30 @@
 import styled from "@emotion/styled";
 import StudentBlock from "./student";
+import { OutingStudentListType } from "@/models/outing/response";
 
-const OutList = () => {
+interface Props {
+  outing: OutingStudentListType[];
+}
+
+const OutList = ({ outing }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
         <TitleText>외출자 목록</TitleText>
       </TitleContainer>
       <StudentContainer>
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
-        <StudentBlock gcn={1234} returnTime="19:30" studentName="이경수" />
+        {outing?.map((item) => {
+          let EndTime = item.end_time.slice(1, 5);
+          return (
+            <StudentBlock
+              key={item.student_id}
+              student_id={item.student_id}
+              student_number={item.student_number}
+              student_name={item.student_name}
+              end_time={EndTime}
+            />
+          );
+        })}
       </StudentContainer>
     </Wrapper>
   );

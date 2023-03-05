@@ -9,6 +9,7 @@ export interface GetAttendanceStatusRequestDto {
 }
 
 export interface AttandanceStatusChangeRequestDto {
-  classRoom: string;
-  body: StudentStatusDto;
+  period: number;
+  user_id: string;
+  status: string;
 }

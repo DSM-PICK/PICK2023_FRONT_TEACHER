@@ -1,8 +1,23 @@
 import styled from "@emotion/styled";
 import { Body1, Button } from "@semicolondsm/ui";
 import { useRouter } from "next/router";
+import { TodaySelfStudyTeacherDto } from "@/models/selfStudy/response";
 
-const Start = () => {
+interface Props {
+  name: string;
+  floor: number[];
+  second_floor: string;
+  third_floor: string;
+  fourth_floor: string;
+}
+
+const Start = ({
+  floor,
+  name,
+  fourth_floor,
+  second_floor,
+  third_floor,
+}: Props) => {
   const router = useRouter();
 
   const onClickStart = () => {
@@ -12,18 +27,18 @@ const Start = () => {
   return (
     <Wrapper>
       <TitleContainer>
-        <TitleText>OOO선생님은</TitleText>
+        <TitleText>{name}선생님은</TitleText>
         <div>
-          <LayerText>0층</LayerText>
+          <LayerText>{floor}층</LayerText>
           <TitleText>자습감독입니다.</TitleText>
         </div>
       </TitleContainer>
       <MainWrapper>
         <MainTitle>오늘의 자습감독</MainTitle>
         <MainContainer>
-          <Body1 color="black">2층 OOO선생님</Body1>
-          <Body1 color="black">3층 OOO선생님</Body1>
-          <Body1 color="black">4층 OOO선생님</Body1>
+          <Body1 color="black">2층 {second_floor}선생님</Body1>
+          <Body1 color="black">3층 {third_floor}선생님</Body1>
+          <Body1 color="black">4층 {fourth_floor}선생님</Body1>
         </MainContainer>
       </MainWrapper>
       <ButtonContainer>

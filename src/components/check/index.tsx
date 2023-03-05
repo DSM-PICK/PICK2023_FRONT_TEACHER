@@ -1,30 +1,43 @@
+import Link from "next/link";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
+import { ChargeClassDto } from "@/models/selfStudy/response";
 
-const Check = () => {
+interface Props {
+  floor: string;
+  responsible_classroom_list: ChargeClassDto[];
+}
 
+const Check = ({ responsible_classroom_list, floor }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
         <TitleText>출석 확인 </TitleText>
-        <LayerText> - 3층</LayerText>
+        <LayerText> - {floor}층</LayerText>
       </TitleContainer>
       <MainContainer>
-        <TextBtn fullWidth>2-1</TextBtn>
-        <TextBtn fullWidth>2-2</TextBtn>
-        <TextBtn fullWidth>2-3</TextBtn>
-        <TextBtn fullWidth>2-4</TextBtn>
+        {responsible_classroom_list?.map((item) => (
+          <Link
+            key={item.name}
+            href={`/attendance/${item.id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <TextBtn key={item.name}>
+              {item.description
+                ? item.name + `(${item.description})`
+                : item.name}
+            </TextBtn>
+          </Link>
+        ))}
       </MainContainer>
     </Wrapper>
-    
   );
 };
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 16px 0 16px;
-  margin-top: 38px;
+  padding: 14px 16px 0 16px;
 `;
 
 const TitleContainer = styled.div`
@@ -47,13 +60,17 @@ const TitleText = styled.div`
   font-size: 20px;
 `;
 
-
 const MainContainer = styled.div``;
 
 const TextBtn = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: 52px;
   margin-bottom: 12px;
   border-radius: 12px;
+
   > div {
     font-size: 16px;
     font-weight: 500;

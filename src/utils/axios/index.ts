@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { setToken, getToken, removeToken } from "../function/tokenManager";
 
-const BASE_URL = process.env.PICK_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_PICK_BASE_URL;
 
 const instance = axios.create({
   baseURL: BASE_URL,
