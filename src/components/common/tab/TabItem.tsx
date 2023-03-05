@@ -17,12 +17,13 @@ const TabItem = ({ Icon, onClick, isState, title }: Props) => {
   );
 };
 
-const TabItemWrapper = styled.div`
+const TabItemWrapper = styled.button`
   border: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const TabTitle = styled(Body3)<{ isState: boolean }>`
