@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { getAttendanceStatusList } from "@/utils/api/selfStudy";
 import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
+import { cachedDataVersionTag } from "v8";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
@@ -35,16 +36,21 @@ const AttendanceDetalis = () => {
 
   const router = useRouter();
   const { id } = router.query;
-  const { data: attendance } = useQuery(["attendance", toggleValue], () =>
-    getAttendanceStatusList({
-      classRoom: id as string,
-      type: toggleValue,
-    })
+  const { data: attendance } = useQuery(
+    ["attendance", toggleValue],
+    () =>
+      getAttendanceStatusList({
+        classRoom: id as string,
+        type: toggleValue,
+      }),
+    {
+      cacheTime: 0,
+    }
   );
 
   return (
     <Wrapper>
-      <ToggleButton items={toggle} containStyle={{ margin: "8px 0" }} />
+      <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
       <AttendanceDetail student={attendance?.data.students || []} />
     </Wrapper>
   );
