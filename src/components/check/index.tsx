@@ -4,11 +4,11 @@ import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
 
 interface Props {
-  floor: string | [];
-  classroom_List: ChargeClassDto[];
+  floor: string;
+  responsible_classroom_list: ChargeClassDto[];
 }
 
-const Check = ({ classroom_List, floor }: Props) => {
+const Check = ({ responsible_classroom_list, floor }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
@@ -16,8 +16,9 @@ const Check = ({ classroom_List, floor }: Props) => {
         <LayerText> - {floor}층</LayerText>
       </TitleContainer>
       <MainContainer>
-        {classroom_List.map((item) => (
+        {responsible_classroom_list?.map((item) => (
           <Link
+            key={item.name}
             href={`/attendance/${item.id}`}
             style={{ textDecoration: "none" }}
           >
