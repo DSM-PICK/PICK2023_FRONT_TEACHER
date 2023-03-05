@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { getAttendanceStatusList } from "@/utils/api/selfStudy";
 import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
-import { cachedDataVersionTag } from "v8";
+import { useApiError } from "@/hooks/useApiError";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
@@ -36,6 +36,8 @@ const AttendanceDetalis = () => {
 
   const router = useRouter();
   const { id } = router.query;
+  const { handleError } = useApiError();
+
   const { data: attendance } = useQuery(
     ["attendance", toggleValue],
     () =>
@@ -44,6 +46,7 @@ const AttendanceDetalis = () => {
         type: toggleValue,
       }),
     {
+      onError: handleError,
       cacheTime: 0,
     }
   );

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { attandanceStatusChange } from "@/utils/api/selfStudy/index";
+import { useApiError } from "@/hooks/useApiError";
 
 interface ObjType {
   [index: string]: () => void;
@@ -78,7 +79,9 @@ const StudentState = (props: AttendanceStatusListDto) => {
   }, [type, Ref]);
 
   const queryClient = useQueryClient();
+  const { handleError } = useApiError();
   const { mutate } = useMutation(attandanceStatusChange, {
+    onError: handleError,
     onSettled: () => {
       queryClient.invalidateQueries("attendance");
     },

@@ -1,10 +1,17 @@
 import Check from "@/components/check";
 import { useQuery } from "react-query";
 import { getChargeClass } from "@/utils/api/selfStudy";
+import { useApiError } from "@/hooks/useApiError";
 
 const CheckPage = () => {
-  const { data: responsible_classroom_list } = useQuery("classList", () =>
-    getChargeClass()
+  const { handleError } = useApiError();
+
+  const { data: responsible_classroom_list } = useQuery(
+    "classList",
+    () => getChargeClass(),
+    {
+      onError: handleError,
+    }
   );
 
   return (

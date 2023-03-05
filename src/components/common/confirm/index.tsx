@@ -4,6 +4,7 @@ import {
   patchOutingStudentState,
   patchOutingRejectAccept,
 } from "@/utils/api/outing";
+import { useApiError } from "@/hooks/useApiError";
 
 interface Props {
   type: "list" | "accept";
@@ -37,9 +38,11 @@ const ConfirmBox = ({
   };
 
   const queryClient = useQueryClient();
+  const { handleError } = useApiError();
   const { mutate: patchOutingStudent } = useMutation(
     () => patchOutingStudentState(student_id, end_period),
     {
+      onError: handleError,
       onSuccess: () => {
         queryClient.invalidateQueries("outing");
       },
@@ -49,6 +52,7 @@ const ConfirmBox = ({
   const { mutate: patchOutingApplyList } = useMutation(
     () => patchOutingRejectAccept("PICNIC", student_id_array),
     {
+      onError: handleError,
       onSuccess: () => {
         queryClient.invalidateQueries("applyList");
       },

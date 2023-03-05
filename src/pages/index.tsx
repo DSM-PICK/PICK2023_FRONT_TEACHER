@@ -4,11 +4,19 @@ import {
   getTodaySelfStudyTeacher,
   getTodaySelfStudyTeacherWhether,
 } from "@/utils/api/selfStudy";
+import { useApiError } from "@/hooks/useApiError";
 
 export default function Home() {
-  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher());
-  const { data: state } = useQuery("state", () =>
-    getTodaySelfStudyTeacherWhether()
+  const { handleError } = useApiError();
+  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher(), {
+    onError: handleError,
+  });
+  const { data: state } = useQuery(
+    "state",
+    () => getTodaySelfStudyTeacherWhether(),
+    {
+      onError: handleError,
+    }
   );
 
   return (

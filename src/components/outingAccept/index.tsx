@@ -8,6 +8,7 @@ import { setClassNumber, setGradeNumber } from "@/store/createSlice";
 import { OutingApplyListType } from "@/models/outing/response/index";
 import { useMutation, useQueryClient } from "react-query";
 import { patchOutingRejectAccept } from "@/utils/api/outing";
+import { useApiError } from "@/hooks/useApiError";
 
 interface Props {
   outing: OutingApplyListType[];
@@ -58,9 +59,11 @@ const OutingAccept = ({ outing }: Props) => {
   };
 
   const queryClient = useQueryClient();
+  const { handleError } = useApiError();
   const { mutate: patchOutingApplyList } = useMutation(
     () => patchOutingRejectAccept("PICNIC_REJECT", outingStudentId),
     {
+      onError: handleError,
       onSuccess: () => {
         queryClient.invalidateQueries("applyList");
       },
