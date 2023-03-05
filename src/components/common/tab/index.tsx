@@ -1,15 +1,13 @@
 import { ReactElement, useState } from "react";
 import styled from "@emotion/styled";
 import { attendance, check, list } from "@/assets/tab";
-import type { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
 import CheckPage from "@/pages/check";
 import OutingListPage from "@/pages/outingList";
 import OutingApplyListPage from "@/pages/outingApplyList";
 import TabItem from "./TabItem";
 
 interface TabProps {
-  [key: number]: ReactElement;
+  [key: string]: ReactElement;
 }
 
 const Tab = () => {
@@ -27,10 +25,6 @@ const Tab = () => {
     2: <OutingApplyListPage />,
   };
 
-  const backgroundState = useSelector(
-    (state: RootState) => state.counter.initalState.backgroundColor
-  );
-
   const onClickTab = (idx: number) => {
     setActiveTab(idx);
   };
@@ -39,7 +33,7 @@ const Tab = () => {
     <>
       {tab[activetab]}
 
-      <TabWrapper backgroundState={backgroundState}>
+      <TabWrapper>
         {tabInfo.map((info, idx) => {
           const { Icon, title } = info;
           return (
@@ -47,7 +41,6 @@ const Tab = () => {
               key={title}
               Icon={<Icon color={idx === activetab} />}
               isState={activetab === idx}
-              background={backgroundState}
               onClick={() => onClickTab(idx)}
               title={title}
             />
@@ -58,14 +51,12 @@ const Tab = () => {
   );
 };
 
-const TabWrapper = styled.div<{ backgroundState: boolean }>`
+const TabWrapper = styled.div`
   z-index: 2;
   position: fixed;
   bottom: 0;
   width: 100%;
   padding: 7px 31.5px;
-  background-color: ${({ theme, backgroundState }) =>
-    backgroundState ? "rgba(33, 33, 33, 0)" : theme.colors.white};
   display: flex;
   justify-content: space-between;
 `;

@@ -5,23 +5,20 @@ interface Props {
   Icon: JSX.Element;
   title: string;
   isState: boolean;
-  background: boolean;
   onClick: () => void;
 }
 
-const TabItem = ({ Icon, onClick, isState, title, background }: Props) => {
+const TabItem = ({ Icon, onClick, isState, title }: Props) => {
   return (
-    <TabItemWrapper background={background} onClick={() => onClick()}>
+    <TabItemWrapper onClick={() => onClick()}>
       {Icon}
       <TabTitle isState={isState}>{title}</TabTitle>
     </TabItemWrapper>
   );
 };
 
-const TabItemWrapper = styled.div<{ background: boolean }>`
+const TabItemWrapper = styled.div`
   border: none;
-  background-color: ${({ theme, background }) =>
-    background ? "rgba(33, 33, 33, 0)" : theme.colors.white};
   display: flex;
   flex-direction: column;
   justify-content: center;
