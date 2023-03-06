@@ -13,15 +13,22 @@ const StudentBlock = (props: OutingStudentListType) => {
     setIsOpen(true);
   };
 
-  let now = new Date();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-
   // 외출 시간 받은 후 몇교시에 복귀했는지 계산하는 로직
   useEffect(() => {
-    if (hours >= 17 && minutes >= 20) {
+    setPeriod(0);
+    const date = new Date();
+    const month = date.getMonth().toString();
+    const day = date.getDay().toString();
+    const year = date.getFullYear().toString();
+    const today = year + "/" + month.padStart(2, "0");
+    +"/" + day.padStart(2, "0");
+    const dateA = new Date(today + " 17:30:00");
+    const diffMSec = date.getTime() - dateA.getTime();
+    const diffMin = diffMSec * (1 / (60 * 1000));
+
+    if (diffMin <= 130) {
       setPeriod(9);
-    } else if (hours >= 19 && minutes >= 40) {
+    } else if (diffMin > 130) {
       setPeriod(10);
     } else {
       setPeriod(8);
