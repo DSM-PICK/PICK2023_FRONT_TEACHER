@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { toast } from "react-hot-toast";
 
 type HandlersType = {
   [status: number | string]: any;
@@ -6,26 +7,26 @@ type HandlersType = {
 
 export const useApiError = (handlers?: HandlersType) => {
   const handle400 = () => {
-    alert("잘못된 요청입니다.");
+    toast.error("잘못된 요청입니다.", { duration: 1000 });
   };
   const handle401 = () => {
-    alert("다시 로그인해주세요.");
+    toast.error("다시 로그인해주세요.", { duration: 1000 });
   };
 
   const handle403 = () => {
-    alert("권한이 없습니다.");
+    toast.error("권한이 없습니다.", { duration: 1000 });
   };
 
   const handle404 = () => {
-    alert("값을 다시 확인해주세요.");
+    toast.error("값을 다시 확인해주세요.", { duration: 1000 });
   };
 
   const handle500 = () => {
-    alert("서버 및 동아리에 문의해주세요.");
+    toast.error("서버 및 동아리에 문의해주세요.", { duration: 1000 });
   };
 
   const handleDefault = () => {
-    alert("네트워크 상태를 확인해주세요.");
+    toast.error("네트워크 상태를 확인해주세요.", { duration: 1000 });
   };
 
   // 기본적으로 처리될 수 있는 에러 핸들러

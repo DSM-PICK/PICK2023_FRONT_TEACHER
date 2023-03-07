@@ -5,10 +5,16 @@ import { Global } from "@emotion/react";
 import { globalStyles } from "../styles/globalStyles";
 import cookies from "next-cookies";
 import { setToken } from "@/utils/function/tokenManager";
-import { DehydratedState, QueryClient, QueryClientProvider } from "react-query";
+import {
+  DehydratedState,
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+} from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import dynamic from "next/dynamic";
 
 export default function App({
   Component,
@@ -24,6 +30,13 @@ export default function App({
       },
     },
   });
+
+  const Toaster = dynamic(
+    () => import("react-hot-toast").then((c) => c.Toaster),
+    {
+      ssr: false,
+    }
+  );
 
   return (
     <>
@@ -45,11 +58,14 @@ export default function App({
       </Head>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools />
-          <SDSThemeProvider mode="light-only">
-            <Global styles={globalStyles} />
-            <Component {...pageProps} />
-          </SDSThemeProvider>
+          <Hydrate state={pageProps?.dehydratedState}>
+            <ReactQueryDevtools />
+            <Toaster />
+            <SDSThemeProvider mode="light-only">
+              <Global styles={globalStyles} />
+              <Component {...pageProps} />
+            </SDSThemeProvider>
+          </Hydrate>
         </QueryClientProvider>
       </Provider>
     </>
