@@ -9,6 +9,7 @@ import { OutingApplyListType } from "@/models/outing/response/index";
 import { useMutation, useQueryClient } from "react-query";
 import { patchOutingRejectAccept } from "@/utils/api/outing";
 import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 interface Props {
   outing: OutingApplyListType[];
@@ -65,6 +66,7 @@ const OutingAccept = ({ outing }: Props) => {
     {
       onError: handleError,
       onSuccess: () => {
+        toast.success("외출신청이 거절되었습니다.", { duration: 1000 });
         queryClient.invalidateQueries("applyList");
       },
     }

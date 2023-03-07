@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { attandanceStatusChange } from "@/utils/api/selfStudy/index";
 import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 interface ObjType {
   [index: string]: () => void;
@@ -93,6 +94,9 @@ const StudentState = (props: AttendanceStatusListDto) => {
     onSettled: () => {
       queryClient.invalidateQueries("attendance");
     },
+    onSuccess: () => {
+      toast.success("상태가 변경되었습니다.", { duration: 1000 });
+    },
   });
 
   const onClickPatchStudentState = async () => {
@@ -102,12 +106,14 @@ const StudentState = (props: AttendanceStatusListDto) => {
         period: period,
         status: "DISALLOWED",
       });
-    } else {
+    } else if (type === "DISALLOWED") {
       mutate({
         user_id: student_id,
         period: period,
         status: "ATTENDANCE",
       });
+    } else {
+      toast.error("출석 및 무단을 제외한 상태는 변경 할 수 없습니다.");
     }
   };
 

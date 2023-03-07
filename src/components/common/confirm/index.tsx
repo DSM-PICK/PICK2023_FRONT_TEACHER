@@ -5,6 +5,7 @@ import {
   patchOutingRejectAccept,
 } from "@/utils/api/outing";
 import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 interface Props {
   type: "list" | "accept";
@@ -39,11 +40,13 @@ const ConfirmBox = ({
 
   const queryClient = useQueryClient();
   const { handleError } = useApiError();
+
   const { mutate: patchOutingStudent } = useMutation(
     () => patchOutingStudentState(student_id, end_period),
     {
       onError: handleError,
       onSuccess: () => {
+        toast.success("외출 복귀가 되었습니다.", { duration: 1000 });
         queryClient.invalidateQueries("outing");
       },
     }
@@ -54,6 +57,7 @@ const ConfirmBox = ({
     {
       onError: handleError,
       onSuccess: () => {
+        toast.success("외출을 허가합니다.", { duration: 1000 });
         queryClient.invalidateQueries("applyList");
       },
     }
