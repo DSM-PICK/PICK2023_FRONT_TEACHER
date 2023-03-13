@@ -54,6 +54,7 @@ const Tab = () => {
 const TabWrapper = styled.div`
   z-index: 2;
   position: fixed;
+  background-color: ${({ theme }) => theme.colors.white};
   bottom: 0;
   width: 100%;
   padding: 7px 31.5px;

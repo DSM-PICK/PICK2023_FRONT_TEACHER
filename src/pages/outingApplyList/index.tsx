@@ -4,7 +4,7 @@ import { getOutingApplyList } from "@/utils/api/outing";
 import { getDateType } from "@/utils/api/common";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { toDayData } from "@/utils/function/toDayDate";
+import { todayDate } from "@/utils/function/toDayDate";
 import { useApiError } from "@/hooks/useApiError";
 
 const OutingApplyListPage = () => {
@@ -19,7 +19,7 @@ const OutingApplyListPage = () => {
 
   const { data: todayType } = useQuery(
     "todayType",
-    () => getDateType(toDayData),
+    () => getDateType(todayDate()),
     {
       onError: handleError,
     }

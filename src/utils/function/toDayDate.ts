@@ -1,14 +1,8 @@
-let today = new Date();
-let year = today.getFullYear(); // 년도
-let month = today.getMonth() + 1; // 월
-let date = today.getDate(); // 날짜
+export const todayDate = () => {
+  let now = new Date();
+  let year = now.getFullYear();
+  let month = ("0" + (now.getMonth() + 1)).slice(-2);
+  let date = ("0" + now.getDate()).slice(-2);
 
-let data = "";
-
-if (month < 10 || date < 10) {
-  data = year + "-" + "0" + month + "-" + "0" + date;
-} else {
-  data = year + "-" + month + "-" + date;
-}
-
-export let toDayData = data;
+  return `${year}-${month}-${date}`;
+};
