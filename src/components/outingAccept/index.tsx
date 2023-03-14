@@ -126,11 +126,18 @@ const OutingAccept = ({ outing }: Props) => {
                   end_period={0}
                   student_id={student_id}
                   text={
-                    `${student_number}` +
-                    " " +
-                    `${student_name}` +
-                    " " +
-                    "학생의"
+                    outingStudentId.length > 1
+                      ? `${student_number}` +
+                        " " +
+                        `${student_name}` +
+                        " " +
+                        "학생 외" +
+                        `${outingStudentId.length - 1}명의`
+                      : `${student_number}` +
+                        " " +
+                        `${student_name}` +
+                        " " +
+                        "학생의"
                   }
                   type="accept"
                 />
