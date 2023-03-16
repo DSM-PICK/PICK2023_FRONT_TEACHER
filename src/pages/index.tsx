@@ -1,33 +1,121 @@
-import Start from "@/components/start";
-import { useQuery } from "react-query";
-import {
-  getTodaySelfStudyTeacher,
-  getTodaySelfStudyTeacherWhether,
-} from "@/utils/api/selfStudy";
-import { useApiError } from "@/hooks/useApiError";
+import styled from "@emotion/styled";
+import background from "../assets/login/background.png";
+import logo from "../assets/login/logo.png";
+import Input from "@/components/common/input";
+import { Button } from "@semicolondsm/ui";
+import Image from "next/image";
+import { useState, useLayoutEffect } from "react";
+import { NextPage } from "next";
 
-export default function Home() {
-  const { handleError } = useApiError();
-  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher(), {
-    onError: handleError,
+import cookies from "react-cookies";
+import { userLogin } from "@/utils/api/login";
+
+const Home: NextPage = () => {
+  useLayoutEffect(() => {
+    const sideBar = document.getElementById("sidebar");
+    const spacer = document.getElementById("space");
+    sideBar && (sideBar.style.display = "none");
+    spacer && (spacer.style.display = "none");
+    return () => {
+      sideBar && (sideBar.style.display = "block");
+      spacer && (spacer.style.display = "block");
+    };
+  }, []);
+
+  const { mutate: loginMutate, isLoading } = userLogin();
+
+  const [loginData, setLoginData] = useState({
+    account_id: "",
+    password: "",
   });
-  const { data: state } = useQuery(
-    "state",
-    () => getTodaySelfStudyTeacherWhether(),
-    {
-      onError: handleError,
-    }
-  );
+
+  const onClickLogin = () => {
+    cookies.remove("accessToken");
+    cookies.remove("refreshToken");
+    loginMutate(loginData);
+    setLoginData({ account_id: "", password: "" });
+  };
 
   return (
-    <>
-      <Start
-        name={state?.data.name!}
-        floor={state?.data.floor || []}
-        fourth_floor={data?.data.fourth_floor!}
-        second_floor={data?.data.second_floor!}
-        third_floor={data?.data.third_floor!}
-      />
-    </>
+    <LoginContainer>
+      <LoginWrapper
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <Image src={logo} width={50} height={50} alt="logo" />
+        <InputContainer>
+          <Input
+            placeholder="아이디를 입력하세요"
+            name="account_id"
+            value={loginData.account_id}
+            onChange={(e) =>
+              setLoginData((state) => ({
+                ...state,
+                [e.target.name]: e.target.value,
+              }))
+            }
+          />
+          <Input
+            placeholder="비밀번호를 입력하세요"
+            name="password"
+            value={loginData.password}
+            onChange={(e) =>
+              setLoginData((state) => ({
+                ...state,
+                [e.target.name]: e.target.value,
+              }))
+            }
+          />
+          <LoginButton
+            loading={isLoading}
+            fullWidth
+            fill="purple"
+            onClick={onClickLogin}
+          >
+            로그인
+          </LoginButton>
+        </InputContainer>
+      </LoginWrapper>
+    </LoginContainer>
   );
-}
+};
+
+const InputWrapper = styled.div`
+  border: 1px solid black;
+  width: 100%;
+`;
+
+const LoginContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  background-image: url(${background.src});
+  background-size: cover;
+`;
+
+const LoginWrapper = styled.form`
+  width: 100%;
+  height: 100%;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+`;
+
+const LoginButton = styled(Button)`
+  border-radius: 12px;
+  margin-top: 30px;
+`;
+
+export default Home;

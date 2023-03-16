@@ -12,19 +12,19 @@ import {
 
 export const getTodaySelfStudyTeacherWhether = async () => {
   const todaySelfStudyTeacherWhether =
-    await instance.get<TodaySelfStudyTeacher>(`/admin/state`);
+    await instance.get<TodaySelfStudyTeacher>(`/pick/admin/state`);
   return todaySelfStudyTeacherWhether;
 };
 
 export const getTodaySelfStudyTeacher = async () => {
   const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherDto>(
-    `/self-study/today`
+    `/pick/self-study/today`
   );
   return todaySelfStudyTeacher;
 };
 
 export const getChargeClass = async () => {
-  const chargeClass = await instance.get<GetClassList>(`/teachers/responsible`);
+  const chargeClass = await instance.get<GetClassList>(`/pick/teachers/responsible`);
   return chargeClass;
 };
 
@@ -32,7 +32,7 @@ export const getAttendanceStatusList = async (
   request: GetAttendanceStatusRequestDto
 ) => {
   const attendanceStatusList = await instance.get<AttendanceStatudList>(
-    `/teachers/students/${request.classRoom}?type=${request.type}`
+    `/pick/teachers/students/${request.classRoom}?type=${request.type}`
   );
   return attendanceStatusList;
 };
@@ -40,5 +40,5 @@ export const getAttendanceStatusList = async (
 export const attandanceStatusChange = async (
   request: AttandanceStatusChangeRequestDto
 ) => {
-  await instance.post(`/teachers/status`, request);
+  await instance.post(`/pick/teachers/status`, request);
 };
