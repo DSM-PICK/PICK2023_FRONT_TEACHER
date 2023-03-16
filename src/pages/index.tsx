@@ -3,7 +3,6 @@ import background from "../assets/login/background.png";
 import logo from "../assets/login/logo.png";
 import Input from "@/components/common/input";
 import { Button } from "@semicolondsm/ui";
-import Image from "next/image";
 import { useState, useLayoutEffect } from "react";
 import { NextPage } from "next";
 
@@ -43,8 +42,8 @@ const Home: NextPage = () => {
           e.preventDefault();
         }}
       >
-        <Image src={logo} width={50} height={50} alt="logo" />
         <InputContainer>
+          <p>로그인</p>
           <Input
             placeholder="아이디를 입력하세요"
             name="account_id"
@@ -67,15 +66,15 @@ const Home: NextPage = () => {
               }))
             }
           />
-          <LoginButton
-            loading={isLoading}
-            fullWidth
-            fill="purple"
-            onClick={onClickLogin}
-          >
-            로그인
-          </LoginButton>
         </InputContainer>
+        <LoginButton
+          loading={isLoading}
+          fullWidth
+          fill="purple"
+          onClick={onClickLogin}
+        >
+          로그인
+        </LoginButton>
       </LoginWrapper>
     </LoginContainer>
   );
@@ -111,6 +110,11 @@ const InputContainer = styled.div`
   flex-direction: column;
   gap: 16px;
   width: 100%;
+
+  > p {
+    font-size: 24px;
+    margin-bottom: 75px;
+  }
 `;
 
 const LoginButton = styled(Button)`
