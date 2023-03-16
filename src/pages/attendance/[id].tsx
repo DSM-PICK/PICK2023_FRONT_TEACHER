@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
 import { useApiError } from "@/hooks/useApiError";
 
+import Image from "next/image";
+import arrow from "@/assets/arrow.png";
+
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
   const [toggleValue, setToggleValue] = useState<string>("all");
@@ -53,6 +56,10 @@ const AttendanceDetalis = () => {
 
   return (
     <Wrapper>
+      <Head>
+        <Image src={arrow} alt="<-" />
+        <p>본부교무실</p>
+      </Head>
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
       <AttendanceDetail student={attendance?.data.students || []} />
     </Wrapper>
@@ -61,6 +68,18 @@ const AttendanceDetalis = () => {
 
 const Wrapper = styled.div`
   margin: 0 24px;
+`;
+
+const Head = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  > p {
+    font-size: 16px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.gray800};
+  }
 `;
 
 export default AttendanceDetalis;
