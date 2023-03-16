@@ -54,7 +54,6 @@ const AttendanceDetalis = () => {
         type: toggleValue,
       }),
     {
-      onError: handleError,
       cacheTime: 0,
     }
   );
