@@ -6,9 +6,10 @@ import { getAttendanceStatusList } from "@/utils/api/selfStudy";
 import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
 import { useApiError } from "@/hooks/useApiError";
-
 import Image from "next/image";
 import arrow from "@/assets/arrow.png";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
@@ -38,8 +39,12 @@ const AttendanceDetalis = () => {
   }, [changeTap]);
 
   const router = useRouter();
-  const { id } = router.query;
+  const { id, name, description } = router.query;
   const { handleError } = useApiError();
+
+  const onClickArrow = () => {
+    router.push("/tab");
+  };
 
   const { data: attendance } = useQuery(
     ["attendance", toggleValue],
@@ -57,8 +62,10 @@ const AttendanceDetalis = () => {
   return (
     <Wrapper>
       <Head>
-        <Image src={arrow} alt="<-" />
-        <p>본부교무실</p>
+        <div onClick={onClickArrow}>
+          <Image src={arrow} alt="<-" />
+        </div>
+        <p>{description ? `${name} + (${description})` : name}</p>
       </Head>
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
       <AttendanceDetail student={attendance?.data.students || []} />
@@ -72,9 +79,16 @@ const Wrapper = styled.div`
 
 const Head = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin-top: 20px;
-
+  position: relative;
+  > div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
   > p {
     font-size: 16px;
     font-weight: 500;

@@ -2,6 +2,8 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
+import { useDispatch } from "react-redux";
+import { setClassDescription, setClassName } from "@/store/createSlice";
 
 interface Props {
   floor: string;
@@ -9,6 +11,8 @@ interface Props {
 }
 
 const Check = ({ responsible_classroom_list, floor }: Props) => {
+  const dispatch = useDispatch();
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -16,19 +20,23 @@ const Check = ({ responsible_classroom_list, floor }: Props) => {
         <LayerText> - {floor}층</LayerText>
       </TitleContainer>
       <MainContainer>
-        {responsible_classroom_list?.map((item) => (
-          <Link
-            key={item.name}
-            href={`/attendance/${item.id}`}
-            style={{ textDecoration: "none" }}
-          >
-            <TextBtn key={item.name}>
-              {item.description
-                ? item.name + `(${item.description})`
-                : item.name}
-            </TextBtn>
-          </Link>
-        ))}
+        {responsible_classroom_list?.map((item) => {
+          return (
+            <Link
+              key={item.name}
+              href={`/attendance/${item.id}?name=${
+                item.name + item.description
+              }`}
+              style={{ textDecoration: "none" }}
+            >
+              <TextBtn key={item.name}>
+                {item.description
+                  ? item.name + `(${item.description})`
+                  : item.name}
+              </TextBtn>
+            </Link>
+          );
+        })}
       </MainContainer>
     </Wrapper>
   );
