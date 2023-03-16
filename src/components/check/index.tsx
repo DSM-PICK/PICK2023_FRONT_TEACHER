@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
 import { useDispatch } from "react-redux";
-import { setClassDescription, setClassName } from "@/store/createSlice";
 
 interface Props {
   floor: string;
