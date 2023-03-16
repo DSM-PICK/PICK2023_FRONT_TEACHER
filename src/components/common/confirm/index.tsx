@@ -46,7 +46,7 @@ const ConfirmBox = ({
     {
       onError: handleError,
       onSuccess: () => {
-        toast.success("외출 복귀가 되었습니다.", { duration: 1000 });
+        toast.success("외출 복귀가 완료 되었습니다.", { duration: 1000 });
         queryClient.invalidateQueries("outing");
       },
     }
