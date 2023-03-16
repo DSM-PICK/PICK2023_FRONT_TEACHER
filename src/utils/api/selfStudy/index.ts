@@ -5,10 +5,7 @@ import {
   AttendanceStatudList,
   TodaySelfStudyTeacher,
 } from "@/models/selfStudy/response";
-import {
-  GetAttendanceStatusRequestDto,
-  AttandanceStatusChangeRequestDto,
-} from "@/models/selfStudy/request";
+import { AttandanceStatusChangeRequestDto } from "@/models/selfStudy/request";
 
 export const getTodaySelfStudyTeacherWhether = async () => {
   const todaySelfStudyTeacherWhether =
@@ -24,15 +21,15 @@ export const getTodaySelfStudyTeacher = async () => {
 };
 
 export const getChargeClass = async () => {
-  const chargeClass = await instance.get<GetClassList>(`/pick/teachers/responsible`);
+  const chargeClass = await instance.get<GetClassList>(
+    `/pick/teachers/responsible`
+  );
   return chargeClass;
 };
 
-export const getAttendanceStatusList = async (
-  request: GetAttendanceStatusRequestDto
-) => {
+export const getAttendanceStatusList = async (classRoom: string) => {
   const attendanceStatusList = await instance.get<AttendanceStatudList>(
-    `/pick/teachers/students/${request.classRoom}?type=${request.type}`
+    `/pick/teachers/students/${classRoom}`
   );
   return attendanceStatusList;
 };
@@ -41,4 +38,8 @@ export const attandanceStatusChange = async (
   request: AttandanceStatusChangeRequestDto
 ) => {
   await instance.post(`/pick/teachers/status`, request);
+};
+
+export const movementStudentListGet = async (classroom_id: string) => {
+  await instance.get(`/pick/teachers/${classroom_id}`);
 };

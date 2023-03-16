@@ -2,14 +2,14 @@ import { ToggleButton } from "@semicolondsm/ui";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getAttendanceStatusList } from "@/utils/api/selfStudy";
+import {
+  getAttendanceStatusList,
+  movementStudentListGet,
+} from "@/utils/api/selfStudy";
 import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
-import { useApiError } from "@/hooks/useApiError";
 import Image from "next/image";
 import arrow from "@/assets/arrow.png";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
@@ -40,7 +40,6 @@ const AttendanceDetalis = () => {
 
   const router = useRouter();
   const { id, name, description } = router.query;
-  const { handleError } = useApiError();
 
   const onClickArrow = () => {
     router.push("/tab");
@@ -48,11 +47,7 @@ const AttendanceDetalis = () => {
 
   const { data: attendance } = useQuery(
     ["attendance", toggleValue],
-    () =>
-      getAttendanceStatusList({
-        classRoom: id as string,
-        type: toggleValue,
-      }),
+    () => getAttendanceStatusList(id as string),
     {
       cacheTime: 0,
     }

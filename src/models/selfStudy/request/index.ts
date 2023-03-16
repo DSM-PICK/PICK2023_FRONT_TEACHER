@@ -3,11 +3,6 @@ export interface StudentStatusDto {
   type: string;
 }
 
-export interface GetAttendanceStatusRequestDto {
-  classRoom: string;
-  type: string;
-}
-
 export interface AttandanceStatusChangeRequestDto {
   period: number;
   user_id: string;
