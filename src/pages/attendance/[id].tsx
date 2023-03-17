@@ -74,13 +74,10 @@ const AttendanceDetalis = () => {
         <p>{description ? `${name} + (${description})` : name}</p>
       </Head>
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
-      {/* <AttendanceDetail student={toggleValue==="all" allAttendance?.data.students :  moveAttendance?.data.students} /> */}
       <AttendanceDetail
-        student={
-          (toggleValue === "all"
-            ? allAttendance?.data.students
-            : moveAttendance?.data.students) || []
-        }
+        type={toggleValue}
+        student={allAttendance?.data.students || []}
+        move={moveAttendance?.data.movement_student_list || []}
       />
     </Wrapper>
   );

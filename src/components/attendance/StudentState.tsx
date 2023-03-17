@@ -70,6 +70,9 @@ const StudentState = (props: AttendanceStatusListDto) => {
         ATTENDANCE: () => {
           setName("출석");
         },
+        AWAIT: () => {
+          setName("대기");
+        },
       };
 
       const selectedStateStyle = stateStyle[type];

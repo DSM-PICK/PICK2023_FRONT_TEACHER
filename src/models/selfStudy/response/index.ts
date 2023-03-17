@@ -29,6 +29,10 @@ export interface AttendanceStatusListDto {
   classroom_name: string | null;
 }
 
-export interface AttendanceStatudList {
+export interface MovementStatusList {
+  movement_student_list: AttendanceStatusListDto[];
+}
+
+export interface AttendanceStatusList {
   students: AttendanceStatusListDto[];
 }
