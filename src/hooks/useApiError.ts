@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { removeToken } from "@/utils/function/tokenManager";
+import { removeToken, refreshToken } from "@/utils/function/tokenManager";
 
 type HandlersType = {
   [status: number | string]: any;
@@ -12,10 +12,8 @@ export const useApiError = (handlers?: HandlersType) => {
     toast.error("잘못된 요청입니다.", { duration: 1000 });
   };
   const handle401 = () => {
-    const router = useRouter();
     toast.error("다시 로그인해주세요.", { duration: 1000 });
-    router.push("/");
-    removeToken();
+    refreshToken();
   };
 
   const handle403 = () => {

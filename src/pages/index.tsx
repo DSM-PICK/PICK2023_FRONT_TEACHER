@@ -1,26 +1,13 @@
 import styled from "@emotion/styled";
 import background from "../assets/login/background.png";
-import logo from "../assets/login/logo.png";
 import Input from "@/components/common/input";
 import { Button } from "@semicolondsm/ui";
-import { useState, useLayoutEffect } from "react";
+import { useState } from "react";
 import { NextPage } from "next";
-
 import cookies from "react-cookies";
 import { userLogin } from "@/utils/api/login";
 
 const Home: NextPage = () => {
-  useLayoutEffect(() => {
-    const sideBar = document.getElementById("sidebar");
-    const spacer = document.getElementById("space");
-    sideBar && (sideBar.style.display = "none");
-    spacer && (spacer.style.display = "none");
-    return () => {
-      sideBar && (sideBar.style.display = "block");
-      spacer && (spacer.style.display = "block");
-    };
-  }, []);
-
   const { mutate: loginMutate, isLoading } = userLogin();
 
   const [loginData, setLoginData] = useState({
