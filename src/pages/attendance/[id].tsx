@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
 import Image from "next/image";
 import arrow from "@/assets/arrow.png";
+import { useApiError } from "@/hooks/useApiError";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
@@ -44,11 +45,22 @@ const AttendanceDetalis = () => {
   const onClickArrow = () => {
     router.push("/tab");
   };
+  const { handleError } = useApiError();
 
-  const { data: attendance } = useQuery(
+  const { data: allAttendance } = useQuery(
     ["attendance", toggleValue],
     () => getAttendanceStatusList(id as string),
     {
+      onError: handleError,
+      cacheTime: 0,
+    }
+  );
+
+  const { data: moveAttendance } = useQuery(
+    ["moveAttendance", toggleValue],
+    () => movementStudentListGet(id as string),
+    {
+      onError: handleError,
       cacheTime: 0,
     }
   );
@@ -62,7 +74,11 @@ const AttendanceDetalis = () => {
         <p>{description ? `${name} + (${description})` : name}</p>
       </Head>
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
-      <AttendanceDetail student={attendance?.data.students || []} />
+      <AttendanceDetail
+        type={toggleValue}
+        student={allAttendance?.data.students || []}
+        move={moveAttendance?.data.movement_student_list || []}
+      />
     </Wrapper>
   );
 };

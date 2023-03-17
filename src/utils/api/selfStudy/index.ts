@@ -2,8 +2,9 @@ import instance from "@/utils/axios";
 import {
   GetClassList,
   TodaySelfStudyTeacherDto,
-  AttendanceStatudList,
+  AttendanceStatusList,
   TodaySelfStudyTeacher,
+  MovementStatusList,
 } from "@/models/selfStudy/response";
 import { AttandanceStatusChangeRequestDto } from "@/models/selfStudy/request";
 
@@ -28,7 +29,7 @@ export const getChargeClass = async () => {
 };
 
 export const getAttendanceStatusList = async (classRoom: string) => {
-  const attendanceStatusList = await instance.get<AttendanceStatudList>(
+  const attendanceStatusList = await instance.get<AttendanceStatusList>(
     `/pick/teachers/students/${classRoom}`
   );
   return attendanceStatusList;
@@ -41,5 +42,8 @@ export const attandanceStatusChange = async (
 };
 
 export const movementStudentListGet = async (classroom_id: string) => {
-  await instance.get(`/pick/teachers/${classroom_id}`);
+  const movementStatus = await instance.get<MovementStatusList>(
+    `/pick/teachers/${classroom_id}`
+  );
+  return movementStatus;
 };
