@@ -5,9 +5,11 @@ import { getDateType } from "@/utils/api/common";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { todayDate } from "@/utils/function/toDayDate";
-import { useApiError } from "@/hooks/useApiError";
+import { useState } from "react";
 
 const OutingApplyListPage = () => {
+  const [arrayState, setArrayState] = useState<boolean>(false);
+
   const gradeNum = useSelector(
     (state: RootState) => state.counter.initalState.setGradetate
   );
@@ -15,14 +17,8 @@ const OutingApplyListPage = () => {
     (state: RootState) => state.counter.initalState.setClassState
   );
 
-  const { handleError } = useApiError();
-
-  const { data: todayType } = useQuery(
-    "todayType",
-    () => getDateType(todayDate()),
-    {
-      onError: handleError,
-    }
+  const { data: todayType } = useQuery("todayType", () =>
+    getDateType(todayDate())
   );
 
   const { data: outingApply } = useQuery(
@@ -34,11 +30,21 @@ const OutingApplyListPage = () => {
         type: (todayType?.data.type as string) || "SELF_STUDY",
       }),
     {
-      onError: handleError,
+      onSuccess: () => {
+        if (Array.isArray(outingApply) && outingApply.length === 0) {
+          setArrayState(true);
+        }
+        setArrayState(false);
+      },
+      onError: () => {
+        setArrayState(false);
+      },
     }
   );
 
-  return <OutingAccept outing={outingApply?.outing || []} />;
+  return (
+    <OutingAccept arrayState={arrayState} outing={outingApply?.outing || []} />
+  );
 };
 
 export default OutingApplyListPage;

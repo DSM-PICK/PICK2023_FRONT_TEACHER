@@ -8,19 +8,20 @@ type HandlersType = {
 };
 
 export const useApiError = (handlers?: HandlersType) => {
+  const router = useRouter();
+
   const handle400 = () => {
     toast.error("잘못된 요청입니다.", { duration: 1000 });
+    refreshToken();
   };
   const handle401 = () => {
     toast.error("다시 로그인해주세요.", { duration: 1000 });
-    refreshToken();
+    removeToken();
+    router.push("/");
   };
 
   const handle403 = () => {
-    const router = useRouter();
     toast.error("권한이 없습니다.", { duration: 1000 });
-    router.push("/");
-    removeToken();
   };
 
   const handle404 = () => {
@@ -29,6 +30,7 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handle500 = () => {
     toast.error("서버 관리자 및 동아리에 문의해주세요.", { duration: 1000 });
+    router.push("/");
   };
 
   const handleDefault = () => {

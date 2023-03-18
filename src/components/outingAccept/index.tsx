@@ -12,10 +12,11 @@ import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
 
 interface Props {
+  arrayState: boolean;
   outing: OutingApplyListType[];
 }
 
-const OutingAccept = ({ outing }: Props) => {
+const OutingAccept = ({ outing, arrayState }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [classes, setClasses] = useState(classNumArr[0].value);
   const [grade, setGrade] = useState(gradeNumArr[0].value);
@@ -104,47 +105,55 @@ const OutingAccept = ({ outing }: Props) => {
         </Btns>
       </Header>
       <List>
-        {outing.map((item, idx) => {
-          const { reason, student_id, student_name, student_number } = item;
-          let start = item.start_time.slice(0, 5);
-          let end = item.end_time.slice(0, 5);
-          return (
-            <StudentBox
-              key={student_id}
-              onClick={() => studentClick(idx, item.student_id)}
-              isClick={outingSelectList.includes(idx)}
-            >
-              <Student>
-                <Name>{student_number + " " + student_name}</Name>
-                <Time>{`${start} ~ ${end}`}</Time>
-              </Student>
-              <Reason isClick={outingSelectList.includes(idx)}>{reason}</Reason>
-              {isOpen && (
-                <ConfirmBox
-                  setOpenModal={setIsOpen}
-                  student_id_array={outingStudentId}
-                  end_period={0}
-                  student_id={student_id}
-                  text={
-                    outingStudentId.length > 1
-                      ? `${student_number}` +
-                        " " +
-                        `${student_name}` +
-                        " " +
-                        "학생 외" +
-                        `${outingStudentId.length - 1}명의`
-                      : `${student_number}` +
-                        " " +
-                        `${student_name}` +
-                        " " +
-                        "학생의"
-                  }
-                  type="accept"
-                />
-              )}
-            </StudentBox>
-          );
-        })}
+        {arrayState ? (
+          outing.map((item, idx) => {
+            const { reason, student_id, student_name, student_number } = item;
+            let start = item.start_time.slice(0, 5);
+            let end = item.end_time.slice(0, 5);
+            return (
+              <StudentBox
+                key={student_id}
+                onClick={() => studentClick(idx, item.student_id)}
+                isClick={outingSelectList.includes(idx)}
+              >
+                <Student>
+                  <Name>{student_number + " " + student_name}</Name>
+                  <Time>{`${start} ~ ${end}`}</Time>
+                </Student>
+                <Reason isClick={outingSelectList.includes(idx)}>
+                  {reason}
+                </Reason>
+                {isOpen && (
+                  <ConfirmBox
+                    setOpenModal={setIsOpen}
+                    student_id_array={outingStudentId}
+                    end_period={0}
+                    student_id={student_id}
+                    text={
+                      outingStudentId.length > 1
+                        ? `${student_number}` +
+                          " " +
+                          `${student_name}` +
+                          " " +
+                          "학생 외" +
+                          `${outingStudentId.length - 1}명의`
+                        : `${student_number}` +
+                          " " +
+                          `${student_name}` +
+                          " " +
+                          "학생의"
+                    }
+                    type="accept"
+                  />
+                )}
+              </StudentBox>
+            );
+          })
+        ) : (
+          <NoDataContainer>
+            <p>외출 신청한 학생이 없습니다</p>
+          </NoDataContainer>
+        )}
       </List>
     </Wrapper>
   );
@@ -262,6 +271,19 @@ const Reason = styled.p<{ isClick: boolean }>`
   overflow-y: scroll;
   padding-bottom: ${({ isClick }) => (isClick ? "16px" : 0)};
   transition: padding-bottom 0.3s;
+`;
+
+const NoDataContainer = styled.div`
+  display: flex;
+  margin-top: 170px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  > p {
+    font-size: 18px;
+    color: ${({ theme }) => theme.colors.gray500};
+  }
 `;
 
 export default OutingAccept;

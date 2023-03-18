@@ -4,15 +4,17 @@ import StudentState from "./StudentState";
 
 interface Props {
   type: string;
+  arrayState: boolean;
   student: AttendanceStatusListDto[];
   move: AttendanceStatusListDto[];
 }
 
-const AttendanceDetail = ({ student, move, type }: Props) => {
+const AttendanceDetail = ({ arrayState, student, move, type }: Props) => {
   return (
     <StList>
-      {type === "all"
-        ? student.map((data) => {
+      {type === "all" ? (
+        arrayState ? (
+          student.map((data) => {
             return (
               <StudentState
                 key={data.student_id}
@@ -24,18 +26,29 @@ const AttendanceDetail = ({ student, move, type }: Props) => {
               />
             );
           })
-        : move.map((data) => {
-            return (
-              <StudentState
-                key={data.student_id}
-                classroom_name={data.classroom_name}
-                student_id={data.student_id}
-                student_name={data.student_name}
-                student_number={data.student_number}
-                type={data.type}
-              />
-            );
-          })}
+        ) : (
+          <NoDataContainer>
+            <p>학생이 없습니다</p>
+          </NoDataContainer>
+        )
+      ) : arrayState ? (
+        move.map((data) => {
+          return (
+            <StudentState
+              key={data.student_id}
+              classroom_name={data.classroom_name}
+              student_id={data.student_id}
+              student_name={data.student_name}
+              student_number={data.student_number}
+              type={data.type}
+            />
+          );
+        })
+      ) : (
+        <NoDataContainer>
+          <p>이동한 학생이 없습니다</p>
+        </NoDataContainer>
+      )}
     </StList>
   );
 };
@@ -45,6 +58,19 @@ const StList = styled.main`
   flex-direction: column;
   gap: 12px;
   margin-top: 25px;
+`;
+
+const NoDataContainer = styled.div`
+  display: flex;
+  margin-top: 170px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  > p {
+    font-size: 18px;
+    color: ${({ theme }) => theme.colors.gray500};
+  }
 `;
 
 export default AttendanceDetail;
