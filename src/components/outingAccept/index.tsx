@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { patchOutingRejectAccept } from "@/utils/api/outing";
 import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
+import NoData from "../common/nodata";
 
 interface Props {
   outing: OutingApplyListType[];
@@ -104,47 +105,53 @@ const OutingAccept = ({ outing }: Props) => {
         </Btns>
       </Header>
       <List>
-        {outing.map((item, idx) => {
-          const { reason, student_id, student_name, student_number } = item;
-          let start = item.start_time.slice(0, 5);
-          let end = item.end_time.slice(0, 5);
-          return (
-            <StudentBox
-              key={student_id}
-              onClick={() => studentClick(idx, item.student_id)}
-              isClick={outingSelectList.includes(idx)}
-            >
-              <Student>
-                <Name>{student_number + " " + student_name}</Name>
-                <Time>{`${start} ~ ${end}`}</Time>
-              </Student>
-              <Reason isClick={outingSelectList.includes(idx)}>{reason}</Reason>
-              {isOpen && (
-                <ConfirmBox
-                  setOpenModal={setIsOpen}
-                  student_id_array={outingStudentId}
-                  end_period={0}
-                  student_id={student_id}
-                  text={
-                    outingStudentId.length > 1
-                      ? `${student_number}` +
-                        " " +
-                        `${student_name}` +
-                        " " +
-                        "학생 외" +
-                        `${outingStudentId.length - 1}명의`
-                      : `${student_number}` +
-                        " " +
-                        `${student_name}` +
-                        " " +
-                        "학생의"
-                  }
-                  type="accept"
-                />
-              )}
-            </StudentBox>
-          );
-        })}
+        {outing.length ? (
+          outing.map((item, idx) => {
+            const { reason, student_id, student_name, student_number } = item;
+            let start = item.start_time.slice(0, 5);
+            let end = item.end_time.slice(0, 5);
+            return (
+              <StudentBox
+                key={student_id}
+                onClick={() => studentClick(idx, item.student_id)}
+                isClick={outingSelectList.includes(idx)}
+              >
+                <Student>
+                  <Name>{student_number + " " + student_name}</Name>
+                  <Time>{`${start} ~ ${end}`}</Time>
+                </Student>
+                <Reason isClick={outingSelectList.includes(idx)}>
+                  {reason}
+                </Reason>
+                {isOpen && (
+                  <ConfirmBox
+                    setOpenModal={setIsOpen}
+                    student_id_array={outingStudentId}
+                    end_period={0}
+                    student_id={student_id}
+                    text={
+                      outingStudentId.length > 1
+                        ? `${student_number}` +
+                          " " +
+                          `${student_name}` +
+                          " " +
+                          "학생 외" +
+                          `${outingStudentId.length - 1}명의`
+                        : `${student_number}` +
+                          " " +
+                          `${student_name}` +
+                          " " +
+                          "학생의"
+                    }
+                    type="accept"
+                  />
+                )}
+              </StudentBox>
+            );
+          })
+        ) : (
+          <NoData />
+        )}
       </List>
     </Wrapper>
   );

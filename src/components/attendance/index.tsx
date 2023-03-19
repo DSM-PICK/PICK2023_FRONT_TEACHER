@@ -1,5 +1,6 @@
 import { AttendanceStatusListDto } from "@/models/selfStudy/response";
 import styled from "@emotion/styled";
+import NoData from "../common/nodata";
 import StudentState from "./StudentState";
 
 interface Props {
@@ -11,8 +12,9 @@ interface Props {
 const AttendanceDetail = ({ student, move, type }: Props) => {
   return (
     <StList>
-      {type === "all"
-        ? student.map((data) => {
+      {type === "all" ? (
+        student.length ? (
+          student.map((data) => {
             return (
               <StudentState
                 key={data.student_id}
@@ -24,18 +26,25 @@ const AttendanceDetail = ({ student, move, type }: Props) => {
               />
             );
           })
-        : move.map((data) => {
-            return (
-              <StudentState
-                key={data.student_id}
-                classroom_name={data.classroom_name}
-                student_id={data.student_id}
-                student_name={data.student_name}
-                student_number={data.student_number}
-                type={data.type}
-              />
-            );
-          })}
+        ) : (
+          <NoData />
+        )
+      ) : move.length ? (
+        move.map((data) => {
+          return (
+            <StudentState
+              key={data.student_id}
+              classroom_name={data.classroom_name}
+              student_id={data.student_id}
+              student_name={data.student_name}
+              student_number={data.student_number}
+              type={data.type}
+            />
+          );
+        })
+      ) : (
+        <NoData />
+      )}
     </StList>
   );
 };

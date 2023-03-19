@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import StudentBlock from "./student";
 import { OutingStudentListType } from "@/models/outing/response";
+import NoData from "../common/nodata";
 
 interface Props {
   outing: OutingStudentListType[];
@@ -13,7 +14,7 @@ const OutList = ({ outing }: Props) => {
         <TitleText>외출자 목록</TitleText>
       </TitleContainer>
       <StudentContainer>
-        {outing?.map((item) => {
+        {outing.length ? outing.map((item) => {
           let EndTime = item.end_time.slice(1, 5);
           return (
             <StudentBlock
@@ -24,7 +25,7 @@ const OutList = ({ outing }: Props) => {
               end_time={EndTime}
             />
           );
-        })}
+        }) : <NoData />}
       </StudentContainer>
     </Wrapper>
   );
