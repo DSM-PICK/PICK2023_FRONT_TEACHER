@@ -45,7 +45,6 @@ const AttendanceDetalis = () => {
   const onClickArrow = () => {
     router.push("/tab");
   };
-  const { handleError } = useApiError();
 
   const { data: attendance } = useQuery(
     ["attendance", toggleValue],
