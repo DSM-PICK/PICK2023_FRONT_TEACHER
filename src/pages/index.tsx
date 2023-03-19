@@ -67,11 +67,6 @@ const Home: NextPage = () => {
   );
 };
 
-const InputWrapper = styled.div`
-  border: 1px solid black;
-  width: 100%;
-`;
-
 const LoginContainer = styled.div`
   display: flex;
   align-items: flex-end;

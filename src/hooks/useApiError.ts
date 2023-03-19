@@ -22,6 +22,8 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handle403 = () => {
     toast.error("권한이 없습니다.", { duration: 1000 });
+    removeToken();
+    router.push("/");
   };
 
   const handle404 = () => {
@@ -30,6 +32,7 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handle500 = () => {
     toast.error("서버 관리자 및 동아리에 문의해주세요.", { duration: 1000 });
+    removeToken();
     router.push("/");
   };
 

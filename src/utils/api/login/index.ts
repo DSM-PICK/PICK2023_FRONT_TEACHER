@@ -12,7 +12,7 @@ interface UserLogin {
 interface UserToken {
   access_token: string;
   refresh_token: string;
-  expire_at: string;
+  expire_at: Date;
 }
 
 export const userLogin = () => {
@@ -28,7 +28,7 @@ export const userLogin = () => {
     {
       onError: handleError,
       onSuccess: ({ data }) => {
-        setToken(data.access_token, data.refresh_token);
+        setToken(data.access_token, data.refresh_token, data.expire_at);
         router.push("/main");
       },
     }
