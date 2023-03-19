@@ -5,17 +5,79 @@ import { useMutation, useQueryClient } from "react-query";
 import { attandanceStatusChange } from "@/utils/api/selfStudy/index";
 import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
+import { OptionArrType } from "../common/dropdown";
+import DropDown from "../common/dropdown";
 
 interface ObjType {
   [index: string]: () => void;
 }
 
+// 임시 방편
+const DropDownOption: OptionArrType[] = [
+  { option: "출석", value: "출석" },
+  { option: "무단", value: "무단" },
+  { option: "외출", value: "외출" },
+  { option: "이동", value: "이동" },
+];
+
 const StudentState = (props: AttendanceStatusListDto) => {
-  const { classroom_name, student_id, student_name, student_number, type } =
-    props;
+  const {
+    classroom_name,
+    student_id,
+    student_name,
+    student_number,
+    type,
+    toggleType,
+  } = props;
   const [name, setName] = useState<string>("");
   const [period, setPeriod] = useState<number>(0);
   const Ref = useRef<HTMLDivElement>(null);
+  const [sort, setSort] = useState(DropDownOption[0].value);
+  const [state, setState] = useState<string>("");
+  const queryClient = useQueryClient();
+  const { handleError } = useApiError();
+
+  const onChangeSort = (sort: string) => {
+    const sortValue = sort;
+    setSort(sortValue);
+    console.log(sort);
+
+    if (sort === "출석") {
+      mutate({
+        user_id: student_id,
+        period: period,
+        status: "ATTENDANCE",
+      });
+    } else if (sort === "무단") {
+      mutate({
+        user_id: student_id,
+        period: period,
+        status: "DISALLOWED",
+      });
+    } else if (sort === "이동") {
+      mutate({
+        user_id: student_id,
+        period: period,
+        status: "MOVEMENT",
+      });
+    } else {
+      mutate({
+        user_id: student_id,
+        period: period,
+        status: "PICNIC",
+      });
+    }
+  };
+
+  const { mutate } = useMutation(attandanceStatusChange, {
+    onError: handleError,
+    onSettled: () => {
+      queryClient.invalidateQueries("attendance");
+    },
+    onSuccess: () => {
+      toast.success("상태가 변경되었습니다.", { duration: 1000 });
+    },
+  });
 
   useEffect(() => {
     const { current } = Ref;
@@ -90,35 +152,23 @@ const StudentState = (props: AttendanceStatusListDto) => {
     }
   }, [type, Ref]);
 
-  const queryClient = useQueryClient();
-  const { handleError } = useApiError();
-  const { mutate } = useMutation(attandanceStatusChange, {
-    onError: handleError,
-    onSettled: () => {
-      queryClient.invalidateQueries("attendance");
-    },
-    onSuccess: () => {
-      toast.success("상태가 변경되었습니다.", { duration: 1000 });
-    },
-  });
-
-  const onClickPatchStudentState = async () => {
-    if (type === "ATTENDANCE") {
-      mutate({
-        user_id: student_id,
-        period: period,
-        status: "DISALLOWED",
-      });
-    } else if (type === "DISALLOWED") {
-      mutate({
-        user_id: student_id,
-        period: period,
-        status: "ATTENDANCE",
-      });
-    } else {
-      toast.error("출석 및 무단을 제외한 상태는 변경 할 수 없습니다.");
-    }
-  };
+  // const onClickPatchStudentState = async () => {
+  //   if (type === "ATTENDANCE") {
+  //     mutate({
+  //       user_id: student_id,
+  //       period: period,
+  //       status: "DISALLOWED",
+  //     });
+  //   } else if (type === "DISALLOWED") {
+  //     mutate({
+  //       user_id: student_id,
+  //       period: period,
+  //       status: "ATTENDANCE",
+  //     });
+  //   } else {
+  //     toast.error("출석 및 무단을 제외한 상태는 변경 할 수 없습니다.");
+  //   }
+  // };
 
   return (
     <Container>
@@ -126,9 +176,16 @@ const StudentState = (props: AttendanceStatusListDto) => {
         {student_number} {student_name}
       </p>
       <p>{classroom_name ? classroom_name : "-"}</p>
-      <StateBox onClick={onClickPatchStudentState} ref={Ref}>
+      {/* <StateBox onClick={onClickPatchStudentState} ref={Ref}>
         {name}
-      </StateBox>
+      </StateBox> */}
+      {toggleType === "all" && (
+        <DropDown
+          onChangeValue={onChangeSort}
+          value={sort}
+          options={DropDownOption}
+        />
+      )}
     </Container>
   );
 };

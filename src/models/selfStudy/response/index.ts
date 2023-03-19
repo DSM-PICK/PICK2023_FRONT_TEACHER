@@ -22,6 +22,8 @@ export interface GetClassList {
 }
 
 export interface AttendanceStatusListDto {
+  // toggleType은 임시
+  toggleType: string;
   student_id: string;
   student_number: string;
   student_name: string;

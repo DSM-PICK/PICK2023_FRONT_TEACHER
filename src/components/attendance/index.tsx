@@ -17,6 +17,7 @@ const AttendanceDetail = ({ student, move, type }: Props) => {
           student.map((data) => {
             return (
               <StudentState
+                toggleType={type}
                 key={data.student_id}
                 classroom_name={data.classroom_name}
                 student_id={data.student_id}
@@ -33,6 +34,7 @@ const AttendanceDetail = ({ student, move, type }: Props) => {
         move.map((data) => {
           return (
             <StudentState
+              toggleType={type}
               key={data.student_id}
               classroom_name={data.classroom_name}
               student_id={data.student_id}
