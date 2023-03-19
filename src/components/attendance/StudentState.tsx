@@ -101,6 +101,17 @@ const StudentState = (props: AttendanceStatusListDto) => {
       setPeriod(8);
     }
 
+    // 임시 코드
+    if (type === "ATTENDANCE") {
+      setName("출석");
+    } else if (type === "DISALLOWED") {
+      setName("무단");
+    } else if (type === "MOVEMENT") {
+      setName("이동");
+    } else {
+      setName("외출");
+    }
+
     if (current !== null) {
       const stateStyle: ObjType = {
         MOVEMENT: () => {
@@ -182,7 +193,7 @@ const StudentState = (props: AttendanceStatusListDto) => {
       {toggleType === "all" && (
         <DropDown
           onChangeValue={onChangeSort}
-          value={sort}
+          value={name}
           options={DropDownOption}
         />
       )}
