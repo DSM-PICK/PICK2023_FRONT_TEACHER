@@ -3,35 +3,28 @@ import StudentBlock from "./student";
 import { OutingStudentListType } from "@/models/outing/response";
 
 interface Props {
-  arrayState: boolean;
   outing: OutingStudentListType[];
 }
 
-const OutList = ({ outing, arrayState }: Props) => {
+const OutList = ({ outing }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
         <TitleText>외출자 목록</TitleText>
       </TitleContainer>
       <StudentContainer>
-        {arrayState ? (
-          outing?.map((item) => {
-            let EndTime = item.end_time.slice(1, 5);
-            return (
-              <StudentBlock
-                key={item.student_id}
-                student_id={item.student_id}
-                student_number={item.student_number}
-                student_name={item.student_name}
-                end_time={EndTime}
-              />
-            );
-          })
-        ) : (
-          <NoDataContainer>
-            <p>이동한 학생이 없습니다</p>
-          </NoDataContainer>
-        )}
+        {outing?.map((item) => {
+          let EndTime = item.end_time.slice(1, 5);
+          return (
+            <StudentBlock
+              key={item.student_id}
+              student_id={item.student_id}
+              student_number={item.student_number}
+              student_name={item.student_name}
+              end_time={EndTime}
+            />
+          );
+        })}
       </StudentContainer>
     </Wrapper>
   );
@@ -66,17 +59,4 @@ const StudentContainer = styled.div`
   gap: 12px;
   height: calc(100vh - 106px);
   overflow-y: scroll;
-`;
-
-const NoDataContainer = styled.div`
-  display: flex;
-  margin-top: 190px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  > p {
-    font-size: 18px;
-    color: ${({ theme }) => theme.colors.gray500};
-  }
 `;

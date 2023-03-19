@@ -4,17 +4,15 @@ import StudentState from "./StudentState";
 
 interface Props {
   type: string;
-  arrayState: boolean;
   student: AttendanceStatusListDto[];
   move: AttendanceStatusListDto[];
 }
 
-const AttendanceDetail = ({ arrayState, student, move, type }: Props) => {
+const AttendanceDetail = ({ student, move, type }: Props) => {
   return (
     <StList>
-      {type === "all" ? (
-        arrayState ? (
-          student.map((data) => {
+      {type === "all"
+        ? student.map((data) => {
             return (
               <StudentState
                 key={data.student_id}
@@ -26,29 +24,18 @@ const AttendanceDetail = ({ arrayState, student, move, type }: Props) => {
               />
             );
           })
-        ) : (
-          <NoDataContainer>
-            <p>학생이 없습니다</p>
-          </NoDataContainer>
-        )
-      ) : arrayState ? (
-        move.map((data) => {
-          return (
-            <StudentState
-              key={data.student_id}
-              classroom_name={data.classroom_name}
-              student_id={data.student_id}
-              student_name={data.student_name}
-              student_number={data.student_number}
-              type={data.type}
-            />
-          );
-        })
-      ) : (
-        <NoDataContainer>
-          <p>이동한 학생이 없습니다</p>
-        </NoDataContainer>
-      )}
+        : move.map((data) => {
+            return (
+              <StudentState
+                key={data.student_id}
+                classroom_name={data.classroom_name}
+                student_id={data.student_id}
+                student_name={data.student_name}
+                student_number={data.student_number}
+                type={data.type}
+              />
+            );
+          })}
     </StList>
   );
 };

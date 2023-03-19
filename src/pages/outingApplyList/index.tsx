@@ -8,8 +8,6 @@ import { todayDate } from "@/utils/function/toDayDate";
 import { useState } from "react";
 
 const OutingApplyListPage = () => {
-  const [arrayState, setArrayState] = useState<boolean>(false);
-
   const gradeNum = useSelector(
     (state: RootState) => state.counter.initalState.setGradetate
   );
@@ -28,23 +26,10 @@ const OutingApplyListPage = () => {
         grade: gradeNum,
         classNum: classNum,
         type: (todayType?.data.type as string) || "SELF_STUDY",
-      }),
-    {
-      onSuccess: () => {
-        if (Array.isArray(outingApply) && outingApply.length === 0) {
-          setArrayState(true);
-        }
-        setArrayState(false);
-      },
-      onError: () => {
-        setArrayState(false);
-      },
-    }
+      })
   );
 
-  return (
-    <OutingAccept arrayState={arrayState} outing={outingApply?.outing || []} />
-  );
+  return <OutingAccept outing={outingApply?.outing || []} />;
 };
 
 export default OutingApplyListPage;

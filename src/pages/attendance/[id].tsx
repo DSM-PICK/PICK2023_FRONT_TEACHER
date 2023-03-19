@@ -13,7 +13,6 @@ import arrow from "@/assets/arrow.png";
 import { useApiError } from "@/hooks/useApiError";
 
 const AttendanceDetalis = () => {
-  const [arrayState, setArrayState] = useState<boolean>(false);
   const [changeTap, setChangeTap] = useState(true);
   const [toggleValue, setToggleValue] = useState<string>("all");
 
@@ -52,15 +51,6 @@ const AttendanceDetalis = () => {
     ["attendance", toggleValue],
     () => getAttendanceStatusList(id as string),
     {
-      onSuccess: () => {
-        if (Array.isArray(attendance) && attendance.length === 0) {
-          setArrayState(true);
-        }
-        setArrayState(false);
-      },
-      onError: () => {
-        setArrayState(false);
-      },
       cacheTime: 0,
     }
   );
@@ -69,15 +59,6 @@ const AttendanceDetalis = () => {
     ["moveAttendance", toggleValue],
     () => movementStudentListGet(id as string),
     {
-      onSuccess: () => {
-        if (Array.isArray(moveAttendance) && moveAttendance.length === 0) {
-          setArrayState(true);
-        }
-        setArrayState(false);
-      },
-      onError: () => {
-        setArrayState(false);
-      },
       cacheTime: 0,
     }
   );
@@ -92,7 +73,6 @@ const AttendanceDetalis = () => {
       </Head>
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
       <AttendanceDetail
-        arrayState={arrayState}
         type={toggleValue}
         student={attendance?.data.students || []}
         move={moveAttendance?.data.movement_student_list || []}
