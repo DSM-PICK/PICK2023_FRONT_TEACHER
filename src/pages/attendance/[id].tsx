@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
 import Image from "next/image";
 import arrow from "@/assets/arrow.png";
-import { useApiError } from "@/hooks/useApiError";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
