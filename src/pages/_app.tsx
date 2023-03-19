@@ -84,7 +84,7 @@ App.getInitialProps = async (appContext: AppContext) => {
   const accessTokenByCookie = allCookies["accessToken"];
   if (accessTokenByCookie !== undefined) {
     const refreshTokenByCookie = allCookies["refreshToken"] || "";
-    setToken(accessTokenByCookie, refreshTokenByCookie);
+    setToken(accessTokenByCookie, refreshTokenByCookie, new Date(""));
   }
 
   return { ...appProps };
