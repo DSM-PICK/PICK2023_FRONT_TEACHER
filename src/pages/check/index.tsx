@@ -4,14 +4,8 @@ import { getChargeClass } from "@/utils/api/selfStudy";
 import { useApiError } from "@/hooks/useApiError";
 
 const CheckPage = () => {
-  const { handleError } = useApiError();
-
-  const { data: responsible_classroom_list } = useQuery(
-    "classList",
-    () => getChargeClass(),
-    {
-      onError: handleError,
-    }
+  const { data: responsible_classroom_list } = useQuery("classList", () =>
+    getChargeClass()
   );
 
   return (
