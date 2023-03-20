@@ -1,5 +1,9 @@
-const NoData = () => {
-  return <>데이터가 없습니다.</>;
+interface Props {
+  text: string;
+}
+
+const NoData = ({ text }: Props) => {
+  return <>{text}</>;
 };
 
 export default NoData;
