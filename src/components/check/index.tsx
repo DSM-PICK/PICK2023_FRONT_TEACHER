@@ -2,7 +2,6 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
-import { useDispatch } from "react-redux";
 import NoData from "../common/nodata";
 
 interface Props {
@@ -11,8 +10,6 @@ interface Props {
 }
 
 const Check = ({ responsible_classroom_list, floor }: Props) => {
-  const dispatch = useDispatch();
-
   return (
     <Wrapper>
       <TitleContainer>
@@ -39,7 +36,9 @@ const Check = ({ responsible_classroom_list, floor }: Props) => {
             );
           })
         ) : (
-          <NoData />
+          <NoDataContainer>
+            <NoData text="교실 데이터가 없습니다." />
+          </NoDataContainer>
         )}
       </MainContainer>
     </Wrapper>
@@ -87,6 +86,10 @@ const TextBtn = styled(Button)`
     font-size: 16px;
     font-weight: 500;
   }
+`;
+
+const NoDataContainer = styled.div`
+  margin: auto;
 `;
 
 export default Check;

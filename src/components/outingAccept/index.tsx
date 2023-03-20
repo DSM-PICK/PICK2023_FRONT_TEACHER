@@ -150,7 +150,9 @@ const OutingAccept = ({ outing }: Props) => {
             );
           })
         ) : (
-          <NoData />
+          <NoDataContainer>
+            <NoData text="외출 신청한 학생이 없습니다." />
+          </NoDataContainer>
         )}
       </List>
     </Wrapper>
@@ -272,16 +274,9 @@ const Reason = styled.p<{ isClick: boolean }>`
 `;
 
 const NoDataContainer = styled.div`
-  display: flex;
-  margin-top: 170px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  > p {
-    font-size: 18px;
-    color: ${({ theme }) => theme.colors.gray500};
-  }
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export default OutingAccept;

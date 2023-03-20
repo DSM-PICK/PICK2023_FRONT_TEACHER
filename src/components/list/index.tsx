@@ -14,18 +14,24 @@ const OutList = ({ outing }: Props) => {
         <TitleText>외출자 목록</TitleText>
       </TitleContainer>
       <StudentContainer>
-        {outing.length ? outing.map((item) => {
-          let EndTime = item.end_time.slice(1, 5);
-          return (
-            <StudentBlock
-              key={item.student_id}
-              student_id={item.student_id}
-              student_number={item.student_number}
-              student_name={item.student_name}
-              end_time={EndTime}
-            />
-          );
-        }) : <NoData />}
+        {outing.length ? (
+          outing.map((item) => {
+            let EndTime = item.end_time.slice(1, 5);
+            return (
+              <StudentBlock
+                key={item.student_id}
+                student_id={item.student_id}
+                student_number={item.student_number}
+                student_name={item.student_name}
+                end_time={EndTime}
+              />
+            );
+          })
+        ) : (
+          <NoDataContainer>
+            <NoData text="외출한 학생이 없습니다." />
+          </NoDataContainer>
+        )}
       </StudentContainer>
     </Wrapper>
   );
@@ -60,4 +66,8 @@ const StudentContainer = styled.div`
   gap: 12px;
   height: calc(100vh - 106px);
   overflow-y: scroll;
+`;
+
+const NoDataContainer = styled.div`
+  margin: auto;
 `;
