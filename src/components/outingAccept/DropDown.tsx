@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { dropDown } from "@/assets/outingAccept";
 import { IDropdownProps, ISortOption } from "./constants";
 import Image from "next/image";
+import OutSideClickHandler from "../common/outsideclickhandler/OutSideClickHandler";
 
 const DropDown = ({ width, onChangeValue, options, value }: IDropdownProps) => {
   const [isFold, setIsFold] = useState<boolean>(false);
@@ -19,21 +20,25 @@ const DropDown = ({ width, onChangeValue, options, value }: IDropdownProps) => {
   }, [value]);
 
   return (
-    <SelectBoxContainer width={width}>
-      <SelectButton onClick={() => setIsFold(!isFold)}>
-        {selectedValue}
-        <Image width={8} height={4} src={dropDown} alt="" />
-      </SelectButton>
-      {isFold && (
-        <SelectList>
-          {options.map((item, idx) => (
-            <span key={idx} onClick={() => onClickOption(item.value)}>
-              {item.option}
-            </span>
-          ))}
-        </SelectList>
-      )}
-    </SelectBoxContainer>
+    <>
+      <OutSideClickHandler onOutSideClick={() => setIsFold(false)}>
+        <SelectBoxContainer width={width}>
+          <SelectButton onClick={() => setIsFold(!isFold)}>
+            {selectedValue}
+            <Image width={8} height={4} src={dropDown} alt="" />
+          </SelectButton>
+          {isFold && (
+            <SelectList>
+              {options.map((item, idx) => (
+                <span key={idx} onClick={() => onClickOption(item.value)}>
+                  {item.option}
+                </span>
+              ))}
+            </SelectList>
+          )}
+        </SelectBoxContainer>
+      </OutSideClickHandler>
+    </>
   );
 };
 
