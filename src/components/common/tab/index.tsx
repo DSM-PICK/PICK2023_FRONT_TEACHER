@@ -31,7 +31,7 @@ const Tab = () => {
 
   return (
     <>
-      {tab[activetab]}
+      <Content>{tab[activetab]}</Content>
 
       <TabWrapper>
         {tabInfo.map((info, idx) => {
@@ -60,6 +60,13 @@ const TabWrapper = styled.div`
   padding: 7px 31.5px;
   display: flex;
   justify-content: space-between;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  min-height: calc(100% - 50px);
+  height: fit-content;
+  padding-bottom: 50px;
 `;
 
 export default Tab;
