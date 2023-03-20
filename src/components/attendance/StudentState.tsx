@@ -7,6 +7,7 @@ import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
 import { OptionArrType } from "../common/dropdown";
 import DropDown from "../common/dropdown";
+import { usePeriod } from "@/hooks/usePeriod";
 
 interface ObjType {
   [index: string]: () => void;
@@ -30,40 +31,40 @@ const StudentState = (props: AttendanceStatusListDto) => {
     toggleType,
   } = props;
   const [name, setName] = useState<string>("");
-  const [period, setPeriod] = useState<number>(0);
   const Ref = useRef<HTMLDivElement>(null);
   const [sort, setSort] = useState(DropDownOption[0].value);
   const [state, setState] = useState<string>("");
+
   const queryClient = useQueryClient();
   const { handleError } = useApiError();
+  const { getPeriod } = usePeriod();
 
   const onChangeSort = (sort: string) => {
     const sortValue = sort;
     setSort(sortValue);
-    console.log(sort);
 
     if (sort === "출석") {
       mutate({
         user_id: student_id,
-        period: period,
+        period: getPeriod(),
         status: "ATTENDANCE",
       });
     } else if (sort === "무단") {
       mutate({
         user_id: student_id,
-        period: period,
+        period: getPeriod(),
         status: "DISALLOWED",
       });
     } else if (sort === "이동") {
       mutate({
         user_id: student_id,
-        period: period,
+        period: getPeriod(),
         status: "MOVEMENT",
       });
     } else {
       mutate({
         user_id: student_id,
-        period: period,
+        period: getPeriod(),
         status: "PICNIC",
       });
     }
@@ -81,25 +82,6 @@ const StudentState = (props: AttendanceStatusListDto) => {
 
   useEffect(() => {
     const { current } = Ref;
-
-    setPeriod(0);
-    const date = new Date();
-    const month = date.getMonth().toString();
-    const day = date.getDay().toString();
-    const year = date.getFullYear().toString();
-    const today = year + "/" + month.padStart(2, "0");
-    +"/" + day.padStart(2, "0");
-    const dateA = new Date(today + " 17:30:00");
-    const diffMSec = date.getTime() - dateA.getTime();
-    const diffMin = diffMSec * (1 / (60 * 1000));
-
-    if (diffMin <= 130) {
-      setPeriod(9);
-    } else if (diffMin > 130) {
-      setPeriod(10);
-    } else {
-      setPeriod(8);
-    }
 
     // 임시 코드
     if (type === "ATTENDANCE") {
