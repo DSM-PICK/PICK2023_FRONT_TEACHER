@@ -18,7 +18,6 @@ const DropDownOption: OptionArrType[] = [
   { option: "출석", value: "출석" },
   { option: "무단", value: "무단" },
   { option: "외출", value: "외출" },
-  { option: "이동", value: "이동" },
 ];
 
 const StudentState = (props: AttendanceStatusListDto) => {
@@ -55,13 +54,7 @@ const StudentState = (props: AttendanceStatusListDto) => {
         period: getPeriod(),
         status: "DISALLOWED",
       });
-    } else if (sort === "이동") {
-      mutate({
-        user_id: student_id,
-        period: getPeriod(),
-        status: "MOVEMENT",
-      });
-    } else {
+    } else if (sort === "외출") {
       mutate({
         user_id: student_id,
         period: getPeriod(),
@@ -88,9 +81,7 @@ const StudentState = (props: AttendanceStatusListDto) => {
       setName("출석");
     } else if (type === "DISALLOWED") {
       setName("무단");
-    } else if (type === "MOVEMENT") {
-      setName("이동");
-    } else {
+    } else if (type === "PICNIC") {
       setName("외출");
     }
 
