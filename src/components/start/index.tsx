@@ -29,8 +29,14 @@ const Start = ({
       <TitleContainer>
         <TitleText>{name}선생님은</TitleText>
         <div>
-          <LayerText>{floor}층</LayerText>
-          <TitleText>자습감독입니다.</TitleText>
+          {floor.length > 0 ? (
+            <>
+              <LayerText>{floor}층</LayerText>
+              <TitleText>자습감독입니다.</TitleText>
+            </>
+          ) : (
+            <TitleText>자습감독이 아닙니다.</TitleText>
+          )}
         </div>
       </TitleContainer>
       <MainWrapper>
