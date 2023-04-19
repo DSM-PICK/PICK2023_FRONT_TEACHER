@@ -3,87 +3,26 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { attandanceStatusChange } from "@/utils/api/selfStudy/index";
-import { useApiError } from "@/hooks/useApiError";
-import { toast } from "react-hot-toast";
-import { OptionArrType } from "../common/dropdown";
-import DropDown from "../common/dropdown";
 import { usePeriod } from "@/hooks/usePeriod";
+import { toast } from "react-hot-toast";
 
 interface ObjType {
   [index: string]: () => void;
 }
 
-// 임시 방편
-const DropDownOption: OptionArrType[] = [
-  { option: "출석", value: "출석" },
-  { option: "무단", value: "무단" },
-  { option: "외출", value: "외출" },
-];
-
 const StudentState = (props: AttendanceStatusListDto) => {
-  const {
-    classroom_name,
-    student_id,
-    student_name,
-    student_number,
-    type,
-    toggleType,
-  } = props;
+  const { classroom_name, student_id, student_name, student_number, type } =
+    props;
   const [name, setName] = useState<string>("");
   const Ref = useRef<HTMLDivElement>(null);
-  const [sort, setSort] = useState(DropDownOption[0].value);
-  const [state, setState] = useState<string>("");
 
-  const queryClient = useQueryClient();
-  const { handleError } = useApiError();
-  const { getPeriod } = usePeriod();
+  let period = usePeriod().getPeriod();
 
-  const onChangeSort = (sort: string) => {
-    const sortValue = sort;
-    setSort(sortValue);
-
-    if (sort === "출석") {
-      mutate({
-        user_id: student_id,
-        period: getPeriod(),
-        status: "ATTENDANCE",
-      });
-    } else if (sort === "무단") {
-      mutate({
-        user_id: student_id,
-        period: getPeriod(),
-        status: "DISALLOWED",
-      });
-    } else if (sort === "외출") {
-      mutate({
-        user_id: student_id,
-        period: getPeriod(),
-        status: "PICNIC",
-      });
-    }
-  };
-
-  const { mutate } = useMutation(attandanceStatusChange, {
-    onError: handleError,
-    onSettled: () => {
-      queryClient.invalidateQueries("attendance");
-    },
-    onSuccess: () => {
-      toast.success("상태가 변경되었습니다.", { duration: 1000 });
-    },
-  });
+  let today = new Date();
+  let hours = today.getHours();
 
   useEffect(() => {
     const { current } = Ref;
-
-    // 임시 코드
-    if (type === "ATTENDANCE") {
-      setName("출석");
-    } else if (type === "DISALLOWED") {
-      setName("무단");
-    } else if (type === "PICNIC") {
-      setName("외출");
-    }
 
     if (current !== null) {
       const stateStyle: ObjType = {
@@ -116,9 +55,6 @@ const StudentState = (props: AttendanceStatusListDto) => {
         ATTENDANCE: () => {
           setName("출석");
         },
-        AWAIT: () => {
-          setName("대기");
-        },
       };
 
       const selectedStateStyle = stateStyle[type];
@@ -136,23 +72,32 @@ const StudentState = (props: AttendanceStatusListDto) => {
     }
   }, [type, Ref]);
 
-  // const onClickPatchStudentState = async () => {
-  //   if (type === "ATTENDANCE") {
-  //     mutate({
-  //       user_id: student_id,
-  //       period: period,
-  //       status: "DISALLOWED",
-  //     });
-  //   } else if (type === "DISALLOWED") {
-  //     mutate({
-  //       user_id: student_id,
-  //       period: period,
-  //       status: "ATTENDANCE",
-  //     });
-  //   } else {
-  //     toast.error("출석 및 무단을 제외한 상태는 변경 할 수 없습니다.");
-  //   }
-  // };
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(attandanceStatusChange, {
+    onSettled: () => {
+      queryClient.invalidateQueries("attendance");
+    },
+  });
+
+  const onClickPatchStudentState = async () => {
+    if (hours > 21 || hours < 17) {
+      toast.error("지금 시간에는 학생 상태 변경을 할 수 없습니다.");
+    } else {
+      if (type === "ATTENDANCE") {
+        mutate({
+          user_id: student_id,
+          period: period,
+          status: "DISALLOWED",
+        });
+      } else {
+        mutate({
+          user_id: student_id,
+          period: period,
+          status: "ATTENDANCE",
+        });
+      }
+    }
+  };
 
   return (
     <Container>
@@ -160,26 +105,17 @@ const StudentState = (props: AttendanceStatusListDto) => {
         {student_number} {student_name}
       </p>
       <p>{classroom_name ? classroom_name : "-"}</p>
-      {/* <StateBox onClick={onClickPatchStudentState} ref={Ref}>
+      <StateBox onClick={onClickPatchStudentState} ref={Ref}>
         {name}
-      </StateBox> */}
-      {toggleType === "all" && (
-        <DropDown
-          onChangeValue={onChangeSort}
-          value={name}
-          options={DropDownOption}
-        />
-      )}
+      </StateBox>
     </Container>
   );
 };
-
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-
 const StateBox = styled.div`
   width: 100px;
   height: 32px;
@@ -191,5 +127,4 @@ const StateBox = styled.div`
   border-radius: 8px;
   color: #5c5961;
 `;
-
 export default StudentState;
