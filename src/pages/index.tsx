@@ -1,11 +1,17 @@
 import styled from "@emotion/styled";
 import background from "../assets/login/background.png";
 import Input from "@/components/common/input";
-import { Button } from "@semicolondsm/ui";
+import { Button, Body1 } from "@semicolondsm/ui";
 import { useState } from "react";
 import { NextPage } from "next";
 import cookies from "react-cookies";
 import { userLogin } from "@/utils/api/login";
+import { useApiError } from "@/hooks/useApiError";
+import { useQuery } from "react-query";
+import {
+  getTodaySelfStudyTeacher,
+  getTodaySelfStudyTeacherWhether,
+} from "@/utils/api/selfStudy";
 
 const Home: NextPage = () => {
   const { mutate: loginMutate, isLoading } = userLogin();
@@ -13,6 +19,11 @@ const Home: NextPage = () => {
   const [loginData, setLoginData] = useState({
     account_id: "",
     password: "",
+  });
+
+  const { handleError } = useApiError();
+  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher(), {
+    onError: handleError,
   });
 
   const onClickLogin = () => {
@@ -31,6 +42,14 @@ const Home: NextPage = () => {
       >
         <InputContainer>
           <p>로그인</p>
+          <MainWrapper>
+            <MainTitle>오늘의 자습감독</MainTitle>
+            <MainContainer>
+              <Body1 color="black">2층 {data?.data.second_floor!}선생님</Body1>
+              <Body1 color="black">3층 {data?.data.third_floor!}선생님</Body1>
+              <Body1 color="black">4층 {data?.data.fourth_floor!}선생님</Body1>
+            </MainContainer>
+          </MainWrapper>
           <Input
             placeholder="아이디를 입력하세요"
             name="account_id"
@@ -95,13 +114,46 @@ const InputContainer = styled.div`
 
   > p {
     font-size: 24px;
-    margin-bottom: 75px;
+    margin-bottom: 20px;
   }
 `;
 
 const LoginButton = styled(Button)`
   border-radius: 12px;
   margin-top: 30px;
+`;
+
+const MainWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
+const MainTitle = styled.h1`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${({ theme }) => theme.colors.gray900};
+  margin-left: 8px;
+  margin-bottom: 8px;
+`;
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 144px;
+  padding: 20px;
+  border: none;
+  border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  gap: 16px;
+
+  > p {
+    font-weight: 400;
+  }
 `;
 
 export default Home;

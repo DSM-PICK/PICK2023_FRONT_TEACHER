@@ -32,7 +32,7 @@ export const userLogin = () => {
       onSuccess: ({ data }) => {
         if (data.role === "SCH") {
           setToken(data.access_token, data.refresh_token, data.expire_at);
-          router.push("/main");
+          router.push("/tab");
         } else {
           toast.error("권한이 없는 계정입니다.");
         }
