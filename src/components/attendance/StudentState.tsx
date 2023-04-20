@@ -38,13 +38,21 @@ const StudentState = (props: AttendanceStatusListDto) => {
           current.style.border = "0";
           setName("외출");
         },
-        FIELDTRIP: () => {
+        FIELD_TRIP: () => {
           current.style.backgroundColor = "#F0e6ff";
           setName("현체");
         },
         EMPLOYMENT: () => {
           current.style.backgroundColor = "#F0e6ff";
           setName("취업");
+        },
+        HOME: () => {
+          current.style.backgroundColor = "#F0e6ff";
+          setName("귀가");
+        },
+        LEAVE: () => {
+          current.style.backgroundColor = "#F0e6ff";
+          setName("조퇴");
         },
         DISALLOWED: () => {
           current.style.backgroundColor = "#f04d51";
