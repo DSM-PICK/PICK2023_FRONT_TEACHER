@@ -8,10 +8,7 @@ import cookies from "react-cookies";
 import { userLogin } from "@/utils/api/login";
 import { useApiError } from "@/hooks/useApiError";
 import { useQuery } from "react-query";
-import {
-  getTodaySelfStudyTeacher,
-  getTodaySelfStudyTeacherWhether,
-} from "@/utils/api/selfStudy";
+import { getTodaySelfStudyTeacher } from "@/utils/api/selfStudy";
 
 const Home: NextPage = () => {
   const { mutate: loginMutate, isLoading } = userLogin();
