@@ -80,7 +80,7 @@ const StudentState = (props: AttendanceStatusListDto) => {
   });
 
   const onClickPatchStudentState = async () => {
-    if (hours > 21 || hours < 17) {
+    if (hours > 21 || hours < 16) {
       toast.error("지금 시간에는 학생 상태 변경을 할 수 없습니다.");
     } else {
       if (type === "ATTENDANCE") {
