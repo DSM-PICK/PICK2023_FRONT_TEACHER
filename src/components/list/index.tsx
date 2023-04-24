@@ -16,7 +16,7 @@ const OutList = ({ outing }: Props) => {
       <StudentContainer>
         {outing.length ? (
           outing.map((item) => {
-            let EndTime = item.end_time.slice(1, 5);
+            let EndTime = item.end_time.slice(0, 5);
             return (
               <StudentBlock
                 key={item.student_id}
