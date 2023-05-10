@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
 import NoData from "../common/nodata";
+import { getNowPeriod } from "@/utils/function/toDayDate";
 
 interface Props {
   floor: string;
@@ -15,6 +16,7 @@ const Check = ({ responsible_classroom_list, floor }: Props) => {
       <TitleContainer>
         <TitleText>출석 확인 </TitleText>
         <LayerText> - {floor}층</LayerText>
+        <Period>{getNowPeriod()}</Period>
       </TitleContainer>
       <MainContainer>
         {responsible_classroom_list.length ? (
@@ -90,6 +92,13 @@ const TextBtn = styled(Button)`
 
 const NoDataContainer = styled.div`
   margin: auto;
+`;
+
+const Period = styled.div`
+  font-size: 22px;
+  font-weight: 500;
+  margin-left: 10px;
+  color: ${({ theme }) => theme.colors.purple400};
 `;
 
 export default Check;

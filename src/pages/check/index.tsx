@@ -2,7 +2,6 @@ import Check from "@/components/check";
 import { useQuery } from "react-query";
 import { getChargeClass } from "@/utils/api/selfStudy";
 import { useApiError } from "@/hooks/useApiError";
-import { toast } from "react-hot-toast";
 
 const CheckPage = () => {
   const { handleError } = useApiError();
