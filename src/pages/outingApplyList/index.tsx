@@ -5,7 +5,6 @@ import { getDateType } from "@/utils/api/common";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { todayDate } from "@/utils/function/toDayDate";
-import { useState } from "react";
 
 const OutingApplyListPage = () => {
   const gradeNum = useSelector(
