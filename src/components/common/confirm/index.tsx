@@ -10,7 +10,6 @@ import { toast } from "react-hot-toast";
 interface Props {
   type: "list" | "accept";
   text: string;
-  student_id: string;
   student_id_array: string[];
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   end_period: number;
@@ -19,7 +18,6 @@ interface Props {
 const ConfirmBox = ({
   text,
   type,
-  student_id,
   end_period,
   student_id_array,
   setOpenModal,
@@ -42,7 +40,7 @@ const ConfirmBox = ({
   const { handleError } = useApiError();
 
   const { mutate: patchOutingStudent } = useMutation(
-    () => patchOutingStudentState(student_id, end_period),
+    () => patchOutingStudentState(student_id_array[0], end_period),
     {
       onError: handleError,
       onSuccess: () => {
