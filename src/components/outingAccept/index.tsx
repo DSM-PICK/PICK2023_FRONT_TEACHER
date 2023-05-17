@@ -55,7 +55,6 @@ const OutingAccept = ({ outing }: Props) => {
       setOutingStudentName([...outingStudentName, student_name]);
       setOutingStudentNumber([...outingStudentNumber, student_number]);
     }
-    console.log(outingStudentName, outingStudentNumber);
   };
 
   const onChangeGrade = (sort: string) => {
@@ -161,6 +160,7 @@ const OutingAccept = ({ outing }: Props) => {
           setOpenModal={setIsOpen}
           student_id_array={outingStudentId}
           end_period={0}
+          student_id={outingStudentId[0]}
           text={
             outingStudentId.length > 1
               ? `${outingStudentNumber[0]}` +

@@ -11,6 +11,7 @@ interface Props {
   type: "list" | "accept";
   text: string;
   student_id_array: string[];
+  student_id: string;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   end_period: number;
 }
@@ -19,6 +20,7 @@ const ConfirmBox = ({
   text,
   type,
   end_period,
+  student_id,
   student_id_array,
   setOpenModal,
 }: Props) => {
