@@ -57,6 +57,7 @@ const Home: NextPage = () => {
                 [e.target.name]: e.target.value,
               }))
             }
+            type="text"
           />
           <Input
             placeholder="비밀번호를 입력하세요"
@@ -68,6 +69,7 @@ const Home: NextPage = () => {
                 [e.target.name]: e.target.value,
               }))
             }
+            type="password"
           />
         </InputContainer>
         <LoginButton
