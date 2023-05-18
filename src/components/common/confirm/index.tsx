@@ -42,7 +42,7 @@ const ConfirmBox = ({
   const { handleError } = useApiError();
 
   const { mutate: patchOutingStudent } = useMutation(
-    () => patchOutingStudentState(student_id_array[0], end_period),
+    () => patchOutingStudentState(student_id, end_period),
     {
       onError: handleError,
       onSuccess: () => {
