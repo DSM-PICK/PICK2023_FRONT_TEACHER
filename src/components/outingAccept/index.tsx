@@ -22,12 +22,18 @@ const OutingAccept = ({ outing }: Props) => {
   const [grade, setGrade] = useState(gradeNumArr[0].value);
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
   const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
+  const [outingStudentName, setOutingStudentName] = useState<string[]>([]);
+  const [outingStudentNumber, setOutingStudentNumber] = useState<number[]>([]);
 
   let isClick = outingSelectList.length > 0;
 
-  const studentClick = (studentIdx: number, student_id: string) => {
+  const studentClick = (
+    studentIdx: number,
+    student_id: string,
+    student_name: string,
+    student_number: number
+  ) => {
     const isIncludes = outingSelectList.includes(studentIdx);
-
     if (isIncludes) {
       setOutingSelectList(
         outingSelectList.filter((id: number) => id !== studentIdx)
@@ -35,9 +41,19 @@ const OutingAccept = ({ outing }: Props) => {
       setOutingStudentId(
         outingStudentId.filter((id: string) => id !== student_id)
       );
+      setOutingStudentName(
+        outingStudentName.filter((name: string) => name !== student_name)
+      );
+      setOutingStudentNumber(
+        outingStudentNumber.filter(
+          (number: number) => number !== student_number
+        )
+      );
     } else {
       setOutingSelectList([...outingSelectList, studentIdx]);
       setOutingStudentId([...outingStudentId, student_id]);
+      setOutingStudentName([...outingStudentName, student_name]);
+      setOutingStudentNumber([...outingStudentNumber, student_number]);
     }
   };
 
@@ -113,7 +129,14 @@ const OutingAccept = ({ outing }: Props) => {
             return (
               <StudentBox
                 key={student_id}
-                onClick={() => studentClick(idx, item.student_id)}
+                onClick={() =>
+                  studentClick(
+                    idx,
+                    item.student_id,
+                    student_name,
+                    student_number
+                  )
+                }
                 isClick={outingSelectList.includes(idx)}
               >
                 <Student>
@@ -123,29 +146,6 @@ const OutingAccept = ({ outing }: Props) => {
                 <Reason isClick={outingSelectList.includes(idx)}>
                   {reason}
                 </Reason>
-                {isOpen && (
-                  <ConfirmBox
-                    setOpenModal={setIsOpen}
-                    student_id_array={outingStudentId}
-                    end_period={0}
-                    student_id={student_id}
-                    text={
-                      outingStudentId.length > 1
-                        ? `${student_number}` +
-                          " " +
-                          `${student_name}` +
-                          " " +
-                          "학생 외" +
-                          `${outingStudentId.length - 1}명의`
-                        : `${student_number}` +
-                          " " +
-                          `${student_name}` +
-                          " " +
-                          "학생의"
-                    }
-                    type="accept"
-                  />
-                )}
               </StudentBox>
             );
           })
@@ -155,6 +155,29 @@ const OutingAccept = ({ outing }: Props) => {
           </NoDataContainer>
         )}
       </List>
+      {isOpen && (
+        <ConfirmBox
+          setOpenModal={setIsOpen}
+          student_id_array={outingStudentId}
+          end_period={0}
+          student_id={outingStudentId[0]}
+          text={
+            outingStudentId.length > 1
+              ? `${outingStudentNumber[0]}` +
+                " " +
+                `${outingStudentName[0]}` +
+                " " +
+                "학생 외" +
+                `${outingStudentId.length - 1}명의`
+              : `${outingStudentNumber[0]}` +
+                " " +
+                `${outingStudentName[0]}` +
+                " " +
+                "학생의"
+          }
+          type="accept"
+        />
+      )}
     </Wrapper>
   );
 };

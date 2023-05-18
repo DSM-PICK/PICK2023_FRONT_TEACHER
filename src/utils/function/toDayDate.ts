@@ -11,7 +11,6 @@ export const getNowPeriod = () => {
   const now = new Date();
   const currentHour = now.getHours();
   const currentMinutes = now.getMinutes();
-  console.log(currentHour, currentMinutes);
 
   if (currentHour === 16) {
     return "8교시";
