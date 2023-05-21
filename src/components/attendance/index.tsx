@@ -28,7 +28,7 @@ const AttendanceDetail = ({ student, move, type }: Props) => {
             );
           })
         ) : (
-          <NoData text="학생 데이터가 없습니다." />
+          <NoData text="현재 이 교실에는 학생이 없습니다." />
         )
       ) : move.length ? (
         move.map((data) => {
@@ -45,7 +45,7 @@ const AttendanceDetail = ({ student, move, type }: Props) => {
           );
         })
       ) : (
-        <NoData text="학생 데이터가 없습니다." />
+        <NoData text="현재 이 교실에는 학생이 없습니다." />
       )}
     </StList>
   );
