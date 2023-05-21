@@ -95,6 +95,12 @@ const StudentState = (props: AttendanceStatusListDto) => {
         mutate({
           user_id: student_id,
           period: period,
+          status: "HOME",
+        });
+      } else if (type === "HOME") {
+        mutate({
+          user_id: student_id,
+          period: period,
           status: "DISALLOWED",
         });
       } else {
