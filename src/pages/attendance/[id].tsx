@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
 import Image from "next/image";
 import arrow from "@/assets/arrow.png";
+import { getNowPeriod } from "@/utils/function/toDayDate";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
@@ -68,6 +69,7 @@ const AttendanceDetalis = () => {
           <Image src={arrow} alt="<-" />
         </div>
         <p>{description ? `${name} + (${description})` : name}</p>
+        <p>{getNowPeriod()}</p>
       </Head>
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
       <AttendanceDetail
