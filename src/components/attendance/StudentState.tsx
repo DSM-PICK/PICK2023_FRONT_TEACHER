@@ -103,6 +103,8 @@ const StudentState = (props: AttendanceStatusListDto) => {
           period: period,
           status: "DISALLOWED",
         });
+      } else if (type === "MOVEMENT") {
+        toast.error("이동은 상태를 변경할 수 없습니다.", { duration: 1000 });
       } else {
         mutate({
           user_id: student_id,
