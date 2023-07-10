@@ -1,16 +1,17 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { classNumArr, gradeNumArr } from "./constants";
 import { useDispatch } from "react-redux";
 import ConfirmBox from "../common/confirm";
 import DropDown from "./DropDown";
 import { setClassNumber, setGradeNumber } from "@/store/createSlice";
 import { OutingApplyListType } from "@/models/outing/response/index";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { patchOutingRejectAccept } from "@/utils/api/outing";
 import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
 import NoData from "../common/nodata";
+import { getMyClass } from "@/utils/api/common";
 
 interface Props {
   outing: OutingApplyListType[];
@@ -92,6 +93,14 @@ const OutingAccept = ({ outing }: Props) => {
     patchOutingApplyList();
     setOutingSelectList([]);
   };
+  const { data: myClass } = useQuery("myClass", getMyClass);
+
+  useEffect(() => {
+    if (myClass) {
+      setClasses(classNumArr[myClass?.class_num - 1].value);
+      setGrade(gradeNumArr[myClass?.grade - 1].value);
+    }
+  }, [myClass]);
 
   return (
     <Wrapper>

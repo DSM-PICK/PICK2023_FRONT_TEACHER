@@ -1,7 +1,7 @@
 import OutingAccept from "@/components/outingAccept";
 import { useQuery } from "react-query";
 import { getOutingApplyList } from "@/utils/api/outing";
-import { getDateType } from "@/utils/api/common";
+import { getDateType, getMyClass } from "@/utils/api/common";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { todayDate } from "@/utils/function/toDayDate";
@@ -18,12 +18,14 @@ const OutingApplyListPage = () => {
     getDateType(todayDate())
   );
 
+  const { data: myClass } = useQuery("myClass", getMyClass);
+
   const { data: outingApply } = useQuery(
     ["applyList", gradeNum, classNum, todayType],
     () =>
       getOutingApplyList({
-        grade: gradeNum,
-        classNum: classNum,
+        grade: myClass?.grade as number,
+        classNum: myClass?.class_num as number,
         type: (todayType?.data.type as string) || "SELF_STUDY",
       })
   );
