@@ -2,9 +2,11 @@ import OutingAccept from "@/components/outingAccept";
 import { useQuery } from "react-query";
 import { getOutingApplyList } from "@/utils/api/outing";
 import { getDateType, getMyClass } from "@/utils/api/common";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { todayDate } from "@/utils/function/toDayDate";
+import { useEffect } from "react";
+import { setClassNumber, setGradeNumber } from "@/store/createSlice";
 
 const OutingApplyListPage = () => {
   const gradeNum = useSelector(
@@ -19,13 +21,21 @@ const OutingApplyListPage = () => {
   );
 
   const { data: myClass } = useQuery("myClass", getMyClass);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (myClass) {
+      dispatch(setGradeNumber({ setGradeState: myClass.grade }));
+      dispatch(setClassNumber({ setClassState: myClass.class_num }));
+    }
+  }, [myClass]);
 
   const { data: outingApply } = useQuery(
     ["applyList", gradeNum, classNum, todayType],
     () =>
       getOutingApplyList({
-        grade: myClass?.grade as number,
-        classNum: myClass?.class_num as number,
+        grade: gradeNum,
+        classNum: classNum,
         type: (todayType?.data.type as string) || "SELF_STUDY",
       })
   );

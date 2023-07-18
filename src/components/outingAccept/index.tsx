@@ -97,8 +97,8 @@ const OutingAccept = ({ outing }: Props) => {
 
   useEffect(() => {
     if (myClass) {
-      setClasses(classNumArr[myClass?.class_num - 1].value);
-      setGrade(gradeNumArr[myClass?.grade - 1].value);
+      setClasses(classNumArr[myClass.class_num - 1].value);
+      setGrade(gradeNumArr[myClass.grade - 1].value);
     }
   }, [myClass]);
 
