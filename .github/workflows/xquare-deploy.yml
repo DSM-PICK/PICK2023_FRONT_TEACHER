@@ -1,0 +1,36 @@
+name: Xquare Deploy for Production
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: NodeJS Installation ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Deploy to xquare
+        uses: team-xquare/xquare-deployment-action@master
+        with:
+          environment: prod
+          access_key: ${{ secrets.TEACHER_ACCESS }}
+          github_token: ${{ secrets.PICK_ACCESS_TOKEN }}

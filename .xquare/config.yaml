@@ -1,0 +1,7 @@
+config:
+  name: pick-teacher
+  service_type: fe
+  port: 3000
+  prefix: /teacher
+  domain:
+    prod: teacher.dsm-pick.com
