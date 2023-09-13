@@ -4,6 +4,7 @@ import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
 import NoData from "../common/nodata";
 import { getNowPeriod } from "@/utils/function/toDayDate";
+import { toast } from "react-hot-toast";
 
 interface Props {
   floor: string;
@@ -11,6 +12,10 @@ interface Props {
 }
 
 const Check = ({ responsible_classroom_list, floor }: Props) => {
+  const onLinkClickHandle = () => {
+    toast.error("학생이 존재하지 않는 교실입니다.", { duration: 1000 });
+  };
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -21,7 +26,7 @@ const Check = ({ responsible_classroom_list, floor }: Props) => {
       <MainContainer>
         {responsible_classroom_list.length ? (
           responsible_classroom_list.map((item) => {
-            return (
+            return item.is_user_exist ? (
               <Link
                 key={item.name}
                 href={`/attendance/${item.id}?name=${
@@ -35,6 +40,14 @@ const Check = ({ responsible_classroom_list, floor }: Props) => {
                     : item.name}
                 </TextBtn>
               </Link>
+            ) : (
+              <div onClick={onLinkClickHandle}>
+                <NoneStudentBtn key={item.name}>
+                  {item.description
+                    ? item.name + `(${item.description})`
+                    : item.name}
+                </NoneStudentBtn>
+              </div>
             );
           })
         ) : (
@@ -88,6 +101,21 @@ const TextBtn = styled(Button)`
     font-size: 16px;
     font-weight: 500;
   }
+`;
+
+const NoneStudentBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 52px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.gray100};
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.gray300};
+  border: none;
 `;
 
 const NoDataContainer = styled.div`
