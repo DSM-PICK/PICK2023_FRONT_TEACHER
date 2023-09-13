@@ -42,9 +42,9 @@ const Home: NextPage = () => {
           <MainWrapper>
             <MainTitle>오늘의 자습감독</MainTitle>
             <MainContainer>
-              <Body1 color="black">2층 {data?.data.second_floor!}선생님</Body1>
-              <Body1 color="black">3층 {data?.data.third_floor!}선생님</Body1>
-              <Body1 color="black">4층 {data?.data.fourth_floor!}선생님</Body1>
+              <Body1 color="black">2층 {data?.second_floor!}선생님</Body1>
+              <Body1 color="black">3층 {data?.third_floor!}선생님</Body1>
+              <Body1 color="black">4층 {data?.fourth_floor!}선생님</Body1>
             </MainContainer>
           </MainWrapper>
           <Input

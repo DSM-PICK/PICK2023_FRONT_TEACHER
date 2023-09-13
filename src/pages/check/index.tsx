@@ -16,9 +16,9 @@ const CheckPage = () => {
 
   return (
     <Check
-      floor={responsible_classroom_list?.data.floor!}
+      floor={responsible_classroom_list?.floor!}
       responsible_classroom_list={
-        responsible_classroom_list?.data.responsible_classroom_list || []
+        responsible_classroom_list?.responsible_classroom_list || []
       }
     />
   );

@@ -11,28 +11,28 @@ import { AttandanceStatusChangeRequestDto } from "@/models/selfStudy/request";
 export const getTodaySelfStudyTeacherWhether = async () => {
   const todaySelfStudyTeacherWhether =
     await instance.get<TodaySelfStudyTeacher>(`/pick/admin/state`);
-  return todaySelfStudyTeacherWhether;
+  return todaySelfStudyTeacherWhether.data;
 };
 
 export const getTodaySelfStudyTeacher = async () => {
   const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherDto>(
     `/pick/self-study/today`
   );
-  return todaySelfStudyTeacher;
+  return todaySelfStudyTeacher.data;
 };
 
 export const getChargeClass = async () => {
   const chargeClass = await instance.get<GetClassList>(
     `/pick/teachers/responsible`
   );
-  return chargeClass;
+  return chargeClass.data;
 };
 
 export const getAttendanceStatusList = async (classRoom: string) => {
   const attendanceStatusList = await instance.get<AttendanceStatusList>(
     `/pick/teachers/students/${classRoom}`
   );
-  return attendanceStatusList;
+  return attendanceStatusList.data;
 };
 
 export const attandanceStatusChange = async (
@@ -45,5 +45,5 @@ export const movementStudentListGet = async (classroom_id: string) => {
   const movementStatus = await instance.get<MovementStatusList>(
     `/pick/teachers/${classroom_id}`
   );
-  return movementStatus;
+  return movementStatus.data;
 };

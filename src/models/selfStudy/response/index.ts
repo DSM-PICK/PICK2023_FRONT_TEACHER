@@ -14,6 +14,7 @@ export interface ChargeClassDto {
   id: string;
   name: string;
   description: string;
+  is_user_exist: boolean;
 }
 
 export interface GetClassList {
