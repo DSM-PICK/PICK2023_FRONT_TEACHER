@@ -74,8 +74,8 @@ const AttendanceDetalis = () => {
       <ToggleButton items={toggle} containStyle={{ margin: "22px 0 37px 0" }} />
       <AttendanceDetail
         type={toggleValue}
-        student={attendance?.data.students || []}
-        move={moveAttendance?.data.movement_student_list || []}
+        student={attendance?.students || []}
+        move={moveAttendance?.movement_student_list || []}
       />
     </Wrapper>
   );
