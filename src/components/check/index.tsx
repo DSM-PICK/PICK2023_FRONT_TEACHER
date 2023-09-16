@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { ChargeClassDto } from "@/models/selfStudy/response";
 import NoData from "../common/nodata";
-import { getNowPeriod } from "@/utils/function/toDayDate";
+import { getNowPeriod } from "@/utils/function/getNowPeriod";
 import { toast } from "react-hot-toast";
 
 interface Props {

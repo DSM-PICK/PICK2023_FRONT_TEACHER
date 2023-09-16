@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import AttendanceDetail from "@/components/attendance";
 import Image from "next/image";
 import arrow from "@/assets/arrow.png";
-import { getNowPeriod } from "@/utils/function/toDayDate";
+import { getNowPeriod } from "@/utils/function/getNowPeriod";
 
 const AttendanceDetalis = () => {
   const [changeTap, setChangeTap] = useState(true);
