@@ -19,8 +19,10 @@ const Check = ({ responsible_classroom_list, floor }: Props) => {
   return (
     <Wrapper>
       <TitleContainer>
-        <TitleText>출석 확인 </TitleText>
-        <LayerText> - {floor}층</LayerText>
+        <div>
+          <TitleText>출석 확인 </TitleText>
+          <LayerText>{floor}층</LayerText>
+        </div>
         <Period>{getNowPeriod()}</Period>
       </TitleContainer>
       <MainContainer>
@@ -69,9 +71,14 @@ const Wrapper = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   margin-bottom: 30px;
+  gap: 10px;
   > div {
     display: flex;
-    line-height: 28px;
+  }
+  @media (max-width: 453px) {
+    > div {
+      flex-direction: column;
+    }
   }
 `;
 
@@ -79,11 +86,13 @@ const LayerText = styled.div`
   margin-left: 5px;
   font-weight: 500;
   font-size: 20px;
+  line-height: 28px;
 `;
 
 const TitleText = styled.div`
   font-weight: 500;
   font-size: 20px;
+  line-height: 28px;
 `;
 
 const MainContainer = styled.div``;
@@ -123,10 +132,13 @@ const NoDataContainer = styled.div`
 `;
 
 const Period = styled.div`
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 500;
-  margin-left: 10px;
   color: ${({ theme }) => theme.colors.purple400};
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  line-height: 28px;
 `;
 
 export default Check;
