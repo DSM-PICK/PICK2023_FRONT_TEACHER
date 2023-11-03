@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { attandanceStatusChange } from "@/utils/api/selfStudy/index";
 import { usePeriod } from "@/hooks/usePeriod";
 import { toast } from "react-hot-toast";
+import { getNowPeriod } from "@/utils/function/getNowPeriod";
 
 interface ObjType {
   [index: string]: () => void;
@@ -91,32 +92,32 @@ const StudentState = (props: AttendanceStatusListDto) => {
   });
 
   const onClickPatchStudentState = async () => {
-    // if (hours > 21 || hours < 16) {
-    //   toast.error("지금 시간에는 학생 상태 변경을 할 수 없습니다.");
-    // } else {
-    if (type === "ATTENDANCE") {
-      mutate({
-        user_id: student_id,
-        period: period,
-        status: "HOME",
-      });
-    } else if (type === "HOME") {
-      mutate({
-        user_id: student_id,
-        period: period,
-        status: "DISALLOWED",
-      });
-    } else if (type === "MOVEMENT") {
-      toast.error("이동은 상태를 변경할 수 없습니다.", { duration: 1000 });
+    if (getNowPeriod() === "출결상태 변경 시간이 아닙니다.") {
+      toast.error("지금 시간에는 학생 상태 변경을 할 수 없습니다.");
     } else {
-      mutate({
-        user_id: student_id,
-        period: period,
-        status: "ATTENDANCE",
-      });
+      if (type === "ATTENDANCE") {
+        mutate({
+          user_id: student_id,
+          period: period,
+          status: "HOME",
+        });
+      } else if (type === "HOME") {
+        mutate({
+          user_id: student_id,
+          period: period,
+          status: "DISALLOWED",
+        });
+      } else if (type === "MOVEMENT") {
+        toast.error("이동은 상태를 변경할 수 없습니다.", { duration: 1000 });
+      } else {
+        mutate({
+          user_id: student_id,
+          period: period,
+          status: "ATTENDANCE",
+        });
+      }
     }
   };
-  // };
 
   return (
     <Container>
