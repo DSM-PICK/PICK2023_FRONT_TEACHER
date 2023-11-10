@@ -36,7 +36,7 @@ const OutingApplyListPage = () => {
       getOutingApplyList({
         grade: gradeNum,
         classNum: classNum,
-        type: (todayType?.data.type as string) || "SELF_STUDY",
+        type: (todayType?.type as string) || "SELF_STUDY",
       })
   );
 
