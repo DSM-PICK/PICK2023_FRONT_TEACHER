@@ -13,7 +13,5 @@ export const getNowPeriod = () => {
     return currentMinutes > 29 ? "10교시" : "9교시";
   } else if (currentHour === 20 && currentMinutes <= 30) {
     return "10교시";
-  } else {
-    return "출결상태 변경 시간이 아닙니다.";
   }
 };
